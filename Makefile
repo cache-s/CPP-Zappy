@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 16 14:50:11 2015 Jordan Chazottes
+## Last update Tue Jun 16 16:11:19 2015 Sebastien Cache-Delanos
 ##
 
 NAME_SERVEUR	=	server
@@ -16,9 +16,13 @@ NAME_GFX	=	gfx
 
 CC		=	gcc
 
+CXX		=	g++
+
 RM		=	rm -f
 
-CFLAGS		+=	-g -W -Wall -Wextra -Werror -I./includes
+CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
+
+CXXFLAGS	+=	-W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
@@ -43,9 +47,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/cmd_connect_nbr.c	\
 			$(SRCS_COMMONS)
 
-SRCS_CLIENT	=	sources/client/main.c		\
-			sources/client/usage.c		\
-			$(SRCS_COMMONS)
+SRCS_CLIENT	=	sources/client/main.cpp		\
 
 SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
@@ -62,7 +64,7 @@ SRCS_COMMONS	=	sources/misc/errors.c		\
 
 OBJS_SERVEUR	=	$(SRCS_SERVEUR:.c=.o)
 
-OBJS_CLIENT	=	$(SRCS_CLIENT:.c=.o)
+OBJS_CLIENT	=	$(SRCS_CLIENT:.cpp=.o)
 
 OBJS_GFX	=	$(SRCS_GFX:.c=.o)
 
@@ -86,8 +88,8 @@ $(NAME_SERVEUR)	:	$(OBJS_SERVEUR)
 $(NAME_CLIENT)	:	$(OBJS_CLIENT)
 			@echo ' '
 			@echo 'Building target: $@'
-			@echo 'Invoking: GCC C Linker'
-			$(CC) $(OBJS_CLIENT) -o $(NAME_CLIENT)
+			@echo 'Invoking: GCC C++ Linker'
+			$(CXX) $(OBJS_CLIENT) -o $(NAME_CLIENT)
 			@echo -n 'Finished building target:'
 			@echo -e $(GREEN) '$@'
 			@echo -e $(NORMAL) ' '
@@ -106,6 +108,15 @@ $(NAME_GFX)	:	$(OBJS_GFX)
 			@echo 'Building file: $<'
 			@echo 'Invoking: GCC C Compiler'
 			$(CC) $(CFLAGS) -c -o $@ $<
+			@echo -n 'Finished building: '
+			@echo -e $(YELLOW) '$<'
+			@echo -e $(NORMAL) ' '
+
+%.o: %.cpp
+			@echo ' '
+			@echo 'Building file: $<'
+			@echo 'Invoking: GCC C++ Compiler'
+			$(CXX) $(CXXFLAGS) -c -o $@ $<
 			@echo -n 'Finished building: '
 			@echo -e $(YELLOW) '$<'
 			@echo -e $(NORMAL) ' '
