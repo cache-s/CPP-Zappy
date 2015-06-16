@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Tue Jun 16 14:27:40 2015 Jordan Chazottes
+** Last update Tue Jun 16 14:49:41 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -30,5 +30,6 @@ int		main(int ac, char** av);
 int		usage(void);
 void		coreGFX(void);
 void		initStruct(t_gfx* s);
+int		eventHandler();
 
 #endif

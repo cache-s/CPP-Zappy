@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Tue Jun 16 14:25:36 2015 Jordan Chazottes
+** Last update Tue Jun 16 14:47:08 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -22,4 +22,8 @@ void		coreGFX(void) // change ip / port
     }
   SDL_WM_SetCaption("Zappy", "Zappy");
   s.screen = SDL_SetVideoMode(s.width, s.height, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
+  while (eventHandler() != -1)
+    {
+      //onfédestrucs
+    }
 }
