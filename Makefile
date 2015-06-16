@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Mon Jun 15 15:26:45 2015 Mathieu Bourmaud
+## Last update Tue Jun 16 11:56:30 2015 Martin Porrès
 ##
 
 NAME_SERVEUR	=	server
@@ -41,6 +41,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
+			sources/client/usage.c		\
 			$(SRCS_COMMONS)
 
 SRCS_COMMONS	=	sources/misc/errors.c		\

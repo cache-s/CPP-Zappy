@@ -1,18 +1,16 @@
 /*
-** main.c for  in /home/bourma_m/Projet/SystemUnix/zappy/sources/client
+** main.c for Zappy in /home/porres_m/Projets/SysUnix/zappy/PSU_2014_zappy
 ** 
-** Made by Mathieu Bourmaud
-** Login   <bourma_m@epitech.net>
+** Made by Martin Porrès
+** Login   <porres_m@epitech.net>
 ** 
-** Started on  Fri May  8 11:57:20 2015 Mathieu Bourmaud
-** Last update Fri May  8 11:57:46 2015 Mathieu Bourmaud
+** Started on  Tue Jun 16 11:21:14 2015 Martin Porrès
+** Last update Tue Jun 16 12:13:15 2015 Martin Porrès
 */
 
 #include		"client.h"
 
 int			main(int ac, char **av)
 {
-  (void)ac;
-  (void)av;
-  return (EXIT_SUCCESS);
+  return (usage(ac, av));
 }
