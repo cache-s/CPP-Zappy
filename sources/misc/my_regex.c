@@ -5,12 +5,12 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:17:54 2015 Mathieu Bourmaud
-** Last update Wed Mar 25 11:21:30 2015 Mathieu Bourmaud
+** Last update Tue Jun 16 13:04:26 2015 Sebastien Cache-Delanos
 */
 
 #include	"commons_fcts.h"
 
-int		my_regex(char *val, char *good)
+int		my_regex(const char *val, const char *good)
 {
   int		i;
   int		j;

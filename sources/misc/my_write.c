@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri Mar 20 19:04:52 2015 Mathieu Bourmaud
-** Last update Fri Apr 10 11:41:40 2015 Mathieu Bourmaud
+** Last update Tue Jun 16 13:11:39 2015 Sebastien Cache-Delanos
 */
 
 #include		"commons_fcts.h"

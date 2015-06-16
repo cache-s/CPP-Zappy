@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 16 11:56:30 2015 Martin Porrès
+## Last update Tue Jun 16 13:11:31 2015 Sebastien Cache-Delanos
 ##
 
 NAME_SERVEUR	=	server
@@ -16,7 +16,7 @@ CC		=	gcc
 
 RM		=	rm -f
 
-CFLAGS		+=	-g -W -Wall -Wextra -Werror -pedantic
+CFLAGS		+=	-g -W -Wall -Wextra -Werror
 CFLAGS		+=	-I./includes
 
 SRCS_SERVEUR	=	sources/serveur/main.c			\
@@ -54,20 +54,52 @@ OBJS_SERVEUR	=	$(SRCS_SERVEUR:.c=.o)
 
 OBJS_CLIENT	=	$(SRCS_CLIENT:.c=.o)
 
+GREEN		=	"\\033[1;32m"
+
+NORMAL		=	"\\033[0;39m"
+
+YELLOW		=	"\\033[1;33m"
+
 all		:	$(NAME_SERVEUR) $(NAME_CLIENT)
 
 $(NAME_SERVEUR)	:	$(OBJS_SERVEUR)
+			@echo ' '
+			@echo 'Building target: $@'
+			@echo 'Invoking: GCC C Linker'
 			$(CC) $(OBJS_SERVEUR) -o $(NAME_SERVEUR)
+			@echo -n 'Finished building target:'
+			@echo -e $(GREEN) '$@'
+			@echo -e $(NORMAL) ' '
 
 $(NAME_CLIENT)	:	$(OBJS_CLIENT)
+			@echo ' '
+			@echo 'Building target: $@'
+			@echo 'Invoking: GCC C Linker'
 			$(CC) $(OBJS_CLIENT) -o $(NAME_CLIENT)
+			@echo -n 'Finished building target:'
+			@echo -e $(GREEN) '$@'
+			@echo -e $(NORMAL) ' '
+
+%.o: %.c
+			@echo ' '
+			@echo 'Building file: $<'
+			@echo 'Invoking: GCC C Compiler'
+			$(CC) $(CFLAGS) -c -o $@ $<
+			@echo -n 'Finished building: '
+			@echo -e $(YELLOW) '$<'
+			@echo -e $(NORMAL) ' '
 
 clean		:
 			$(RM) $(OBJS_SERVEUR)
 			$(RM) $(OBJS_CLIENT)
+			@find ./ -name '*~' -exec rm '{}' \;
+			@find ./ -name '*#' -exec rm '{}' \;
 
 fclean		:	clean
 			$(RM) $(NAME_SERVEUR)
 			$(RM) $(NAME_CLIENT)
+
+dbg		:	CFLAGS += -g
+dbg		:	re
 
 re		:	fclean all
