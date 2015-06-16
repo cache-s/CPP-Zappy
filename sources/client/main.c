@@ -5,12 +5,12 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:21:14 2015 Martin Porrès
-** Last update Tue Jun 16 12:13:15 2015 Martin Porrès
+** Last update Tue Jun 16 17:51:39 2015 Martin Porrès
 */
 
 #include		"client.h"
 
 int			main(int ac, char **av)
 {
-  return (usage(ac, av));
+  return (parsing(ac, av));
 }
