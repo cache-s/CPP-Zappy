@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:00:38 2015 Mathieu Bourmaud
-** Last update Tue Jun 16 18:01:39 2015 Martin Porrès
+** Last update Tue Jun 16 19:14:41 2015 Martin Porrès
 */
 
 #ifndef		_ERRORS_H_
@@ -138,8 +138,8 @@ refer to the help by typing help."
 /users\n\
 /list"
 
-int		my_error(char *);
-char		*my_error_null(char *);
-int		my_error_close(char *, int);
+int		my_error(const char *);
+char		*my_error_null(const char *);
+int		my_error_close(const char *, int);
 
 #endif

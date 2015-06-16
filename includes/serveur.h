@@ -5,30 +5,30 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Fri May  8 11:53:42 2015 Mathieu Bourmaud
+** Last update Tue Jun 16 13:11:45 2015 Sebastien Cache-Delanos
 */
 
 #ifndef			_SERVEUR_H_
 # define		_SERVEUR_H_
 
-#include		<stdio.h>
-#include		<sys/types.h>
-#include		<sys/socket.h>
-#include		<sys/wait.h>
-#include		<netdb.h>
-#include		<unistd.h>
-#include		<stdio.h>
-#include		<stdlib.h>
-#include		<arpa/inet.h>
-#include		<netinet/in.h>
-#include		<string.h>
-#include		"commons_fcts.h"
+# include		<stdio.h>
+# include		<sys/types.h>
+# include		<sys/socket.h>
+# include		<sys/wait.h>
+# include		<netdb.h>
+# include		<unistd.h>
+# include		<stdio.h>
+# include		<stdlib.h>
+# include		<arpa/inet.h>
+# include		<netinet/in.h>
+# include		<string.h>
+# include		"commons_fcts.h"
 
-#define			MAX_FD		1000
-#define			BUFF_SIZE	5
-#define			NB_CMDS		12
-#define			WELCOME		"Welcome to the server : "
-#define			SRV_USAGE	"To use the server, you must register\
+# define		MAX_FD		1000
+# define		BUFF_SIZE	5
+# define		NB_CMDS		12
+# define		WELCOME		"Welcome to the server : "
+# define		SRV_USAGE	"To use the server, you must register\
  by typing /nick [username] or NICK [username]."
 
 #define			UNUSED		__attribute__((unused))
