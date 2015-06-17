@@ -1,0 +1,24 @@
+creation des bébé (fork) : 
+connect_nbr = on sait cb il y a de personne sur la carte?
+
+Ramassage d'objet : 
+	  Ramassage pierre : calculer combien d'item il reste à ramasser (via commande inventaire) de chaque catégorie pour evoluer niveau max, et collecter selon ce besoin.
+	  Ramassage bouffe : si nourriture < (60?) %, on ramasse la bouffe à vue. Si bouffe < (30?)%, on cherche activement de la bouffe
+
+Invocation : 
+	   Si inventaire suffisant, on broadcast une requete d'invocation. Tout ceux pouvant participer y répondent. Si suffisamment de réponse positive : on cherche une case de bouffe, puis on broadcast un lancement d'invocation, et on le fait, en posant les items au dol.
+	   Ceux qui ont répondu positif se déplacent donc vers la case, en privilégiant toujours la nourriture. Si ils sont perdu, ils ping/pong le summoner (on identifiera le sumonner au sein du message pour eviter des soucis en cas de ping pong simultanés), pour r'avoir sa position. Une fois qu'ils se sont rejoint, le sumonner broadcast un fin de requete de joueur, et commence sa tambouille. Les joueurs souhaitant quand même réaliser l'invocation refont une demande de disponibilitée
+"Il n’est pas nécessaire que les joueurs soient de la même équipe"-> a demander a dellin
+
+
+
+Prioritées :
+
+	   1/ Survivre. (Broadcast la position de nourriture si on la prend pas?)
+	   2/ Collecter des pierres.
+
+	   3/ signifier si on est prêt à invoquer.
+
+Choix de l'invocateur principal?
+      -random
+      -trouver le plus au millieu?

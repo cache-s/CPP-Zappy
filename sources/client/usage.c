@@ -20,8 +20,5 @@ int	usage(int ac, char **av)
       printf(USAGE);
       return (EXIT_SUCCESS);
     }
-  client.port = atoi(av[4]);
-  client.ip = av[6];
-  client.team_name = av[2];
   return (EXIT_SUCCESS);
 }

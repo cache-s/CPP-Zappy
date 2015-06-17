@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 16 14:50:11 2015 Jordan Chazottes
+## Last update Tue Jun 16 19:01:50 2015 Martin Porrès
 ##
 
 NAME_SERVEUR	=	server
@@ -16,9 +16,13 @@ NAME_GFX	=	gfx
 
 CC		=	gcc
 
+CXX		=	g++
+
 RM		=	rm -f
 
-CFLAGS		+=	-g -W -Wall -Wextra -Werror -I./includes
+CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
+
+CXXFLAGS	+=	-W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
@@ -44,7 +48,9 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
-			sources/client/usage.c		\
+			sources/client/parsing.c	\
+			sources/client/parsing_fct.c	\
+			sources/client/zappy.c		\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\
@@ -106,6 +112,15 @@ $(NAME_GFX)	:	$(OBJS_GFX)
 			@echo 'Building file: $<'
 			@echo 'Invoking: GCC C Compiler'
 			$(CC) $(CFLAGS) -c -o $@ $<
+			@echo -n 'Finished building: '
+			@echo -e $(YELLOW) '$<'
+			@echo -e $(NORMAL) ' '
+
+%.o: %.cpp
+			@echo ' '
+			@echo 'Building file: $<'
+			@echo 'Invoking: GCC C++ Compiler'
+			$(CXX) $(CXXFLAGS) -c -o $@ $<
 			@echo -n 'Finished building: '
 			@echo -e $(YELLOW) '$<'
 			@echo -e $(NORMAL) ' '
