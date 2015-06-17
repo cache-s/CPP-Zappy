@@ -8,16 +8,30 @@
 ** Last update Tue Jun 16 11:59:04 2015 Martin Porrès
 */
 
-#ifndef		_CLIENT_H_
-# define	_CLIENT_H_
+#ifndef			_CLIENT_H_
+# define		_CLIENT_H_
 
-#include	<unistd.h>
-#include	<stdio.h>
-#include	<stdlib.h>
-#include	<string.h>
+# include		<unistd.h>
+# include		<stdio.h>
+# include		<stdlib.h>
+# include		<string.h>
 
-#define		USAGE "./client -n \"team name\" -p port [-h hostname]\n"
+# define		USAGE "./client -n \"team name\" -p port [-h hostname]\n"
 
-int		usage(int ac, char **av);
+typedef	struct		s_init_client
+{
+  struct protoent	*pe;
+  struct sockaddr_in	sin;
+  struct sockaddr_in	sin_client;
+}			t_init_client;
+
+typedef	struct		s_client
+{
+  int			port;
+  char			*ip;
+  char			*team_name;
+}			t_client;
+
+int			usage(int ac, char **av);
 
 #endif
