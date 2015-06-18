@@ -14,7 +14,7 @@ Invocation :
 
 Prioritées :
 
-	   1/ Survivre. (Broadcast la position de nourriture si on la prend pas?)
+	   1/ Survivre.
 	   2/ Collecter des pierres.
 
 	   3/ signifier si on est prêt à invoquer.
@@ -22,3 +22,26 @@ Prioritées :
 Choix de l'invocateur principal?
       -random
       -trouver le plus au millieu?
+      -le dernier? 
+
+
+
+Instructions :
+
+1) check inventaire
+   2) Si food < 60% && la case contient de la bouffe : on la mange;
+   3) si food < 30% && bouffe dans le champ de vision : on y va;
+   4) si on a tout les cailloux d'invocation:
+      5) pinger la requete d'invocation (INV(ID-LVL))
+      	6) Si assez de personne repondent présent : 
+	    7)Chercher de la bouffe dans le coin, et l'atteindre;
+	    8)attendre que X personnent necessaire soient sur la case;
+	    9)Si on recoit PING(sonID), on repond PONG(sonID), pour se faire localiser
+	    10)Une fois assez de personne présente, on invoque;
+	11) Sinon, retour etape 1)
+   12) Regarder a 360°
+       13) Si une pierre recherchée est présente, on y va
+       14) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout)
+       
+15) Si on est sur la case d'un mec et qu'il invoque pas (pour pas qu'on lui casse trop les couille) on lui botte le cul
+	

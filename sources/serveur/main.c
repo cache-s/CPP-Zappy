@@ -12,11 +12,12 @@
 
 int		main(int ac, char **av)
 {
-  if (ac != 2)
+  t_serv	serv;
+
+  if (ac < 13)
     return (my_error(ERR_USAGE_SRV));
-  if (my_regex(av[1], "0123456789") ==  EXIT_FAILURE)
-    return (my_error(ERR_PORT));
-  if (init_server(atoi(av[1])) ==  EXIT_FAILURE)
+  (void)av;
+  if (init_server(&serv) ==  EXIT_FAILURE)
     return (my_error(ERR_INIT_SRV));
   return (EXIT_SUCCESS);
 }
