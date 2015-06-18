@@ -5,22 +5,27 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Wed Jun 17 18:20:08 2015 Pierre Charie
+// Last update Thu Jun 18 13:35:58 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
 # define	AI_HPP
 
-class Ai()
+class Ai
 {
  public:
+
   Ai();
   ~Ai();
 
   void action();
 
- private:
+  void setVision();
+  void setInventory();
 
+ private:
+  std::map<int, std::vector<std::string> > _vision;
+  std::map<std::string, int> _inventory;
 };
 
 #endif
