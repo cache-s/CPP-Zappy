@@ -47,10 +47,23 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/cmd_connect_nbr.c	\
 			$(SRCS_COMMONS)
 
-SRCS_CLIENT	=	sources/client/main.c		\
-			sources/client/parsing.c	\
-			sources/client/parsing_fct.c	\
-			sources/client/zappy.c		\
+SRCS_CLIENT	=	sources/client/main.c			\
+			sources/client/parsing.c		\
+			sources/client/parsing_fct.c		\
+			sources/client/zappy.c			\
+			sources/client/cmd_avance.c		\
+			sources/client/cmd_broadcast.c		\
+			sources/client/cmd_connect_nbr.c	\
+			sources/client/cmd_droite.c		\
+			sources/client/cmd_expulse.c		\
+			sources/client/cmd_fork.c		\
+			sources/client/cmd_gauche.c		\
+			sources/client/cmd_incantation.c	\
+			sources/client/cmd_inventaire.c		\
+			sources/client/cmd_parser.c		\
+			sources/client/cmd_pose.c		\
+			sources/client/cmd_prend.c		\
+			sources/client/cmd_voir.c		\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\
@@ -78,7 +91,7 @@ NORMAL		=	"\\033[0;39m"
 
 YELLOW		=	"\\033[1;33m"
 
-all		:	$(NAME_SERVEUR) $(NAME_CLIENT) $(NAME_GFX)
+all		:	 $(NAME_CLIENT) $(NAME_GFX)
 
 $(NAME_SERVEUR)	:	$(OBJS_SERVEUR)
 			@echo ' '

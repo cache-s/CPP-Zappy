@@ -68,6 +68,7 @@ int			zappy(t_client *client);
 
 
 // CMD
+void			cmd_parser();
 void			cmd_avance();
 void			cmd_droite();
 void			cmd_gauche();
