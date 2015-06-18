@@ -28,6 +28,8 @@ Choix de l'invocateur principal?
 
 Instructions :
 
+0) Si on recoit un broadcast "AliveCheck", alors on repond "Alive"
+
 1) check inventaire
    2) Si food < 60% && la case contient de la bouffe : on la mange;
    3) si food < 30% && bouffe dans le champ de vision : on y va;
@@ -39,9 +41,12 @@ Instructions :
 	    9)Si on recoit PING(sonID), on repond PONG(sonID), pour se faire localiser
 	    10)Une fois assez de personne présente, on invoque;
 	11) Sinon, retour etape 1)
-   12) Regarder a 360°
-       13) Si une pierre recherchée est présente, on y va
-       14) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout)
+	12) Si on est prêt à invoquer et que l'on nous requête INV(uneID, LVL), on y répond INV(uneID, LVL) (mm chose) 
+	13) Si on nous confirme l'invocation, on se dirige vers le bonhomme.
+	    14) toute les cases, on ping/pong pour avoir la direction;
+   15) Regarder a 360°
+       16) Si une pierre recherchée est présente, on y va
+       17) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout)
        
-15) Si on est sur la case d'un mec et qu'il invoque pas (pour pas qu'on lui casse trop les couille) on lui botte le cul
-	
+18) Si on est sur la case d'un mec et qu'il invoque pas (pour pas qu'on lui casse trop les couille) on lui botte le cul
+

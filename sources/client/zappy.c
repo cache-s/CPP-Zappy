@@ -13,5 +13,6 @@
 int	zappy(t_client *client)
 {
   printf("Team name : %s\nPort : %d\nHostname : %s\n", client->team_name, client->port, client->hostname);
+  cmd_parser(client, "inventaire");
   return (EXIT_SUCCESS);
 }
