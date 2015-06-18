@@ -16,6 +16,7 @@
 #include	<stdlib.h>
 #include	<stdio.h>
 
+#define		USAGE			"Usage : ./server [[[-p port] -p port] ... ] [-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name1 team_name2 ..."
 #define		ERR_SERVER		"Command /server has failed. Try again\n\
 Usage : /server ip port"
 #define		ERR_PORT		"The port must contains only numbers."

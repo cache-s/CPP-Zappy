@@ -98,6 +98,7 @@ typedef struct		s_serv
   t_parser		parse;
 }			t_serv;
 
+int		parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
 int		new_client(t_serv *serv);
@@ -131,5 +132,12 @@ int		cmd_broadcast(t_serv *serv, t_client *client, char *cmd);
 int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
+
+int		fill_port(t_settings *settings, char *av);
+int		fill_width(t_settings *settings, char *av);
+int		fill_height(t_settings *settings, char *av);
+int		fill_teams(t_settings *settings, char **av);
+int		fill_nb_clients(t_settings *settings, char *av);
+int		fill_delay(t_settings *settings, char *av);
 
 #endif

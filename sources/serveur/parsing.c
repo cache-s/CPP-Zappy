@@ -8,9 +8,9 @@
 ** Last update Sun Mar 15 20:38:55 2015 Mathieu Bourmaud
 */
 
-#include		"server.h"
+#include		"serveur.h"
 
-void			init_crypt(t_settings *settings)
+void			init_settings(t_settings *settings)
 {
   bzero(crypt->parser.occArgs, MAX_ARGS * sizeof(int));
   strcpy(crypt->parser.tabArgs[0], "-p");
@@ -53,22 +53,18 @@ int			parse_args(char **av)
 {
   int			i;
   int			pos;
-  t_elcrypt		crypt;
+  t_settings		settings;
 
-  init_crypt(&crypt);
+  init_settings(&settings);
   i = 0;
   while (i < 8)
     {
-      pos = get_pos_in_tab(&crypt, av[i]);
+      pos = get_pos_in_tab(&settings, av[i]);
       if (pos != 42)
       	i = crypt.parser.args[pos](&crypt, av[i + 1], i);
-      if (pos == 3)
-	i = 
-    i++;
+      i++;
     }
-  if ((check_values(&crypt) == EXIT_FAILURE))
-    return (EXIT_FAILURE);
-  if ((check_key_value(&crypt) == EXIT_FAILURE))
+  if ((check_values(&settings) == EXIT_FAILURE))
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

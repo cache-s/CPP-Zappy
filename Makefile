@@ -27,24 +27,7 @@ CXXFLAGS	+=	-W -Wall -Wextra -Werror -I./includes
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
 SRCS_SERVEUR	=	sources/serveur/main.c			\
-			sources/serveur/init_serv.c		\
-			sources/serveur/init_tabs.c		\
-			sources/serveur/checkfds.c		\
-			sources/serveur/read_write.c		\
-			sources/serveur/call_cmds.c		\
-			sources/serveur/welcome_msg.c		\
-			sources/serveur/cmd_move_forward.c	\
-			sources/serveur/cmd_right.c		\
-			sources/serveur/cmd_left.c		\
-			sources/serveur/cmd_see.c		\
-			sources/serveur/cmd_inventory.c		\
-			sources/serveur/cmd_take.c		\
-			sources/serveur/cmd_drop.c		\
-			sources/serveur/cmd_kick.c		\
-			sources/serveur/cmd_broadcast.c		\
-			sources/serveur/cmd_incantation.c	\
-			sources/serveur/cmd_fork.c		\
-			sources/serveur/cmd_connect_nbr.c	\
+			sources/serveur/parsing.c		\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
