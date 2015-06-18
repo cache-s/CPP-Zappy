@@ -91,7 +91,7 @@ NORMAL		=	"\\033[0;39m"
 
 YELLOW		=	"\\033[1;33m"
 
-all		:	 $(NAME_CLIENT) $(NAME_GFX)
+all		:	$(NAME_SERVEUR) $(NAME_CLIENT) $(NAME_GFX)
 
 $(NAME_SERVEUR)	:	$(OBJS_SERVEUR)
 			@echo ' '
