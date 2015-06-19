@@ -28,6 +28,7 @@
 # define		BUFF_SIZE	5
 # define		NB_CMDS		12
 # define		WELCOME		"BIENVENUE\n"
+# define		MAX_ARGS	6
 
 #define			UNUSED		__attribute__((unused))
 
@@ -42,6 +43,13 @@ typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
 
+typedef struct		s_parser
+{
+  argsFct		*args;
+  char			**tabArgs;
+  int			*occArgs;
+}			t_parser;
+
 typedef struct		s_settings
 {
   int			port;
@@ -49,15 +57,9 @@ typedef struct		s_settings
   int			height;
   char			**teams;
   int			nb_clients;
-  double		delai;
+  double		delay;
+  t_parser		parser;
 }			t_settings;
-
-typedef struct		s_parser
-{
-  argsFct		*args;
-  char			**tabArgs;
-  int			*occArgs;
-}			t_parser;
 
 typedef struct		s_client
 {
@@ -115,6 +117,7 @@ char		*server_read(t_serv *serv, int i);
 char		*client_write(t_serv *serv, int i, char *cmd);
 
 int		call_cmds(t_serv *serv, char *cmd);
+int		check_values(t_settings *settings);
 
 int		close_first_elem(t_client *client, t_serv *serv, int fd);
 int		welcome_msg(t_serv *serv, int fd);
@@ -133,11 +136,11 @@ int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 
-int		fill_port(t_settings *settings, char *av);
-int		fill_width(t_settings *settings, char *av);
-int		fill_height(t_settings *settings, char *av);
-int		fill_teams(t_settings *settings, char **av);
-int		fill_nb_clients(t_settings *settings, char *av);
-int		fill_delay(t_settings *settings, char *av);
+int		fill_port(t_settings *settings, char *av, int i);
+int		fill_width(t_settings *settings, char *av, int i);
+int		fill_height(t_settings *settings, char *av, int i);
+int		fill_teams(t_settings *settings, char **av, int i);
+int		fill_nb_clients(t_settings *settings, char *av, int i);
+int		fill_delay(t_settings *settings, char *av, int i);
 
 #endif

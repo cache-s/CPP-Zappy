@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 16 19:01:50 2015 Martin Porrès
+## Last update Fri Jun 19 10:47:12 2015 Mathieu Bourmaud
 ##
 
 NAME_SERVEUR	=	server
@@ -28,6 +28,7 @@ GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
 SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/parsing.c		\
+			sources/serveur/fill_settings.c		\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c			\
