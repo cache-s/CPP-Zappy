@@ -43,6 +43,7 @@ int			create_client(t_serv *serv, int fd)
   new->fd = fd;
   new->fct_read = client_read;
   new->fct_write = client_write;
+  new->orientation = 1;
   serv->nb_client++;
   if (serv->client == NULL)
     {

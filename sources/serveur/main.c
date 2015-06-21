@@ -10,16 +10,13 @@
 
 #include	"serveur.h"
 
-int		main(int ac, char **av)
+int		main(UNUSED int ac, char **av)
 {
-  //  t_serv	serv;
+  t_serv	serv;
 
-  if (ac < 13)
+  if ((serv.settings = parse_args(av)) == NULL)
     return (my_error(ERR_USAGE_SRV));
-  if (parse_args(av) == EXIT_FAILURE)
-    return (my_error(USAGE));
-  (void)av;
-  //  if (init_server(&serv) ==  EXIT_FAILURE)
-  //return (my_error(ERR_INIT_SRV));
+  /* if (init_server(&serv) ==  EXIT_FAILURE) */
+  /*   return (my_error(ERR_INIT_SRV)); */
   return (EXIT_SUCCESS);
 }

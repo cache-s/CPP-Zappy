@@ -33,15 +33,20 @@ int			fill_teams(t_settings *settings, char **args, int i)
   int			j;
 
   j = 0;
+  if ((settings->teams = malloc(sizeof(char *) * 1)) == NULL)
+    return (my_error(ERR_MALLOC));
   while (args[i])
-    { 
+    {
       if (args[i][0] == '-')
-	return (i);
+	return (i + j);
+      if ((settings->teams = realloc(settings->teams, sizeof(settings->teams) + sizeof(char) * 1)) == NULL)
+	return (my_error(ERR_REALLOC));
       settings->teams[j] = strdup(args[i]);
-      i++;
+      printf("args[i] = %s\n", args[i]);
       j++;
+      i++;
     }
-  return (i);
+  return (i + j);
 }
 
 int			fill_nb_clients(t_settings *settings, char *arg, int i)

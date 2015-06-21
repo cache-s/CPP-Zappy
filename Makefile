@@ -138,3 +138,6 @@ dbg		:	CFLAGS += -g
 dbg		:	re
 
 re		:	fclean all
+
+cl		:	CXX = clang++ -Qunused-arguments
+cl		:	re

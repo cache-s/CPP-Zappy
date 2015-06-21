@@ -24,11 +24,11 @@
 # include		<string.h>
 # include		"commons_fcts.h"
 
+# define		MAX_ARGS	6
 # define		MAX_FD		1000
 # define		BUFF_SIZE	5
 # define		NB_CMDS		12
 # define		WELCOME		"BIENVENUE\n"
-# define		MAX_ARGS	6
 
 #define			UNUSED		__attribute__((unused))
 
@@ -45,7 +45,7 @@ typedef			int(*argsFct)();
 
 typedef struct		s_parser
 {
-  argsFct		*args;
+  argsFct		args[MAX_ARGS + 1];
   char			**tabArgs;
   int			*occArgs;
 }			t_parser;
@@ -68,6 +68,7 @@ typedef struct		s_client
   int			fd;
   char			need_write;
   char			*cmd;
+  int			orientation;
   struct s_client	*next;
 }			t_client;
 
@@ -96,11 +97,12 @@ typedef struct		s_serv
   t_init_serv		init;
   t_map			map;
   t_client		*client;
-  t_settings		settings;
+  t_settings		*settings;
   t_parser		parse;
 }			t_serv;
 
-int		parse_args(char **av);
+int		init_settings(t_settings *settings);
+t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
 int		new_client(t_serv *serv);
