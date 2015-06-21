@@ -35,7 +35,7 @@ int			fill_teams(t_settings *settings, char **args, int i)
   j = 0;
   if ((settings->teams = malloc(sizeof(char *) * 1)) == NULL)
     return (my_error(ERR_MALLOC));
-  while (args[i])
+  while (args[i++])
     {
       if (args[i][0] == '-')
 	return (i + j);

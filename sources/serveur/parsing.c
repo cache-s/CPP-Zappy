@@ -80,8 +80,8 @@ t_settings		*parse_args(char **av)
 	i = settings->parser.args[pos](settings, av, i);
       i++;
     }
-  /* if ((check_values(settings) == EXIT_FAILURE)) */
-  /*   return (NULL); */
+  if ((check_values(settings) == EXIT_FAILURE))
+    return (NULL);
   printf("port = %d, width = %d, height = %d, teams[0] = %s, teams[1] = %s, nb_clients = %d, delay = %f\n", settings->port, settings->width, settings->height, settings->teams[0], settings->teams[1], settings->nb_clients, settings->delay);
   return (settings);
 }
