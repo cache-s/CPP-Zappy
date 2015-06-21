@@ -82,7 +82,6 @@ t_settings		*parse_args(char **av)
     }
   if ((check_values(settings) == EXIT_FAILURE))
     return (NULL);
-  printf("port = %d, width = %d, height = %d, teams[0] = %s, teams[1] = %s, nb_clients = %d, delay = %f\n", settings->port, settings->width, settings->height, settings->teams[0], settings->teams[1], settings->nb_clients, settings->delay);
   return (settings);
 }
 
@@ -90,13 +89,16 @@ int			check_teams(char *team, t_settings *settings, int pos)
 {
   int			i;
 
-  i = -1;
-  while (settings->teams[i++])
+  i = 0;
+  while (settings->teams[i])
     {
-      printf("team[i] = %s | team = %s\n", settings->teams[i], team);
-      if (strcmp(team, settings->teams[i]) == 0 && pos != i)
-	return (EXIT_FAILURE);
+      if (settings->teams[i] != NULL)
+	if (strcmp(team, settings->teams[i]) == 0 && pos != i)
+	  return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
+      i++;
     }
+  if (i < 2)
+    return (my_error(BOLD RED ERR_NB_TEAMS END));
   return (EXIT_SUCCESS);
 }
 
@@ -104,11 +106,14 @@ int			check_values(t_settings *settings)
 {
   int			i;
 
-  i = -1;
+  i = 0;
   if (settings->delay < 1 || settings->delay > MAX_SPEED)
     return (my_error(BOLD RED ERR_SPEED END));
-  while (settings->teams[i++])
-    if (check_teams(settings->teams[i], settings, i) == EXIT_FAILURE)
-      return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
+  while (settings->teams[i])
+    {
+      if (check_teams(settings->teams[i], settings, i) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      i++;
+    }
   return (EXIT_SUCCESS);
 }

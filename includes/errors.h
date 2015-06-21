@@ -40,6 +40,7 @@
 #define		ERR_STRCAT		"strcat() has failed"
 #define		ERR_STRCPY		"strcpy() has failed"
 
+#define		ERR_NB_TEAMS		"Error : the game can't start with only one team"
 #define		ERR_UNIQUE_TEAM		"Error : each team must be unique"
 #define		ERR_SPEED		"Error : the speed must be between 1 and 1000000"
 #define		MAX_SPEED		1000000

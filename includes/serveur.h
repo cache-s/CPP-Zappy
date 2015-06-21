@@ -66,6 +66,7 @@ typedef struct		s_client
   fct			fct_read;
   fct			fct_write;
   int			fd;
+  char			*team;
   char			need_write;
   char			*cmd;
   int			orientation;
