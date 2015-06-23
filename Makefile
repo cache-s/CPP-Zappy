@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 23 12:55:54 2015 Pierre Charie
+## Last update Tue Jun 23 14:31:39 2015 Pierre Charie
 ##
 
 NAME_SERVEUR	=	server
@@ -22,7 +22,7 @@ RM		=	rm -f
 
 CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
 
-CXXFLAGS	+=	 -std=gnu99 -W -Wall -Wextra -Werror -I./includes
+CXXFLAGS	+=	 -std=c++11 -W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 

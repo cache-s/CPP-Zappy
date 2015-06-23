@@ -31,8 +31,8 @@ Instructions :
 0) Si on recoit un broadcast "AliveCheck", alors on repond "Alive"
 
 1) check inventaire
-   2) Si food < 60% && la case contient de la bouffe : on la mange;
-   3) si food < 30% && bouffe dans le champ de vision : on y va;
+   2) Si food < 126 && bouffe dans le champ de vision : on y va;
+3.5 : Si on a _targetID de set, on s(y rend en ping pong;
    4) si on a tout les cailloux d'invocation:
       5) pinger la requete d'invocation (INV(ID-LVL))
       	6) Si assez de personne repondent présent : 
@@ -46,7 +46,7 @@ Instructions :
 	    14) toute les cases, on ping/pong pour avoir la direction;
    15) Regarder a 360°
        16) Si une pierre recherchée est présente, on y va
-       17) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout)
+       17) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout) (actuellement, 40% de chance de tourner
        
 18) Si on est sur la case d'un mec et qu'il invoque pas (pour pas qu'on lui casse trop les couille) on lui botte le cul
 
