@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 23 12:55:54 2015 Pierre Charie
+## Last update Tue Jun 23 14:13:59 2015 Jordan Chazottes
 ##
 
 NAME_SERVEUR	=	server
@@ -54,6 +54,8 @@ SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
 			sources/GFX/coreGFX.c		\
 			sources/GFX/initStruct.c	\
+			sources/GFX/initWindow.c	\
+			sources/GFX/initNetwork.c	\
 			sources/GFX/eventHandler.c	\
 			$(SRCS_COMMONS)
 
