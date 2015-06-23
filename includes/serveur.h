@@ -24,12 +24,11 @@
 # include		<string.h>
 # include		"commons_fcts.h"
 
+# define		MAX_ARGS	6
 # define		MAX_FD		1000
 # define		BUFF_SIZE	5
 # define		NB_CMDS		12
-# define		WELCOME		"Welcome to the server : "
-# define		SRV_USAGE	"To use the server, you must register\
- by typing /nick [username] or NICK [username]."
+# define		WELCOME		"BIENVENUE\n"
 
 #define			UNUSED		__attribute__((unused))
 
@@ -42,20 +41,49 @@ typedef struct		s_init_serv
 
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
+typedef			int(*argsFct)();
+
+typedef struct		s_parser
+{
+  argsFct		args[MAX_ARGS + 1];
+  char			**tabArgs;
+  int			*occArgs;
+}			t_parser;
+
+typedef struct		s_settings
+{
+  int			port;
+  int			width;
+  int			height;
+  char			**teams;
+  int			nb_clients;
+  double		delay;
+  t_parser		parser;
+}			t_settings;
 
 typedef struct		s_client
 {
-  char			*nick;
-  char			*channel;
   fct			fct_read;
   fct			fct_write;
-  char			connected;
-  char			isRegistered;
   int			fd;
+  char			*team;
   char			need_write;
   char			*cmd;
+  int			orientation;
   struct s_client	*next;
 }			t_client;
+
+typedef struct		s_block
+{
+  int			x;
+  int			y;
+  int			*items;
+}			t_block;
+
+typedef struct		s_map
+{
+  t_block	       	*blocks;
+}			t_map;
 
 typedef struct		s_serv
 {
@@ -65,20 +93,23 @@ typedef struct		s_serv
   fd_set		readfds;
   fd_set		writefds;
   fct			fct_read;
-  char			*ip;
   char			**AIFcts;
   tabFcts		cmds[NB_CMDS];
   t_init_serv		init;
-  int			nb_client;
+  t_map			map;
   t_client		*client;
+  t_settings		*settings;
+  t_parser		parse;
 }			t_serv;
 
+int		init_settings(t_settings *settings);
+t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
 int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
-int		init_server(int port);
+int		init_server(t_serv *serv);
 char		*close_connect(t_serv *serv, int fd);
 
 int		my_write(int fd, char *str);
@@ -89,6 +120,7 @@ char		*server_read(t_serv *serv, int i);
 char		*client_write(t_serv *serv, int i, char *cmd);
 
 int		call_cmds(t_serv *serv, char *cmd);
+int		check_values(t_settings *settings);
 
 int		close_first_elem(t_client *client, t_serv *serv, int fd);
 int		welcome_msg(t_serv *serv, int fd);
@@ -106,5 +138,12 @@ int		cmd_broadcast(t_serv *serv, t_client *client, char *cmd);
 int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
+
+int		fill_port(t_settings *settings, char *av, int i);
+int		fill_width(t_settings *settings, char *av, int i);
+int		fill_height(t_settings *settings, char *av, int i);
+int		fill_teams(t_settings *settings, char **av, int i);
+int		fill_nb_clients(t_settings *settings, char *av, int i);
+int		fill_delay(t_settings *settings, char *av, int i);
 
 #endif

@@ -10,13 +10,9 @@
 
 #include		"serveur.h"
 
-int			welcome_msg(t_serv *serv, int cs)
+int			welcome_msg(UNUSED t_serv *serv, int cs)
 {
   if (write(cs, WELCOME, strlen(WELCOME)) == -1)
-    return (EXIT_FAILURE);
-  if (my_write(cs, serv->ip) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (my_write(cs, SRV_USAGE) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

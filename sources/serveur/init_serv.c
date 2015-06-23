@@ -25,7 +25,6 @@ int			new_client(t_serv *serv)
     return (EXIT_FAILURE);
   if (create_client(serv, cs) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  serv->ip = inet_ntoa(serv->init.sin_client.sin_addr);
   if (welcome_msg(serv, cs) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
@@ -40,14 +39,11 @@ int			create_client(t_serv *serv, int fd)
     return (my_error(ERR_MALLOC));
   new->cmd = NULL;
   new->need_write = 0;
-  new->connected = 0;
-  new->nick = NULL;
-  new->channel = NULL;
   new->next = NULL;
   new->fd = fd;
   new->fct_read = client_read;
   new->fct_write = client_write;
-  new->isRegistered = 0;
+  new->orientation = 1;
   serv->nb_client++;
   if (serv->client == NULL)
     {
@@ -69,32 +65,29 @@ int			accept_clients(t_serv *serv)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
-  serv->ip = inet_ntoa(serv->init.sin_client.sin_addr);
-  check_fds_states(serv);
+   check_fds_states(serv);
   return (EXIT_SUCCESS);
 }
 
-int			init_server(int port)
+int			init_server(t_serv *serv)
 {
-  t_serv		serv;
-
-  if ((serv.init.pe = getprotobyname("TCP")) == NULL)
+  if ((serv->init.pe = getprotobyname("TCP")) == NULL)
     return (my_error(ERR_GETPROTO));
-  if ((serv.socket = socket(AF_INET, SOCK_STREAM,
-			    serv.init.pe->p_proto)) == -1)
-    return (my_error_close(ERR_SOCKET, serv.socket));
-  serv.init.sin.sin_family = AF_INET;
-  serv.init.sin.sin_port = htons(port);
-  serv.init.sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(serv.socket, (const struct sockaddr *)&(serv.init.sin),
-	   sizeof(serv.init.sin)) == -1)
-    return (my_error_close(ERR_BIND, serv.socket));
-  if (listen(serv.socket, MAX_FD) == -1)
-    return (my_error_close(ERR_LISTEN, serv.socket));
-  init_AI_tabs(&serv);
+  if ((serv->socket = socket(AF_INET, SOCK_STREAM,
+			    serv->init.pe->p_proto)) == -1)
+    return (my_error_close(ERR_SOCKET, serv->socket));
+  serv->init.sin.sin_family = AF_INET;
+  serv->init.sin.sin_port = htons(port);
+  serv->init.sin.sin_addr.s_addr = INADDR_ANY;
+  if (bind(serv->socket, (const struct sockaddr *)&(serv->init.sin),
+	   sizeof(serv->init.sin)) == -1)
+    return (my_error_close(ERR_BIND, serv->socket));
+  if (listen(serv->socket, MAX_FD) == -1)
+    return (my_error_close(ERR_LISTEN, serv->socket));
+  init_AI_tabs(serv);
   while (42)
-    if (accept_clients(&serv) == EXIT_FAILURE)
+    if (accept_clients(serv) == EXIT_FAILURE)
       return (my_error(ERR_ACCEPT));
-  close(serv.socket);
+  close(serv->socket);
   return (EXIT_SUCCESS);
 }
