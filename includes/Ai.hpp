@@ -5,11 +5,18 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Thu Jun 18 13:35:58 2015 Pierre Charie
+// Last update Tue Jun 23 12:52:24 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
 # define	AI_HPP
+
+# include	<stdbool>
+# include	<stream>
+# include	<iostream>
+# include	<map>
+# include	<stdexcept>
+# include	<vector>
 
 class Ai
 {
