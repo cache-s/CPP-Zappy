@@ -32,16 +32,16 @@
 
 #define			UNUSED		__attribute__((unused))
 
+typedef			int(*tabFcts)();
+typedef			char *(*fct)();
+typedef			int(*argsFct)();
+
 typedef struct		s_init_serv
 {
   struct protoent	*pe;
   struct sockaddr_in	sin;
   struct sockaddr_in	sin_client;
 }			t_init_serv;
-
-typedef			int(*tabFcts)();
-typedef			char *(*fct)();
-typedef			int(*argsFct)();
 
 typedef struct		s_parser
 {
@@ -55,9 +55,9 @@ typedef struct		s_settings
   int			port;
   int			width;
   int			height;
-  char			**teams;
+  char			*teams;
   int			nb_clients;
-  double		delay;
+  int			delay;
   t_parser		parser;
 }			t_settings;
 

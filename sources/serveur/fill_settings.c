@@ -33,18 +33,23 @@ int			fill_teams(t_settings *settings, char **args, int i)
   int			j;
 
   j = 0;
-  if ((settings->teams = malloc(sizeof(char *) * 1)) == NULL)
-    return (my_error(ERR_MALLOC));
-  i++;
-  while (args[i])
+  i += 1;
+  settings->teams = strdup(args[i]);
+  if ((settings->teams = realloc(settings->teams, strlen(settings->teams) + strlen(";") + 1)) == NULL)
+    return (my_error(ERR_REALLOC));
+  settings->teams = strcat(settings->teams, ";");
+  i += 1;
+  while (args[i] != NULL)
     {
+      puts(args[i]);
       if (args[i][0] == '-')
 	return (i + j);
-      if ((settings->teams = realloc(settings->teams, sizeof(settings->teams) + sizeof(char) * 1)) == NULL)
-	return (my_error(ERR_REALLOC));
-      settings->teams[j] = strdup(args[i]);
-      j++;
+      if ((settings->teams = realloc(settings->teams, strlen(settings->teams) + strlen(args[i]) + strlen(";") + 1)) == NULL)
+  	return (my_error(ERR_REALLOC));
+      settings->teams = strcat(settings->teams, args[i]);
+      settings->teams = strcat(settings->teams, ";");
       i++;
+      j++;
     }
   return (i + j);
 }
