@@ -20,12 +20,11 @@ void		display_game_configuration(t_serv *serv)
 	 serv->settings->nb_clients,
 	 serv->settings->width, serv->settings->height, serv->settings->delay);
   str = NULL;
-  str = strtok(str, ";");
-  printf(BOLD GREEN "\tName(%s) Max(%d)\n" END, str, serv->settings->nb_clients);
+  str = strtok(serv->settings->teams, ";");
   while (str != NULL)
     {
-      str = strtok(NULL, ";");
       printf(BOLD GREEN "\tName(%s) Max(%d)\n" END, str, serv->settings->nb_clients);
+      str = strtok(NULL, ";"); 
     }
   puts(BOLD GREEN "Generating world...done" END);
 }

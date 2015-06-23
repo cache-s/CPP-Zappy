@@ -91,15 +91,15 @@ int			check_teams(t_settings *settings)
 
   occ = 0;
   str = NULL;
-  str = strtok(str, ";");
+  str = strtok(settings->teams, ";");
   while (str != NULL)
     {
       if (strstr(settings->teams, str) != NULL)
 	occ++;
       str = strtok(NULL, ";");
-      printf("str = %s\n", str);
     }
-  if (occ > 0)
+  printf("%s | %d\n", settings->teams, count_char(settings->teams, ';'));
+  if (occ > count_char(settings->teams, ';'))
     return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
   if (count_char(settings->teams, ';') < 2)
     return (my_error(BOLD RED ERR_NB_TEAMS END));
@@ -110,7 +110,7 @@ int			check_values(t_settings *settings)
 {
   if (settings->delay < 1 || settings->delay > MAX_SPEED)
     return (my_error(BOLD RED ERR_SPEED END));
-  if (check_teams(settings) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  /* if (check_teams(settings) == EXIT_FAILURE) */
+  /*   return (EXIT_FAILURE); */
   return (EXIT_SUCCESS);
 }

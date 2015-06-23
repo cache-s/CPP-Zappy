@@ -41,7 +41,6 @@ int			fill_teams(t_settings *settings, char **args, int i)
   i += 1;
   while (args[i] != NULL)
     {
-      puts(args[i]);
       if (args[i][0] == '-')
 	return (i + j);
       if ((settings->teams = realloc(settings->teams, strlen(settings->teams) + strlen(args[i]) + strlen(";") + 1)) == NULL)
