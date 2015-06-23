@@ -16,5 +16,17 @@ int			cmd_inventory(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_inventory") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  
+  /* 
+     Renvoie l'inventaire du player.
+     -
+     
+     char *my_inv;
+     while (player->inv != vide)
+     my_inv = strcat(player->inv[x]);
+
+     Send to GFX : Rien
+     Send to IA : linemate n, sibur n [...]
+  */
   return (EXIT_SUCCESS);
 }

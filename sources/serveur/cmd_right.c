@@ -16,5 +16,17 @@ int			cmd_right(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_right") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+
+  /*
+    Change l'orientation du joueur.
+    ppo #n X Y O\n"
+
+    player->orientation = DROITE; (Enum à faire si pas fait)
+
+    Pas de check ça ne peut pas fail.
+
+    Send to GFX : ppo, player number, X and Y position, Orientation
+    Send to IA : ok
+   */
   return (EXIT_SUCCESS);
 }

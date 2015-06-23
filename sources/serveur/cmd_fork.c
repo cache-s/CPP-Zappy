@@ -16,5 +16,18 @@ int			cmd_fork(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_fork") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+
+  /* 
+     Fork 
+     Début du fork :
+     "pfk #n\n" 
+     Fin du fork : 
+     "enw #e #n X Y\n" 
+
+     Send to GFX : 
+     Start : pfk, player nbr
+     end : enw, numéro d'oeuf sur le serveur, player nbr, X & Y pos
+     Send to IA : ok
+   */
   return (EXIT_SUCCESS);
 }

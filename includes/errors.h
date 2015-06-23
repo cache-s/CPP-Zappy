@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:00:38 2015 Mathieu Bourmaud
-** Last update Tue Jun 16 19:14:41 2015 Martin Porrès
+** Last update Tue Jun 23 17:11:41 2015 Martin Porrès
 */
 
 #ifndef		_ERRORS_H_
@@ -20,7 +20,7 @@
 
 #define		ERR_PORT		"The port must contains only numbers."
 #define		ERR_USAGE_SRV		"Usage : ./server [-p port] [-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name1 team_name2 ..."
-#define		ERR_USAGE_CLT		"Usage : "
+#define		ERR_USAGE_CLT		"Usage : ./client -n \"team name\" -p port [-h hostname]\n"
 #define		ERR_SOCKET		"socket() has failed."
 #define		ERR_BIND		"bind() has failed."
 #define		ERR_LISTEN		"listen() has failed."
