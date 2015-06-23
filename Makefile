@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 16 19:01:50 2015 Martin Porrès
+## Last update Fri Jun 19 14:55:35 2015 Martin Porrès
 ##
 
 NAME_SERVEUR	=	server
@@ -50,7 +50,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 SRCS_CLIENT	=	sources/client/main.c		\
 			sources/client/parsing.c	\
 			sources/client/parsing_fct.c	\
-			sources/client/zappy.c		\
+			sources/client/connect.c	\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\
