@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:26:51 2015 Martin Porrès
-** Last update Tue Jun 16 19:10:49 2015 Martin Porrès
+** Last update Fri Jun 19 15:15:01 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -75,7 +75,9 @@ int	parsing(int ac, char **av)
       return (EXIT_SUCCESS);
     }
   if (ac == (MAX_ARGS * 2 - 1))
-       if (parser.args[2](&client, "localhost") == EXIT_FAILURE)
+    {
+      if (parser.args[2](&client, "127.0.0.1") == EXIT_FAILURE)
 	 return (EXIT_FAILURE);
-  return (zappy(&client));
+    }
+  return (connect_to_server(&client));
 }
