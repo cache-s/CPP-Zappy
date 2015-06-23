@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Fri Jun 19 10:47:12 2015 Mathieu Bourmaud
+## Last update Tue Jun 23 19:37:36 2015 Jordan Chazottes
 ##
 
 NAME_SERVEUR	=	server
@@ -22,7 +22,7 @@ RM		=	rm -f
 
 CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
 
-CXXFLAGS	+=	-W -Wall -Wextra -Werror -I./includes
+CXXFLAGS	+=	 -std=c++11 -W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
@@ -31,29 +31,18 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/fill_settings.c		\
 			$(SRCS_COMMONS)
 
-SRCS_CLIENT	=	sources/client/main.c			\
-			sources/client/parsing.c		\
-			sources/client/parsing_fct.c		\
-			sources/client/zappy.c			\
-			sources/client/cmd_avance.c		\
-			sources/client/cmd_broadcast.c		\
-			sources/client/cmd_connect_nbr.c	\
-			sources/client/cmd_droite.c		\
-			sources/client/cmd_expulse.c		\
-			sources/client/cmd_fork.c		\
-			sources/client/cmd_gauche.c		\
-			sources/client/cmd_incantation.c	\
-			sources/client/cmd_inventaire.c		\
-			sources/client/cmd_parser.c		\
-			sources/client/cmd_pose.c		\
-			sources/client/cmd_prend.c		\
-			sources/client/cmd_voir.c		\
+SRCS_CLIENT	=	sources/client/main.c		\
+			sources/client/parsing.c	\
+			sources/client/parsing_fct.c	\
+			sources/client/connect.c	\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
 			sources/GFX/coreGFX.c		\
 			sources/GFX/initStruct.c	\
+			sources/GFX/initWindow.c	\
+			sources/GFX/initNetwork.c	\
 			sources/GFX/eventHandler.c	\
 			$(SRCS_COMMONS)
 

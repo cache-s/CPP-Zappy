@@ -5,40 +5,29 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Tue Jun 16 18:55:01 2015 Martin Porrès
+** Last update Tue Jun 23 17:03:50 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
 # define		_CLIENT_H_
 
-# include		<unistd.h>
-# include		<stdio.h>
-# include		<stdlib.h>
-# include		<string.h>
-# include		"errors.h"
+#include		<unistd.h>
+#include		<stdio.h>
+#include		<stdlib.h>
+#include		<string.h>
+#include		<stdlib.h>
+#include		<sys/types.h>
+#include		<sys/socket.h>
+#include		<arpa/inet.h>
+#include		<netinet/in.h>
+#include		<netdb.h>
+#include		"errors.h"
 
 typedef			int(*args_fct)();
-typedef			void(*f_tab)();
 
-# define		MAX_ARGS	3
-# define		MAX_LEN		3
-# define		NB_CMD		12
-
-enum			fnc_name
-  {
-    AVANCE		= 0,
-    DROITE		= 1,
-    GAUCHE		= 2,
-    VOIR		= 3,
-    INVENTAIRE		= 4,
-    PREND		= 5,
-    POSE		= 6,
-    EXPULSE	        = 7,
-    BROADCAST		= 8,
-    INCANTATION		= 9,
-    FORK		= 10,
-    CONNECT_NBR		= 11,
-  };
+#define			MAX_ARGS	3
+#define			MAX_LEN		3
+#define			BUFF_SIZE	8
 
 typedef struct		s_parser
 {
@@ -52,8 +41,9 @@ typedef struct		s_client
   char			*team_name;
   int			port;
   char			*hostname;
-  char			*name_fnc[NB_CMD];
-  f_tab			cmd[NB_CMD];
+  int			fd_socket;
+  int			entire_cmd;
+  char			*srv_cmd;
 }			t_client;
 
 int			parsing(int ac, char **av);
@@ -64,22 +54,9 @@ int			arg_team(t_client *client, char *arg);
 int			arg_port(t_client *client, char *arg);
 int			arg_host(t_client *client, char *arg);
 int			my_regex(char *val, char *good);
-int			zappy(t_client *client);
-
-
-// CMD
-void			cmd_parser();
-void			cmd_avance();
-void			cmd_droite();
-void			cmd_gauche();
-void			cmd_voir();
-void			cmd_inventaire();
-void			cmd_prend();
-void			cmd_pose();
-void			cmd_expulse();
-void			cmd_broadcast();
-void			cmd_incantation();
-void			cmd_fork();
-void			cmd_connect_nbr();
+int			connect_to_server(t_client *client);
+int			client_loop(t_client *client);
+int			server_read(t_client *client);
+int			save_srv_cmd(t_client *client, char *buffer);
 
 #endif

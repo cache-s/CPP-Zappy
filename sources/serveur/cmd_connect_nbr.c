@@ -16,5 +16,10 @@ int			cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "connect_nbr") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  /* 
+     Nombre de Slot non utilisé par l'équipe 
+     
+     Renvoyer à L'IA la valeur.
+  */
   return (EXIT_SUCCESS);
 }
