@@ -16,5 +16,17 @@ int			cmd_drop(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_drop") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+
+  /*
+    Pose un objet.
+    "pdr #n i\n"
+    "pin #n X Y q q q q q q q\n"
+    "bct X Y q q q q q q q\n" 
+
+    Send to GFX : pdr, player number, numéro de ressource
+    pin, player number, x & y pos, quantité x 7
+    bct, x & y pos, quantité x 7
+    Send to IA : ok/ko
+  */
   return (EXIT_SUCCESS);
 }

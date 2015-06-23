@@ -16,5 +16,17 @@ int			cmd_kick(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_kick") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+
+  /*
+    Kick tous les joueurs de la case. 
+    "pex #n\n"
+    "ppo #n X Y O\n"
+    …
+    "ppo #n X Y O\n" 
+
+    Send to GFX : pex, player number
+    ppo, player number, x & y, orientation du joueur -> Faire ça pour chaque joueur expulsé.
+    Send to IA :  ok / ko
+   */
   return (EXIT_SUCCESS);
 }

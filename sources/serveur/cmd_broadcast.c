@@ -16,5 +16,14 @@ int			cmd_broadcast(t_serv *serv, t_client *client, char *cmd)
   (void)cmd;
   if (my_write(client->fd, "cmd_broadcast") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  /*
+    Broadcast (Communication)
+    "pbc #n M\n"
+
+    Boucle qui parcourt toute la liste des joueurs et leur envoie le message
+    
+    Send to GFX : pbc, player number, message
+    Send to IA : ok
+   */
   return (EXIT_SUCCESS);
 }
