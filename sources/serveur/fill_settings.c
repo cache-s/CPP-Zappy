@@ -42,7 +42,7 @@ int			fill_teams(t_settings *settings, char **args, int i)
   while (args[i] != NULL)
     {
       if (args[i][0] == '-')
-	return (i + j);
+	return (i - 1);
       if ((settings->teams = realloc(settings->teams, strlen(settings->teams) + strlen(args[i]) + strlen(";") + 1)) == NULL)
   	return (my_error(ERR_REALLOC));
       settings->teams = strcat(settings->teams, args[i]);
@@ -50,11 +50,12 @@ int			fill_teams(t_settings *settings, char **args, int i)
       i++;
       j++;
     }
-  return (i + j);
+  return (i);
 }
 
 int			fill_nb_clients(t_settings *settings, char *arg, int i)
 {
+  printf("nbclient = %s\n", arg);
   settings->nb_clients = atoi(arg);
   return (i + 1);
 }

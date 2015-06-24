@@ -87,18 +87,28 @@ t_settings		*parse_args(char **av)
 int			check_teams(t_settings *settings)
 {
   char			*str;
+  char			*tmp;
   int			occ;
+  const char		*substr;
 
   occ = 0;
   str = NULL;
-  str = strtok(settings->teams, ";");
+  tmp = strdup(settings->teams);
+  str = strtok(tmp, ";");
+  substr = settings->teams;
   while (str != NULL)
     {
-      if (strstr(settings->teams, str) != NULL)
-	occ++;
+      if (str != NULL && substr != NULL)
+	while ((substr = strstr(substr, str)))
+	  {
+	    printf("teams = %s|str = %s\n", settings->teams, str);
+	    occ++;
+	  substr++;
+	  }
       str = strtok(NULL, ";");
+      printf("%s|", str);
     }
-  printf("%s | %d\n", settings->teams, count_char(settings->teams, ';'));
+  printf("OCC = %d\n", occ);
   if (occ > count_char(settings->teams, ';'))
     return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
   if (count_char(settings->teams, ';') < 2)
@@ -110,7 +120,11 @@ int			check_values(t_settings *settings)
 {
   if (settings->delay < 1 || settings->delay > MAX_SPEED)
     return (my_error(BOLD RED ERR_SPEED END));
-  /* if (check_teams(settings) == EXIT_FAILURE) */
-  /*   return (EXIT_FAILURE); */
+  if (settings->width < MIN_X || settings->width > MAX_X)
+    return (my_error(BOLD RED ERR_SIZE_X END));
+  if (settings->height < MIN_Y || settings->height > MAX_Y)
+    return (my_error(BOLD RED ERR_SIZE_X END));
+  if (check_teams(settings) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

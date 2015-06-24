@@ -22,7 +22,7 @@ RM		=	rm -f
 
 CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
 
-CXXFLAGS	+=	 -std=c++11 -W -Wall -Wextra -Werror -I./includes
+CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 

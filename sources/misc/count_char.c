@@ -17,7 +17,6 @@ int			count_char(char *str, char c)
 
   occ = 0;
   i = 0;
-  puts(str);
   while (str[i])
     {
       if (str[i] == c)
