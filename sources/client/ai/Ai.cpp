@@ -1,11 +1,11 @@
-//
+<//
 // Ai.cpp for  in /home/charie_p/rendu/PSU_2014_zappy/sources/client/ai
 //
 // Made by Pierre Charie
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Tue Jun 23 15:12:08 2015 Pierre Charie
+// Last update Wed Jun 24 17:27:26 2015 Pierre Charie
 //
 
 #include "Ai.cpp"
@@ -14,6 +14,63 @@ Ai::Ai(int ID)
 {
   _ID = std::to_string(ID);
   _level = 1;
+
+  _forUp[std::make_pair(1, "joueur")] = 1;
+  _forUp[std::make_pair(2, "joueur")] = 2;
+  _forUp[std::make_pair(3, "joueur")] = 2;
+  _forUp[std::make_pair(4, "joueur")] = 4;
+  _forUp[std::make_pair(5, "joueur")] = 4;
+  _forUp[std::make_pair(6, "joueur")] = 6;
+  _forUp[std::make_pair(7, "joueur")] = 6;
+
+  _forUp[std::make_pair(1, "linemate")] = 1;
+  _forUp[std::make_pair(2, "linemate")] = 1;
+  _forUp[std::make_pair(3, "linemate")] = 2;
+  _forUp[std::make_pair(4, "linemate")] = 1;
+  _forUp[std::make_pair(5, "linemate")] = 1;
+  _forUp[std::make_pair(6, "linemate")] = 1;
+  _forUp[std::make_pair(7, "linemate")] = 2;
+
+  _forUp[std::make_pair(1, "deraumêre")] = 0;
+  _forUp[std::make_pair(2, "deraumêre")] = 1;
+  _forUp[std::make_pair(3, "deraumêre")] = 0;
+  _forUp[std::make_pair(4, "deraumêre")] = 1;
+  _forUp[std::make_pair(5, "deraumêre")] = 2;
+  _forUp[std::make_pair(6, "deraumêre")] = 2;
+  _forUp[std::make_pair(7, "deraumêre")] = 2;
+
+  _forUp[std::make_pair(1, "sibur")] = 0;
+  _forUp[std::make_pair(2, "sibur")] = 1;
+  _forUp[std::make_pair(3, "sibur")] = 1;
+  _forUp[std::make_pair(4, "sibur")] = 2;
+  _forUp[std::make_pair(5, "sibur")] = 1;
+  _forUp[std::make_pair(6, "sibur")] = 3;
+  _forUp[std::make_pair(7, "sibur")] = 2;
+
+  _forUp[std::make_pair(1, "mendiane")] = 0;
+  _forUp[std::make_pair(2, "mendiane")] = 0;
+  _forUp[std::make_pair(3, "mendiane")] = 0;
+  _forUp[std::make_pair(4, "mendiane")] = 0;
+  _forUp[std::make_pair(5, "mendiane")] = 3;
+  _forUp[std::make_pair(6, "mendiane")] = 0;
+  _forUp[std::make_pair(7, "mendiane")] = 2;
+
+  _forUp[std::make_pair(1, "phiras")] = 0;
+  _forUp[std::make_pair(2, "phiras")] = 0;
+  _forUp[std::make_pair(3, "phiras")] = 2;
+  _forUp[std::make_pair(4, "phiras")] = 1;
+  _forUp[std::make_pair(5, "phiras")] = 0;
+  _forUp[std::make_pair(6, "phiras")] = 1;
+  _forUp[std::make_pair(7, "phiras")] = 2;
+
+  _forUp[std::make_pair(1, "thystame")] = 0;
+  _forUp[std::make_pair(2, "thystame")] = 0;
+  _forUp[std::make_pair(3, "thystame")] = 0;
+  _forUp[std::make_pair(4, "thystame")] = 0;
+  _forUp[std::make_pair(5, "thystame")] = 0;
+  _forUp[std::make_pair(6, "thystame")] = 0;
+  _forUp[std::make_pair(7, "thystame")] = 1;
+
 }
 
 Ai::~Ai()
@@ -21,13 +78,13 @@ Ai::~Ai()
   mort; //TODO
 }
 
-void Ai::setInventory()
+void		Ai::setInventory()
 {
-  std::string inventory;
-  std::string bigItem;
-  std::string item;
-  std::string number;
-  int nbr
+  std::string	inventory;
+  std::string	bigItem;
+  std::string	item;
+  std::string	number;
+  int		nbr;
   //inventory = inventaire(); //TODO
   std::istringstream iss(inventory);
 
@@ -90,7 +147,7 @@ void Ai::communicate(std::string cmd)
       getline(iss, line, ",");
       _targetID == line;
     }
-  if (cmd.find("OKINV") && cmd.find(_targetID))
+  if (cmd.find("STOPINV") && cmd.find(_targetID))
     _targetID = NULL;
   //todo envois answer;
 }
@@ -124,13 +181,42 @@ void Ai::move()
 
 void Ai::checkInventory()
 {
-  this->setInventory();
-  if (_inventory[nourriture] < 126)
-    ;//TODO chercher bouffe dans champ de vision et y aller.
 }
 
-void Ai::action()
+void Ai::checkVision()
 {
+  int i = 0;
+
+  while (i < ((_level * 2) - 1))
+    {
+
+    }
+}
+
+char *Ai::action()
+{
+  if (_inventory == NULL)
+    this->setInventory();
+  if (_vision == NULL)
+    this->setVision();
+
+  try
+    {
+  //faire OP ici;
+      if (!_instruction.empty())
+	{
+	  std::string cmd = _instruction.front(); //TODO
+	  _instruction.pop_front();
+	  return cmd; //TODO
+	}
+    }
+ catch (const to_C &e)
+   {
+     return e.what();
+   }
+
+  // _inventory = NULL;
+  _vision = NULL;
 
   //TODO select broadcast:
   // Si on recoit "AliveCheck", on repond "Alive(sonLvl)"

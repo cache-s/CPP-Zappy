@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Tue Jun 23 14:35:26 2015 Pierre Charie
+// Last update Wed Jun 24 15:20:23 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -30,6 +30,7 @@ public:
   void action();
 
   void setVision();
+  void checkVision();
   void setInventory();
   void checkInventory();
   void communicate(std::string cmd);
@@ -38,11 +39,12 @@ public:
 private:
   std::map<int, std::vector<std::string> >	_vision;
   std::map<std::string, int>			_inventory;
-
+  std::map<std::pair<int, std::string>, int *>  _forUp;
   std::string					_ID;
   std::string					_level;
-
   std::string					_targetID;
+
+  std::list<std::string>			_instruction;
 
 };
 
