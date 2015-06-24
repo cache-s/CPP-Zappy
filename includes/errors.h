@@ -34,6 +34,7 @@
 #define		ERR_WRITE		"write() has failed"
 
 /* COMMON ERRORS */
+#define		ERR_MEMSET		"memset() has failed"
 #define		ERR_REALLOC		"realloc() has failed"
 #define		ERR_MALLOC		"malloc() has failed"
 #define		ERR_CWD			"getcwd() has failed"

@@ -42,6 +42,7 @@ SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/parsing.c		\
 			sources/serveur/fill_settings.c		\
+			sources/serveur/map_generation.c	\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\

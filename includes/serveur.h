@@ -15,6 +15,7 @@
 # include		<sys/types.h>
 # include		<sys/socket.h>
 # include		<sys/wait.h>
+# include		<time.h>
 # include		<netdb.h>
 # include		<unistd.h>
 # include		<stdio.h>
@@ -77,12 +78,12 @@ typedef struct		s_block
 {
   int			x;
   int			y;
-  int			*items;
+  int			items[8];
 }			t_block;
 
 typedef struct		s_map
 {
-  t_block	       	*blocks;
+  t_block	       	**blocks;
 }			t_map;
 
 typedef struct		s_serv
@@ -145,5 +146,8 @@ int		fill_height(t_settings *settings, char *av, int i);
 int		fill_teams(t_settings *settings, char **av, int i);
 int		fill_nb_clients(t_settings *settings, char *av, int i);
 int		fill_delay(t_settings *settings, char *av, int i);
+
+int		map_generation(t_serv *serv);
+int		jewels_food_generation(t_block *block, int x, int y);
 
 #endif

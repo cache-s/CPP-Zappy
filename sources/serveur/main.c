@@ -34,9 +34,12 @@ int		main(UNUSED int ac, char **av)
   t_serv	serv;
 
   av[ac + 1] = NULL;
+  srand(time(NULL));
   if ((serv.settings = parse_args(av)) == NULL)
     return (my_error(ERR_USAGE_SRV));
   display_game_configuration(&serv);
+  if (map_generation(&serv) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   /* if (init_server(&serv) ==  EXIT_FAILURE) */
   /*   return (my_error(ERR_INIT_SRV)); */
   return (EXIT_SUCCESS);
