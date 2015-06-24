@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 23 19:37:36 2015 Jordan Chazottes
+## Last update Wed Jun 24 12:00:23 2015 Sebastien Cache-Delanos
 ##
 
 NAME_SERVEUR	=	server
@@ -22,7 +22,7 @@ RM		=	rm -f
 
 CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
 
-CXXFLAGS	+=	 -std=c++11 -W -Wall -Wextra -Werror -I./includes
+CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
 
@@ -79,7 +79,7 @@ $(NAME_CLIENT)	:	$(OBJS_CLIENT)
 			@echo ' '
 			@echo 'Building target: $@'
 			@echo 'Invoking: GCC C Linker'
-			$(CC) $(OBJS_CLIENT) -o $(NAME_CLIENT)
+			$(CC) $(OBJS_CLIENT) -L. -lAI_c_connector -o $(NAME_CLIENT)
 			@echo -n 'Finished building target:'
 			@echo -e $(GREEN) '$@'
 			@echo -e $(NORMAL) ' '
