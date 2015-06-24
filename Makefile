@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Wed Jun 24 12:00:23 2015 Sebastien Cache-Delanos
+## Last update Wed Jun 24 12:22:19 2015 Sebastien Cache-Delanos
 ##
 
 NAME_SERVEUR	=	server
@@ -14,7 +14,7 @@ NAME_CLIENT	=	client
 
 NAME_GFX	=	gfx
 
-CC		=	gcc
+CC		=	LD_LIBRARY_PATH=`pwd` gcc
 
 CXX		=	g++
 
