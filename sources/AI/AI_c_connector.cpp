@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:39:45 2015 Sebastien Cache-Delanos
-// Last update Wed Jun 24 11:44:40 2015 Sebastien Cache-Delanos
+// Last update Wed Jun 24 18:05:23 2015 Sebastien Cache-Delanos
 //
 
 #include			<cstdlib>
@@ -27,10 +27,10 @@ extern "C" {
       }
   }
 
-  const char* AI_sayHello(const char *name)
+  const char* AI_call(const char *cmdRcv)
   {
     lazyAI();
-    return (AI_instance->sayHello(name));
+    return (AI_instance->call(cmdRcv));
   }
 
 #ifdef __cplusplus
