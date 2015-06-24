@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Wed Jun 24 12:05:34 2015 Pierre Charie
+** Last update Wed Jun 24 18:09:05 2015 Sebastien Cache-Delanos
 */
 
 
@@ -17,7 +17,6 @@ int			connect_to_server(t_client *client)
   struct sockaddr_in	sin;
   int			ret;
 
-  AI_sayHello("Le jeu");
   if ((client->fd_socket = socket(AF_INET, SOCK_STREAM, getprotobyname("TCP")->p_proto)) == -1)
     return (my_error(ERR_SOCKET));
   sin.sin_family = AF_INET;
@@ -53,7 +52,7 @@ int			client_loop(t_client *client)
 	FD_SET(client->fd_socket, &fd_write);
       if (FD_ISSET(client->fd_socket, &fd_write))
 	{
-	  // call ai
+	  AI_call("");
 	  client->entire_cmd = 0;
 	}
     }
