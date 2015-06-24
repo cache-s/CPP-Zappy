@@ -5,8 +5,12 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Wed Jun 24 12:29:17 2015 Sebastien Cache-Delanos
+## Last update Wed Jun 24 15:33:38 2015 Sebastien Cache-Delanos
 ##
+
+NAME_AI		=	./libs/libAI.so
+
+NAME_CONNECTOR	=	./libs/libAI_c_connector.so
 
 NAME_SERVEUR	=	server
 
@@ -14,17 +18,26 @@ NAME_CLIENT	=	client
 
 NAME_GFX	=	gfx
 
-CC		=	LD_LIBRARY_PATH=$(PWD) gcc
+# CC		=	LD_LIBRARY_PATH=$(PWD) gcc
+CC		=	gcc
 
 CXX		=	g++
 
 RM		=	rm -f
 
-CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes
+CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
 
-CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes
+CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
+
+LIBSH		+=	-lAI -lAI_c_connector
 
 GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image
+
+DYNLIB		+=	-fpic -shared
+
+SRCS_AI		=	sources/AI/AI.cpp			\
+
+SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 
 SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/parsing.c		\
@@ -52,6 +65,8 @@ SRCS_COMMONS	=	sources/misc/errors.c		\
 			sources/misc/count_char.c	\
 			sources/misc/my_write.c		\
 
+OBJS_AI		=	$(SRCS_AI:.cpp=.o)
+
 OBJS_SERVEUR	=	$(SRCS_SERVEUR:.c=.o)
 
 OBJS_CLIENT	=	$(SRCS_CLIENT:.c=.o)
@@ -64,7 +79,27 @@ NORMAL		=	"\\033[0;39m"
 
 YELLOW		=	"\\033[1;33m"
 
-all		:	$(NAME_SERVEUR) $(NAME_CLIENT) $(NAME_GFX)
+CYAN		=	"\\033[1;36m"
+
+all		:	$(NAME_AI) $(NAME_CONNECTOR) $(NAME_SERVEUR) $(NAME_CLIENT) $(NAME_GFX)
+
+$(NAME_AI)	:
+			@echo ' '
+			@echo 'Building target: $@'
+			@echo 'Invoking: GCC C++ Linker'
+			$(CXX) $(DYNLIB) $(CXXFLAGS) $(SRCS_AI) -o $(NAME_AI)
+			@echo -n 'Finished building target:'
+			@echo -e $(CYAN) '$@'
+			@echo -e $(NORMAL) ' '
+
+$(NAME_CONNECTOR):
+			@echo ' '
+			@echo 'Building target: $@'
+			@echo 'Invoking: GCC C++ Linker'
+			$(CXX) $(DYNLIB) $(CXXFLAGS) $(SRCS_CONNECTOR) -o $(NAME_CONNECTOR) -L./libs/ -lAI
+			@echo -n 'Finished building target:'
+			@echo -e $(CYAN) '$@'
+			@echo -e $(NORMAL) ' '
 
 $(NAME_SERVEUR)	:	$(OBJS_SERVEUR)
 			@echo ' '
@@ -79,7 +114,7 @@ $(NAME_CLIENT)	:	$(OBJS_CLIENT)
 			@echo ' '
 			@echo 'Building target: $@'
 			@echo 'Invoking: GCC C Linker'
-			$(CC) $(OBJS_CLIENT) -L. -lAI_c_connector -o $(NAME_CLIENT)
+			$(CC) $(OBJS_CLIENT) $(CFLAGS) $(LIBSH) -o $(NAME_CLIENT)
 			@echo -n 'Finished building target:'
 			@echo -e $(GREEN) '$@'
 			@echo -e $(NORMAL) ' '
@@ -102,15 +137,6 @@ $(NAME_GFX)	:	$(OBJS_GFX)
 			@echo -e $(YELLOW) '$<'
 			@echo -e $(NORMAL) ' '
 
-%.o: %.cpp
-			@echo ' '
-			@echo 'Building file: $<'
-			@echo 'Invoking: GCC C++ Compiler'
-			$(CXX) $(CXXFLAGS) -c -o $@ $<
-			@echo -n 'Finished building: '
-			@echo -e $(YELLOW) '$<'
-			@echo -e $(NORMAL) ' '
-
 clean		:
 			$(RM) $(OBJS_SERVEUR)
 			$(RM) $(OBJS_CLIENT)
@@ -119,6 +145,8 @@ clean		:
 			@find ./ -name '*#' -exec rm '{}' \;
 
 fclean		:	clean
+			$(RM) $(NAME_AI)
+			$(RM) $(NAME_CONNECTOR)
 			$(RM) $(NAME_SERVEUR)
 			$(RM) $(NAME_CLIENT)
 			$(RM) $(NAME_GFX)
