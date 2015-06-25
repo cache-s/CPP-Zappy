@@ -13,6 +13,7 @@
 
 #include		"errors.h"
 
+char			*itoa(int val);
 int			my_regex(const char *val, const char *good);
 void			rm_spaces(char *src);
 

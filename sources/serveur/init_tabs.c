@@ -24,6 +24,7 @@ void			init_AI_cmds(t_serv *serv)
   serv->cmds[9] = cmd_incantation;
   serv->cmds[10] = cmd_fork;
   serv->cmds[11] = cmd_connect_nbr;
+  serv->cmds[12] = cmd_graphic;
 }
 
 int			init_AI_tabs(t_serv *serv)
@@ -45,6 +46,7 @@ int			init_AI_tabs(t_serv *serv)
   serv->AIFcts[9] = strdup("incantation");
   serv->AIFcts[10] = strdup("fork");
   serv->AIFcts[11] = strdup("connect_nbr");
+  serv->AIFcts[12] = strdup("GRAPHIC");
   init_AI_cmds(serv);
   return (EXIT_SUCCESS);
 }
