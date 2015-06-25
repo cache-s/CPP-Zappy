@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Tue Jun 23 17:03:50 2015 Martin Porrès
+** Last update Thu Jun 25 18:00:27 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
@@ -42,6 +42,9 @@ typedef struct		s_client
   int			port;
   char			*hostname;
   int			fd_socket;
+  int			num_client;
+  int			x;
+  int			y;
   int			entire_cmd;
   char			*srv_cmd;
 }			t_client;
