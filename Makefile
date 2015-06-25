@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Wed Jun 24 15:33:38 2015 Sebastien Cache-Delanos
+## Last update Thu Jun 25 18:42:57 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -72,9 +72,12 @@ SRCS_CLIENT	=	sources/client/main.c		\
 SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
 			sources/GFX/coreGFX.c		\
+			sources/GFX/gfx_loop.c		\
 			sources/GFX/initStruct.c	\
 			sources/GFX/initWindow.c	\
+			sources/GFX/server_read.c	\
 			sources/GFX/initNetwork.c	\
+			sources/GFX/save_srv_cmd.c	\
 			sources/GFX/eventHandler.c	\
 			$(SRCS_COMMONS)
 
