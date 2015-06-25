@@ -49,7 +49,6 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
   msz = strcat(msz, itoa(serv->settings->width));
   msz = strcat(msz, " ");
   msz = strcat(msz, itoa(serv->settings->height));
-  msz = strcat(msz, "\n");
   if (my_write(client->fd, msz) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   while (i < serv->settings->width)
