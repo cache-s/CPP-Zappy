@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 23 13:04:16 2015 Jordan Chazottes
-** Last update Thu Jun 25 16:53:48 2015 Jordan Chazottes
+** Last update Thu Jun 25 18:27:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -19,7 +19,7 @@ int		initNetwork(t_gfx *s, char *ip, int port)
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(ip);
-  
+  printf(BOLD GREEN "Connecting to server\n" END);
   if (connect(s->network.socket, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
     return (my_error_close(ERR_CONNECT, s->network.socket));
   return (EXIT_SUCCESS);
@@ -33,10 +33,8 @@ int		gfx_loop(t_gfx *s)
   while (eventHandler() != -1)
     {
       FD_SET(s->network.socket, &s->network.fd_read);
-      printf("toto\n");
       if (select(s->network.socket + 1, &s->network.fd_read, &s->network.fd_write, NULL, NULL) == -1)
 	return (my_error(ERR_SELECT));
-      printf("titi\n");
       if (FD_ISSET(s->network.socket, &s->network.fd_read))
 	if (server_read(s) == EXIT_FAILURE)
 	  return (my_error(ERR_SERVER));
@@ -67,7 +65,10 @@ int		server_read(t_gfx *s)
   if (ret == BUFF_SIZE - 1)
     s->network.entire_cmd = 0;
   else
-    s->network.entire_cmd = 1;
+    {
+      s->network.entire_cmd = 1;
+      printf("Server msg : %s", s->network.cmd);
+    }
   return (EXIT_SUCCESS);
 }
 
