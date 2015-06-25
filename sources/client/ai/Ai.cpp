@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Wed Jun 24 17:27:26 2015 Pierre Charie
+// Last update Thu Jun 25 12:01:18 2015 Pierre Charie
 //
 
 #include "Ai.cpp"
@@ -189,38 +189,55 @@ void Ai::checkVision()
 
   while (i < ((_level * 2) - 1))
     {
-
+      int j = 0;
+      while (_vision[i][j])
+	{
+	  if (_inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])])
+	    {
+	      if (i == 0)
+		ramasse;
+	      else
+		{
+		  //TODO on y va
+		}
+	    }
+	  j++;
+	}
+      i++;
     }
 }
 
-char *Ai::action()
+char *Ai::action(std::string msg)
 {
-  if (_inventory == NULL)
-    this->setInventory();
-  if (_vision == NULL)
-    this->setVision();
 
   try
     {
-  //faire OP ici;
+      if (_inventory == NULL || msg.find("ko"))
+	this->setInventory();
+      if (_vision == NULL)
+	this->setVision();
       if (!_instruction.empty())
 	{
 	  std::string cmd = _instruction.front(); //TODO
 	  _instruction.pop_front();
 	  return cmd; //TODO
 	}
+      if (_mustWait == true)
+	return NULL;
+
+      checkVision();
+      //faire OP ici;
     }
- catch (const to_C &e)
-   {
-     return e.what();
-   }
+  catch (const to_C &e)
+    {
+      return e.what();
+    }
 
   // _inventory = NULL;
   _vision = NULL;
 
   //TODO select broadcast:
-  // Si on recoit "AliveCheck", on repond "Alive(sonLvl)"
-  // Si on recoit "PING sonID", on répond "PONG sonID"
+  // Si on envois PING, on passe mustWait à false tant qu'on recoit pas pong.
   // Si on recoit "INV(LVL)" et qu'on est du bon level, on répond la même chose;
   // Si on envoit la demande d'invocation, on compte en static le nombre de réponse. Si pas assez, on reset;
   // Si on recoit "OKINV(uneID, LVL), on rush cet endroit. (en ping pong)

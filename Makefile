@@ -142,7 +142,7 @@ $(NAME_GFX)	:	$(OBJS_GFX)
 			@echo ' '
 			@echo 'Building target: $@'
 			@echo 'Invoking: GCC C Linker'
-			$(CC) $(GFXFLAGS) $(OBJS_GFX) -o $(NAME_GFX)
+			$(CC) $(OBJS_GFX) -o $(NAME_GFX) $(GFXFLAGS) 
 			@echo -n 'Finished building target:'
 			@echo -e $(GREEN) '$@'
 			@echo -e $(NORMAL) ' '
