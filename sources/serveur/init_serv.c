@@ -77,7 +77,7 @@ int			init_server(t_serv *serv)
 			    serv->init.pe->p_proto)) == -1)
     return (my_error_close(ERR_SOCKET, serv->socket));
   serv->init.sin.sin_family = AF_INET;
-  serv->init.sin.sin_port = htons(port);
+  serv->init.sin.sin_port = htons(serv->settings->port);
   serv->init.sin.sin_addr.s_addr = INADDR_ANY;
   if (bind(serv->socket, (const struct sockaddr *)&(serv->init.sin),
 	   sizeof(serv->init.sin)) == -1)

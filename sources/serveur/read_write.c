@@ -23,17 +23,13 @@ char			*client_write(t_serv *serv, int fd, char *line)
   if ((final = strdup(line)) == NULL)
     return (my_error_null(ERR_STRDUP));
   if ((cmd = strtok(line, " ")) == NULL)
-    return (my_error_null(BAD_CMD));
+    return (NULL);
   arg = strtok(NULL, "\n");
   pos = call_cmds(serv, cmd);
   if (pos == NB_CMDS)
     arg = strdup(final);
   if ((serv->cmds[pos](serv, fd, arg)) == EXIT_FAILURE)
-    {
-      if (my_write(fd, CMD_FAIL) == EXIT_FAILURE)
-	return (NULL);
-      return (NULL);
-    }
+    return (NULL);
   return ("toto");
 }
 

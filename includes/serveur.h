@@ -78,7 +78,7 @@ typedef struct		s_block
 {
   int			x;
   int			y;
-  int			items[8];
+  int			items[7];
 }			t_block;
 
 typedef struct		s_map
@@ -97,10 +97,11 @@ typedef struct		s_serv
   char			**AIFcts;
   tabFcts		cmds[NB_CMDS];
   t_init_serv		init;
-  t_map			map;
+  t_map			*map;
   t_client		*client;
   t_settings		*settings;
   t_parser		parse;
+  int			nb_client;
 }			t_serv;
 
 int		init_settings(t_settings *settings);

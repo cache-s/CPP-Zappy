@@ -40,7 +40,7 @@ int		main(UNUSED int ac, char **av)
   display_game_configuration(&serv);
   if (map_generation(&serv) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  /* if (init_server(&serv) ==  EXIT_FAILURE) */
-  /*   return (my_error(ERR_INIT_SRV)); */
+  if (init_server(&serv) ==  EXIT_FAILURE)
+    return (my_error(ERR_INIT_SRV));
   return (EXIT_SUCCESS);
 }

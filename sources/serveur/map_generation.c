@@ -14,13 +14,15 @@ int			map_generation(t_serv *serv)
 {
   int			i;
   int			j;
-
+  
   i = 0;
-  if ((serv->map.blocks = malloc(sizeof(t_block *) * serv->settings->width)) == NULL)
+  if ((serv->map = (t_map *)malloc(sizeof(t_map *))) == NULL)
+    return (my_error(ERR_MALLOC));
+  if ((serv->map->blocks = malloc(serv->settings->height * sizeof(t_block *))) == NULL)
     return (my_error(ERR_MALLOC));
   while (i < serv->settings->height)
     {
-      if ((serv->map.blocks[i] = malloc(sizeof(t_block))) == NULL)
+      if ((serv->map->blocks[i] = malloc(serv->settings->width * sizeof(t_block))) == NULL)
 	return (my_error(ERR_MALLOC));
       i++;
     }
@@ -30,19 +32,27 @@ int			map_generation(t_serv *serv)
       i = 0;
       while (i < serv->settings->height)
 	{
-	  jewels_food_generation(&(serv->map.blocks[i][j]), i, j);
-	  i++;
+	  jewels_food_generation(&(serv->map->blocks[i][j]), i, j);
+	  ++i;
 	}
-      j++;
+      ++j;
     }
   return (EXIT_SUCCESS);
 }
 
 int			jewels_food_generation(t_block *block, int i, int j)
 {
+  int			k;
+
+  k = 0;
+  k++;
+  while (k < 7)
+    {
+      block->items[k] = 0;
+      k++;
+    }
   block->x = i;
   block->y = j;
-  bzero(block->items, 8);
   if (rand() % 3 == 1)
     {
       block->items[rand() % 7] += 1;
