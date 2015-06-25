@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:00:38 2015 Mathieu Bourmaud
-** Last update Tue Jun 23 17:11:41 2015 Martin Porrès
+** Last update Thu Jun 25 16:51:57 2015 Jordan Chazottes
 */
 
 #ifndef		_ERRORS_H_
@@ -32,6 +32,7 @@
 #define		ERR_GETPROTO		"getprotobyname() has failed."
 #define		ERR_READ		"read() has failed"
 #define		ERR_WRITE		"write() has failed"
+#define		ERR_SERVER		"Error : server disconnected"
 
 /* COMMON ERRORS */
 #define		ERR_MEMSET		"memset() has failed"

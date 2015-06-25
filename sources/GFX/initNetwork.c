@@ -5,94 +5,87 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 23 13:04:16 2015 Jordan Chazottes
-** Last update Tue Jun 23 19:34:22 2015 Jordan Chazottes
+** Last update Thu Jun 25 18:27:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		new_client(t_gfx *s)
+int		initNetwork(t_gfx *s, char *ip, int port)
 {
-  int		cs;
-  int		client_len;
+  struct sockaddr_in    sin;
 
-  client_len = sizeof(s->network.sin_client);
-  if ((cs = accept(s->network.socket, (struct sockaddr *)&(s->network.sin_client),
-		   (socklen_t *)&client_len)) == -1)
-    return (my_error_close(ERR_ACCEPT, s->network.socket));
-  if (my_write(2, "connected") == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (create_client(s, cs) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (welcome_msg(cs) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  if ((s->network.socket = socket(AF_INET, SOCK_STREAM, getprotobyname("TCP")->p_proto)) == -1)
+    return (my_error(ERR_SOCKET));
+  sin.sin_family = AF_INET;
+  sin.sin_port = htons(port);
+  sin.sin_addr.s_addr = inet_addr(ip);
+  printf(BOLD GREEN "Connecting to server\n" END);
+  if (connect(s->network.socket, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
+    return (my_error_close(ERR_CONNECT, s->network.socket));
   return (EXIT_SUCCESS);
 }
 
-char		*client_read()
+int		gfx_loop(t_gfx *s)
 {
-  return NULL;
-}
-
-char		*client_write()
-{
-  return NULL;
-}
-
-int		welcome_msg(int cs)
-{
-  if (write(cs, "GRAPHIC\n", 8) == -1)
-    return (EXIT_FAILURE);
-  return (EXIT_SUCCESS);
-}
-
-int		create_client(t_gfx *s, int fd)
-{
-  t_server	*new;
-  
-  if ((new = malloc(sizeof(t_server))) == NULL)
-    return (my_error(ERR_MALLOC));
-  new->fd = fd;
-  new->fct_read = client_read;
-  new->fct_write = client_write;
-  new->need_write = 0;
-  s->server = new;
-  return (EXIT_SUCCESS);
-}
-
-int		accept_client(t_gfx *s)
-{
-  FD_ZERO(&s->network.readfd);
-  FD_ZERO(&s->network.writefd);
-  FD_SET(s->network.socket, &s->network.readfd);
-  if ((select(2, &s->network.readfd, &s->network.writefd, NULL, NULL)) == -1)
-    return (my_error_close(ERR_SELECT, s->network.socket));
-  if (FD_ISSET(s->network.socket, &s->network.readfd))
-    new_client(s);
-  /* check_fds_states(s); */
-  return (EXIT_SUCCESS);
-}
-
-int		initNetwork(t_gfx *s)
-{
-  if ((s->network.pe = getprotobyname("TCP")) == NULL)
-    return (my_error(ERR_GETPROTO));
-  if ((s->network.socket = socket(AF_INET, SOCK_STREAM, s->network.pe->p_proto)) == -1)
-    return (my_error_close(ERR_SOCKET, s->network.socket));
-  s->network.sin.sin_family = AF_INET;
-  s->network.sin.sin_port = htons(4242);
-  s->network.sin.sin_addr.s_addr = INADDR_ANY;
-  if (bind(s->network.socket, (const struct sockaddr *)&(s->network.sin),
-	   sizeof(s->network.sin)) == -1)
-    return (my_error_close(ERR_BIND, s->network.socket));
-  if (listen(s->network.socket, MAX_FD) == -1)
-    return (my_error_close(ERR_LISTEN, s->network.socket));
-  while (42 + 2 - 4 / 8 + 72)
+  FD_ZERO(&s->network.fd_read);
+  FD_ZERO(&s->network.fd_write);
+  s->network.cmd = NULL;
+  while (eventHandler() != -1)
     {
-      if (accept_client(s) == EXIT_FAILURE)
-	return (my_error(ERR_ACCEPT));
-      //read&write
-      //draw
+      FD_SET(s->network.socket, &s->network.fd_read);
+      if (select(s->network.socket + 1, &s->network.fd_read, &s->network.fd_write, NULL, NULL) == -1)
+	return (my_error(ERR_SELECT));
+      if (FD_ISSET(s->network.socket, &s->network.fd_read))
+	if (server_read(s) == EXIT_FAILURE)
+	  return (my_error(ERR_SERVER));
+      if (s->network.entire_cmd == 1)
+	FD_SET(s->network.socket, &s->network.fd_write);
+      if (FD_ISSET(s->network.socket, &s->network.fd_write))
+	{
+	  //call serv
+	  s->network.entire_cmd = 0;
+	}
     }
-  close(s->network.socket);
+  return (EXIT_SUCCESS);
+}
+
+int		server_read(t_gfx *s)
+{
+  char		*buffer;
+  int		ret;
+
+  if ((buffer =  malloc(BUFF_SIZE)) == NULL)
+    return (my_error(ERR_MALLOC));
+  bzero(buffer, BUFF_SIZE);
+  if ((ret = read(s->network.socket, buffer, BUFF_SIZE - 1)) <= 0)
+    return (EXIT_FAILURE);
+  if (save_srv_cmd(s, buffer) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  free(buffer);
+  if (ret == BUFF_SIZE - 1)
+    s->network.entire_cmd = 0;
+  else
+    {
+      s->network.entire_cmd = 1;
+      printf("Server msg : %s", s->network.cmd);
+    }
+  return (EXIT_SUCCESS);
+}
+
+int                     save_srv_cmd(t_gfx *s, char *buffer)
+{
+  if (s->network.cmd == NULL)
+    {
+      if ((s->network.cmd = strdup(buffer)) == NULL)
+	return (my_error(ERR_STRDUP));
+    }
+  else
+    {
+      if ((s->network.cmd = realloc(s->network.cmd, strlen(s->network.cmd)
+				     + strlen(buffer) + 1)) == NULL)
+	return (my_error(ERR_REALLOC));
+      if ((s->network.cmd = strcat(s->network.cmd, buffer)) == NULL)
+	return (my_error(ERR_STRCAT));
+    }
   return (EXIT_SUCCESS);
 }
