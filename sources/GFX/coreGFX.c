@@ -5,20 +5,21 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Tue Jun 23 12:53:08 2015 Jordan Chazottes
+** Last update Thu Jun 25 13:48:06 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		coreGFX(void) // change ip / port
+int		coreGFX(char *ip, int port)
 {
   t_gfx		s;
+  int		ret;
 
   initStruct(&s);
-  initNetwork(&s);
+  if (initNetwork(&s, ip, port) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   initWindow(&s);
-  while (eventHandler() != -1)
-    {
-      //onfédestrucs
-    }
+  ret = gfx_loop(&s);
+  close (s.network.socket);
+  return (ret);  
 }
