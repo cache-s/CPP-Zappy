@@ -17,7 +17,7 @@ char			*block_to_str(t_block *block)
   
   i = 0;
   cmd = strdup("bct");
-  if ((cmd = realloc(cmd, strlen(itoa(block->x)) + strlen(itoa(block->y)) + 8)) == NULL)
+  if ((cmd = realloc(cmd, strlen(itoa(block->x)) + strlen(itoa(block->y)) + 10)) == NULL)
     return (my_error_null(ERR_MALLOC));
   cmd = strcat(cmd, " ");
   cmd = strcat(cmd, itoa(block->x));
@@ -26,7 +26,7 @@ char			*block_to_str(t_block *block)
   cmd = strcat(cmd, " ");
   while (i < 7)
     {
-      if ((cmd = realloc(cmd, strlen(cmd) + strlen(itoa(block->items[i]) + 4))) == NULL)
+      if ((cmd = realloc(cmd, strlen(cmd) + strlen(itoa(block->items[i]) + 5))) == NULL)
   	return (my_error_null(ERR_REALLOC));
       cmd = strcat(cmd, itoa(block->items[i]));
       if (i + 1 != 7)
@@ -36,13 +36,10 @@ char			*block_to_str(t_block *block)
   return (cmd);
 }
 
-int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
+int			write_msz(t_serv *serv, t_client *client)
 {
   char			*msz;
-  int			i;
-  int			j;
-
-  i = 0;
+  
   if ((msz = malloc(sizeof(char) * 17)) == NULL)
     return (my_error(ERR_MALLOC));
   msz = strcpy(msz, "msz ");
@@ -50,6 +47,59 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
   msz = strcat(msz, " ");
   msz = strcat(msz, itoa(serv->settings->height));
   if (my_write(client->fd, msz) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  free(msz);
+  return (EXIT_SUCCESS);
+}
+
+int			write_sgt(t_serv *serv, t_client *client)
+{
+  char			*sgt;
+  
+  if ((sgt = malloc(sizeof(char) * 15)) == NULL)
+    return (my_error(ERR_MALLOC));
+  sgt = strcpy(sgt, "sgt ");
+  sgt = strcat(sgt, itoa(serv->settings->delay));
+  if (my_write(client->fd, sgt) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  free(sgt);
+  return (EXIT_SUCCESS);
+}
+
+int			write_tna(t_serv *serv, t_client *client)
+{
+  char			*str;
+  char			*tna;
+  char			*tmp;
+  (void)client;
+
+  tmp = strdup(serv->settings->teams);
+  printf("%s\n", serv->settings->teams);
+  str = strtok(tmp, ";");
+  while (str != NULL)
+    {
+      if ((tna = malloc(strlen(str) + strlen("tna ") + 10)) == NULL)
+      	return (my_error(ERR_MALLOC));
+      tna = strcpy(tna, "tna ");
+      tna = strcat(tna, str);
+      if (my_write(client->fd, tna) == EXIT_FAILURE)
+      	return (EXIT_FAILURE);
+      str = strtok(NULL, ";");
+    }
+  free(str);
+  return (EXIT_SUCCESS);
+}
+
+int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
+{
+  int			i;
+  int			j;
+
+  i = 0;
+  client->gfx = 1;
+  if (write_msz(serv, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (write_sgt(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   while (i < serv->settings->width)
     {
@@ -62,5 +112,7 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
 	}
       i++;
     }
+  if (write_tna(serv, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

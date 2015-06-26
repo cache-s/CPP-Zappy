@@ -71,6 +71,7 @@ typedef struct		s_client
   char			need_write;
   char			*cmd;
   int			orientation;
+  char			gfx;
   struct s_client	*next;
 }			t_client;
 
@@ -152,5 +153,9 @@ int		fill_delay(t_settings *settings, char *av, int i);
 int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
+
+int		write_msz(t_serv *serv, t_client *client);
+int		write_sgt(t_serv *serv, t_client *client);
+int		write_tna(t_serv *serv, t_client *client);
 
 #endif
