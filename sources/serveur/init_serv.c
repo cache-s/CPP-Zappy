@@ -85,6 +85,7 @@ int			init_server(t_serv *serv)
   if (listen(serv->socket, MAX_FD) == -1)
     return (my_error_close(ERR_LISTEN, serv->socket));
   init_AI_tabs(serv);
+  display_game_configuration(serv);
   while (42)
     if (accept_clients(serv) == EXIT_FAILURE)
       return (my_error(ERR_ACCEPT));

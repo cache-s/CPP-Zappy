@@ -5,16 +5,16 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Fri Jun 26 11:55:44 2015 Martin Porrès
+## Last update Fri Jun 26 11:56:35 2015 Martin Porrès
 ##
 
 NAME_AI		=	./libs/libAI.so
 
 NAME_CONNECTOR	=	./libs/libAI_c_connector.so
 
-NAME_SERVEUR	=	server
+NAME_SERVEUR	=	zappy_server
 
-NAME_CLIENT	=	client
+NAME_CLIENT	=	zappy_ai
 
 NAME_GFX	=	gfx
 
@@ -50,6 +50,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/welcome_msg.c		\
 			sources/serveur/init_tabs.c		\
 			sources/serveur/cmd_broadcast.c		\
+			sources/serveur/cmd_graphic.c		\
 			sources/serveur/cmd_kick.c		\
 			sources/serveur/cmd_inventory.c		\
 			sources/serveur/cmd_incantation.c	\
@@ -73,9 +74,12 @@ SRCS_CLIENT	=	sources/client/main.c		\
 SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
 			sources/GFX/coreGFX.c		\
+			sources/GFX/gfx_loop.c		\
 			sources/GFX/initStruct.c	\
 			sources/GFX/initWindow.c	\
+			sources/GFX/server_read.c	\
 			sources/GFX/initNetwork.c	\
+			sources/GFX/save_srv_cmd.c	\
 			sources/GFX/eventHandler.c	\
 			$(SRCS_COMMONS)
 
@@ -84,6 +88,7 @@ SRCS_COMMONS	=	sources/misc/errors.c		\
 			sources/misc/rm_spaces.c	\
 			sources/misc/count_char.c	\
 			sources/misc/my_write.c		\
+			sources/misc/itoa.c		\
 
 OBJS_AI		=	$(SRCS_AI:.cpp=.o)
 

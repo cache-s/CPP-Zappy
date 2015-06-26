@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Thu Jun 25 13:48:06 2015 Jordan Chazottes
+** Last update Thu Jun 25 18:32:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -18,7 +18,7 @@ int		coreGFX(char *ip, int port)
   initStruct(&s);
   if (initNetwork(&s, ip, port) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  initWindow(&s);
+  /* initWindow(&s); */
   ret = gfx_loop(&s);
   close (s.network.socket);
   return (ret);  
