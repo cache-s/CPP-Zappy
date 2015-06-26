@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Fri Jun 26 11:54:22 2015 Martin Porrès
-** Last update Fri Jun 26 15:19:14 2015 Martin Porrès
+** Last update Fri Jun 26 15:22:28 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -57,10 +57,6 @@ int			init_connection(t_client *client)
 	return (my_error(ERR_WELCOME));
       client->y = atoi(tmp);
       client->init++;
-      if (client->srv_cmd != NULL)
-	free(client->srv_cmd);
-      if ((client->srv_cmd = malloc(1)) == NULL)
-	return (my_error(ERR_MALLOC));
       client->srv_cmd = "";
       // call ai for settings
       printf("Num client : %d\nX : %d\n Y : %d\n", client->num_client, client->x, client->y);
