@@ -5,9 +5,8 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Thu Jun 25 18:23:28 2015 Martin Porrès
+** Last update Fri Jun 26 11:55:20 2015 Martin Porrès
 */
-
 
 #include		"client.h"
 #include		"AI_c_connector.h"
@@ -36,83 +35,60 @@ int			client_loop(t_client *client)
 {
   fd_set		fd_read;
   fd_set		fd_write;
-  int			init;
 
-  init = 0;
-  FD_ZERO(&fd_read);
+  client->init = 0;
   FD_ZERO(&fd_write);
   client->srv_cmd = NULL;
+  client->clt_cmd = NULL;
   while (1)
     {
+      FD_ZERO(&fd_read);
       FD_SET(client->fd_socket, &fd_read);
       if (select(client->fd_socket + 1, &fd_read, &fd_write, NULL, NULL) == -1)
 	return (my_error(ERR_SELECT));
+      FD_ZERO(&fd_write);
       if (FD_ISSET(client->fd_socket, &fd_read))
-      	if (server_read(client) == EXIT_FAILURE)
-      	  return (my_error(ERR_SERVER));
-      if (client->entire_cmd == 1)
-	FD_SET(client->fd_socket, &fd_write);
-      if (FD_ISSET(client->fd_socket, &fd_write))
-	{
-	  if (init)
-	    AI_call(client->srv_cmd);
-	  else
-	    init_connection(client, init);
-	  client->entire_cmd = 0;
-	  free(client->srv_cmd);
-	}
+	if (handle_cmd(client, &fd_write) == EXIT_FAILURE)
+	  return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }
 
-int			init_connection(t_client *client)
+int			handle_cmd(t_client *client, fd_set *fd_write)
 {
-  char			*tmp;
-  int			is_tok;
-
-  is_tok = 0;
-  if (init == 0)
-    if (strcmp("BIENVENUE\n", str) != 0)
-      return (my_error(ERR_WELCOME));
-    else
-      {
-	init++;
-	if (write(client->fd_socket, client->team_name, strlen(client->team_name)) == -1)
-	  return (my_error(ERR_WRITE));
-      }
-  else
+  if (server_read(client) == EXIT_FAILURE)
+    return (my_error(ERR_SERVER));
+  if (client->entire_cmd == 1)
     {
-      if (init == 1)
-	if ((tmp = strtok(client->srv_cmd, "\n")) == NULL)
-	  return (my_error(ERR_WELCOME));
-	else
-	  {
-	    is_tok++;
-	    if (my_regex(tmp, "0123456789") == EXIT_FAILURE)
-	      return (my_error(ERR_WELCOME));
-	    client->num_client = atoi(tmp);
-	    init++;
-	  }
-      if (is_tok)
-	{
-	  if ((tmp = strtok(client->srv_cmd, " ")) == NULL)
-	    return (EXIT_SUCCESS);
-	}
+      if (client->init == 3)
+	/*client->clt_cmd = */AI_call(client->srv_cmd);
       else
-	if ((tmp = strtok(NULL, " ")) == NULL)
-	  return (EXIT_SUCCESS);	  
-      if (my_regex(tmp, "0123456789") == EXIT_FAILURE)
-	return (my_error(ERR_WELCOME));
-      client->x = atoi(tmp);
-      if ((tmp = strtok(NULL, "\n")) == NULL)
-	return (my_error(ERR_WRITE));
-      if (my_regex(tmp, "0123456789") == EXIT_FAILURE)
-	return (my_error(ERR_WELCOME));
-      client->y = atoi(tmp);
-      init++;
-      // call ai for settings
-      printf("Num client : %d\nX : %d\n Y : %d\n", client->num_client, client->x, client->y);
+	if (init_connection(client) == EXIT_FAILURE)
+	  return (EXIT_FAILURE);
+      if (write_cmd(client, fd_write) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
     }
+  return (EXIT_SUCCESS);
+}
+
+int			write_cmd(t_client *client, fd_set *fd_write)
+{
+  if (client->clt_cmd == NULL)
+    return (EXIT_SUCCESS);
+  FD_SET(client->fd_socket, fd_write);
+  if (FD_ISSET(client->fd_socket, fd_write))
+    {
+      if (write(client->fd_socket, client->clt_cmd, strlen(client->clt_cmd)) == -1)
+	return (my_error(ERR_WRITE));
+      if (write(client->fd_socket, "\n", 1) == -1)
+	return (my_error(ERR_WRITE));  
+      free(client->clt_cmd);
+      client->clt_cmd = NULL;
+      if (client->srv_cmd != NULL)
+	free(client->srv_cmd);
+      client->srv_cmd = NULL;
+    }
+  return (EXIT_SUCCESS);
 }
 
 int			server_read(t_client *client)

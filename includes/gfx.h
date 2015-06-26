@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Tue Jun 23 19:30:55 2015 Jordan Chazottes
+** Last update Thu Jun 25 13:46:13 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -24,6 +24,7 @@
 # include	<sys/socket.h>
 # include	<netinet/in.h>
 # include	<netinet/ip.h>
+# include	<arpa/inet.h>
 # include	<netdb.h>
 /* /NETWORK/ */
 
@@ -32,6 +33,8 @@
 /* /INCLUDE/ */
 
 # define		MAX_FD		1000
+#define                 BUFF_SIZE       8
+
 typedef			char*(*fct)();
 /* STRUCT */
 
@@ -43,30 +46,22 @@ typedef struct		s_network
   struct sockaddr_in	sin;
   struct sockaddr_in	sin_client;
   int			socket;
+  char			entire_cmd;
   fd_set		readfd;
   fd_set		writefd;
+  char			*cmd;
+  fd_set		fd_read;
+  fd_set		fd_write;
 }			t_network;
-
-typedef struct		s_server
-{
-  int			fd;
-  fct			fct_read;
-  fct			fct_write;
-  char			need_write;
-}			t_server;
 
 /* DISPLAY*/
 
-typedef struct		s_ressources
+typedef struct		s_block
 {
-  int			no;
-  int			li;
-  int			de;
-  int			si;
-  int			me;
-  int			ph;
-  int			th;
-}			t_ressources;
+  int			x;
+  int			y;
+  int			items[8];
+}			t_block;
 
 typedef struct		s_player
 {
@@ -78,32 +73,34 @@ typedef struct		s_player
 
 typedef struct		s_map
 {
-  t_ressources		resList;
+  t_block		**blocks;
 }			t_map;
 
 typedef struct		s_gfx
 {
-  SDL_Surface*		screen;
   int			width;
   int			height;
+  SDL_Surface*		screen;
   t_network		network;
-  t_server		*server;
+  t_map			map;
 }			t_gfx;
 
 int		main(int ac, char** av);
 int		usage(void);
-void		coreGFX(void);
+int		coreGFX(char *ip, int port);
 void		initStruct(t_gfx* s);
 void		initWindow(t_gfx* s);
-int		initNetwork(t_gfx* s);
+int		initNetwork(t_gfx* s, char *ip, int port);
 int		eventHandler();
 char		*client_read();
 char		*client_write();
 
 int             my_write(int fd, char *str);
-char		*client_read();
-char		*client_write();
-int		create_client(t_gfx*, int);
-int		welcome_msg(int);
-
+/* char		*client_read(); */
+/* char		*client_write(); */
+/* int		create_client(t_gfx*, int); */
+/* int		welcome_msg(int); */
+int		server_read(t_gfx *s);
+int		gfx_loop(t_gfx *s);
+int		save_srv_cmd(t_gfx *s, char *buffer);
 #endif

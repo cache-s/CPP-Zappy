@@ -5,17 +5,14 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:19:44 2015 Jordan Chazottes
-** Last update Tue Jun 16 13:53:12 2015 Jordan Chazottes
+** Last update Thu Jun 25 13:46:27 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
 int		main(int ac, char **av)
 {
-  (void)av; // delete
-  (void)ac; // delete
-  /* if (ac != 3) */
-  /*   return (usage()); */
-  coreGFX(); // change : ip / port
-  return 0;
+  if (ac != 3)
+    return (usage());
+  return (coreGFX(av[1], atoi(av[2])));
 }

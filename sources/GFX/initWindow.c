@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 18 12:30:42 2015 Jordan Chazottes
-** Last update Thu Jun 18 12:38:32 2015 Jordan Chazottes
+** Last update Thu Jun 25 15:02:27 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -18,5 +18,6 @@ void		initWindow(t_gfx *s)
       return;
     }
   SDL_WM_SetCaption("Zappy", "Zappy");
-  s->screen = SDL_SetVideoMode(1920, 1080, 32, SDL_SWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN); // PLEIN ECRAN FULLSCREEN
+  /* s->screen = SDL_SetVideoMode(1920, 1080, 32, SDL_SWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN); // PLEIN ECRAN FULLSCREEN */
+  s->screen = SDL_SetVideoMode(720, 480, 32, SDL_SWSURFACE | SDL_DOUBLEBUF); // PLEIN ECRAN FULLSCREEN
 }

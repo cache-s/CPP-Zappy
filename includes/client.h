@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Thu Jun 25 18:00:27 2015 Martin Porrès
+** Last update Fri Jun 26 11:49:12 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
@@ -27,7 +27,7 @@ typedef			int(*args_fct)();
 
 #define			MAX_ARGS	3
 #define			MAX_LEN		3
-#define			BUFF_SIZE	8
+#define			BUFF_SIZE	4096
 
 typedef struct		s_parser
 {
@@ -46,7 +46,9 @@ typedef struct		s_client
   int			x;
   int			y;
   int			entire_cmd;
+  int			init;
   char			*srv_cmd;
+  char			*clt_cmd;
 }			t_client;
 
 int			parsing(int ac, char **av);
@@ -61,5 +63,8 @@ int			connect_to_server(t_client *client);
 int			client_loop(t_client *client);
 int			server_read(t_client *client);
 int			save_srv_cmd(t_client *client, char *buffer);
+int			init_connection(t_client *client);
+int			write_cmd(t_client *client, fd_set *fd_write);
+int			handle_cmd(t_client *client, fd_set *fd_write);
 
 #endif
