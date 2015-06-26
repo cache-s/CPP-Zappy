@@ -71,6 +71,8 @@ typedef struct		s_client
   char			need_write;
   char			*cmd;
   int			orientation;
+  int			x;
+  int			y;
   struct s_client	*next;
 }			t_client;
 
