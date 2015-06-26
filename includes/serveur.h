@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Tue Jun 16 13:11:45 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 13:31:24 2015 Jordan Chazottes
 */
 
 #ifndef			_SERVEUR_H_

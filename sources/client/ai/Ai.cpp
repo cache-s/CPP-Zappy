@@ -1,11 +1,11 @@
-<//
+//
 // Ai.cpp for  in /home/charie_p/rendu/PSU_2014_zappy/sources/client/ai
 //
 // Made by Pierre Charie
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Thu Jun 25 12:01:18 2015 Pierre Charie
+// Last update Thu Jun 25 17:03:15 2015 Sebastien Cache-Delanos
 //
 
 #include "Ai.cpp"

@@ -5,13 +5,18 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Wed Jun 24 19:46:58 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 14:48:31 2015 Sebastien Cache-Delanos
 //
 
-#include		"AI.h"
+#include		"AI.hpp"
 
 AI::AI()
 {
+  _isWaiting = false;
+  _cmdRcv = "";
+  _cmdSnd = "";
+  _objective = "";
+
   _handleResponse["avance"] = &AI::forward;
   _handleResponse["droite"] = &AI::right;
   _handleResponse["gauche"] = &AI::left;
@@ -22,12 +27,12 @@ AI::AI()
   _handleResponse["fork"] = &AI::fork;
   _handleResponse["connect_nbr"] = &AI::connect_nbr;
   _handleResponse["mort"] = &AI::death;
-  /*
-	TODO:
-	- add "prendre objet"
-	- add "pose objet"
-   */
 
+  /*
+  **  TODO:
+  **  - add "prendre objet"
+  **  - add "pose objet"
+  */
 }
 
 AI::~AI()
@@ -35,16 +40,31 @@ AI::~AI()
 
 }
 
-const char*		AI::call(const char* cmdRcv)
+char*			AI::call(const char* cmdRcv)
 {
+  char*			ret;
+
+  std::cout << "debug cpp AI_call()" << std::endl;
   _cmdRcv = cmdRcv;
+  act();
+  ret = &_cmdSnd[0u];
+  return (ret);
+}
 
+void			AI::act()
+{
   if (_isWaiting)
-    (this->*_handleResponse[_cmdSnd])();
-
-  //doStuff
-
-  return (_cmdSnd.c_str());
+    {
+      (this->*_handleResponse[_cmdSnd])();
+      _isWaiting = false;
+    }
+  if (_objective == "")
+    {
+      _cmdSnd = "voir";
+      _isWaiting = true;
+    }
+  std::cout << "reçu dans l'ia : " << _cmdRcv << std::endl;
+  //doObjective
 }
 
 void			AI::forward()

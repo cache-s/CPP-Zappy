@@ -5,7 +5,7 @@
 ** Login   <cache-_s@epitech.net>
 ** 
 ** Started on  Wed Jun 24 11:40:10 2015 Sebastien Cache-Delanos
-** Last update Wed Jun 24 18:08:56 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 12:56:54 2015 Sebastien Cache-Delanos
 */
 
 #ifndef				AI_C_CONNECTOR_H
@@ -15,7 +15,7 @@
 extern "C" {
 # endif
 
-const char* AI_call(const char *cmdRcv);
+char*				AI_call(const char *cmdRcv);
 
 # ifdef __cplusplus
 }
