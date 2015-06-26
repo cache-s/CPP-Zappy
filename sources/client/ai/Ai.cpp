@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Thu Jun 25 17:03:15 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 14:50:39 2015 Pierre Charie
 //
 
 #include "Ai.cpp"
@@ -153,7 +153,7 @@ void Ai::communicate(std::string cmd)
 }
 
 
-void Ai::move()
+void	Ai::move()
 {
   int direction;
   if (_targetID != NULL)
@@ -179,11 +179,52 @@ void Ai::move()
     }
 }
 
-void Ai::checkInventory()
+void	Ai::checkInventory()
 {
 }
 
-void Ai::checkVision()
+void	Ai::setInstruction(int mapCase, std::string obj)
+{
+  int y = 0, x = 0, pos = 0, i = 3, median = 0;
+
+  while (pos <= mapCase)
+    {
+      pos += i;
+      i += 2;
+      y++;
+    }
+  median = (pos + 1 + pos - i) / 2;
+  x = pos - median;
+
+  while (y > 0)
+    {
+      _instruction.pushBack("avance");
+      y--;
+    }
+  if (x > 0)
+    {
+      _instruction.pushBack("droite");
+      while (x > 0)
+	{
+	  _instruction.pushBack("avance");
+	  x--;
+	}
+    }
+  else
+    {
+      _instruction.pushBack("gauche");
+      while (x < 0)
+	{
+	  _instruction.pushBack("avance");
+	  x++;
+	}
+    }
+  std::string tmp;
+  tmp = "ramasse " + obj;
+  _instruction.pushBack(tmp);
+}
+
+void	Ai::checkVision()
 {
   int i = 0;
 
@@ -192,13 +233,13 @@ void Ai::checkVision()
       int j = 0;
       while (_vision[i][j])
 	{
-	  if (_inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])])
+	  if ((_inventory[_vision[i][j]] == "nourriture" && _inventory["nourriture"] < 126) || (_inventory[_vision[i][j]] != "nourriture" && _inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])]))
 	    {
 	      if (i == 0)
 		ramasse;
 	      else
 		{
-		  //TODO on y va
+		  setInstruction(i, _vision[i][j]);
 		}
 	    }
 	  j++;
