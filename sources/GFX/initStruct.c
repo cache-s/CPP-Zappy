@@ -5,15 +5,20 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 14:23:03 2015 Jordan Chazottes
-** Last update Fri Jun 26 13:23:13 2015 Jordan Chazottes
+** Last update Fri Jun 26 15:50:11 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
 void		initStruct(t_gfx *s)
 {
-  s->width = 800;
-  s->height = 600;
+  s->width = 0;
+  s->height = 0;
+  s->screen = NULL;
+
+  s->network.socket = 0;
   s->network.entire_cmd = 0;
+  s->network.cmd = NULL;
   s->network.init = 0;
+
 }

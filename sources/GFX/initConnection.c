@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 13:29:44 2015 Jordan Chazottes
-** Last update Fri Jun 26 14:48:38 2015 Jordan Chazottes
+** Last update Fri Jun 26 15:11:56 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -31,7 +31,8 @@ int		initConnection(t_gfx *s)
   if (s->network.init == 0)
     if (welcomeServ(s) == EXIT_FAILURE)
       return (EXIT_FAILURE);
-  /* if (s->network.init == 1) */
-  /*   if (initMap */
+  if (s->network.init == 1)
+    if (initMap(s) == EXIT_FAILURE)
+      return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
