@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 15:23:01 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 16:06:25 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -42,7 +42,6 @@ AI::~AI()
 
 char*			AI::call(const char* cmdRcv)
 {
-  std::cout << "debug cpp AI_call()" << std::endl;
   _cmdRcv = cmdRcv;
   act();
 
@@ -60,10 +59,10 @@ void			AI::act()
     }
   if (_objective == "")
     {
-      _cmdSnd = "voir";
+      _cmdSnd = "inventaire";
       _isWaiting = true;
     }
-  std::cout << "reçu dans l'ia : " << _cmdRcv << std::endl;
+  std::cout << _cmdRcv << std::endl;
   //doObjective
 }
 
