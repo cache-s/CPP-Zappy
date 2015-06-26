@@ -5,9 +5,8 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Wed Jun 24 18:09:05 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 16:07:04 2015 Sebastien Cache-Delanos
 */
-
 
 #include		"client.h"
 #include		"AI_c_connector.h"
@@ -37,24 +36,54 @@ int			client_loop(t_client *client)
   fd_set		fd_read;
   fd_set		fd_write;
 
-  FD_ZERO(&fd_read);
+  client->init = 0;
   FD_ZERO(&fd_write);
   client->srv_cmd = NULL;
+  client->clt_cmd = NULL;
   while (1)
     {
+      FD_ZERO(&fd_read);
       FD_SET(client->fd_socket, &fd_read);
       if (select(client->fd_socket + 1, &fd_read, &fd_write, NULL, NULL) == -1)
 	return (my_error(ERR_SELECT));
+      FD_ZERO(&fd_write);
       if (FD_ISSET(client->fd_socket, &fd_read))
-      	if (server_read(client) == EXIT_FAILURE)
-      	  return (EXIT_FAILURE);
-      if (client->entire_cmd == 1)
-	FD_SET(client->fd_socket, &fd_write);
-      if (FD_ISSET(client->fd_socket, &fd_write))
-	{
-	  AI_call("");
-	  client->entire_cmd = 0;
-	}
+	if (handle_cmd(client, &fd_write) == EXIT_FAILURE)
+	  return (EXIT_FAILURE);
+    }
+  return (EXIT_SUCCESS);
+}
+
+int			handle_cmd(t_client *client, fd_set *fd_write)
+{
+  if (server_read(client) == EXIT_FAILURE)
+    return (my_error(ERR_SERVER));
+  if (client->entire_cmd == 1)
+    {
+      if (client->init < 3 && init_connection(client) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      if (client->init == 3)
+	client->clt_cmd = AI_call(client->srv_cmd);
+      if (write_cmd(client, fd_write) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+    }
+  return (EXIT_SUCCESS);
+}
+
+int			write_cmd(t_client *client, fd_set *fd_write)
+{
+  if (client->srv_cmd != NULL && strcmp(client->srv_cmd, "") != 0)
+    free(client->srv_cmd);
+  client->srv_cmd = NULL;
+  if (client->clt_cmd == NULL)
+    return (EXIT_SUCCESS);
+  FD_SET(client->fd_socket, fd_write);
+  if (FD_ISSET(client->fd_socket, fd_write))
+    {
+      if (write(client->fd_socket, client->clt_cmd, strlen(client->clt_cmd)) == -1)
+	return (my_error(ERR_WRITE));
+      if (write(client->fd_socket, "\n", 1) == -1)
+	return (my_error(ERR_WRITE));
     }
   return (EXIT_SUCCESS);
 }
@@ -68,7 +97,7 @@ int			server_read(t_client *client)
     return (my_error(ERR_MALLOC));
   bzero(buffer, BUFF_SIZE);
   if ((ret = read(client->fd_socket, buffer, BUFF_SIZE - 1)) <= 0)
-    return (EXIT_FAILURE);
+    return (my_error(ERR_READ));
   if (save_srv_cmd(client, buffer) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   free(buffer);
