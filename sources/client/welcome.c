@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Fri Jun 26 11:54:22 2015 Martin Porrès
-** Last update Fri Jun 26 11:55:11 2015 Martin Porrès
+** Last update Fri Jun 26 14:50:07 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -16,8 +16,7 @@ int			init_connection(t_client *client)
   int			is_tok;
 
   is_tok = 0;
-  if (client->init == 0)
-    // WELCOME
+  if (client->init == 0) // WELCOME
     if (strcmp("BIENVENUE\n", client->srv_cmd) != 0)
       return (my_error(ERR_WELCOME));
     else
@@ -25,13 +24,11 @@ int			init_connection(t_client *client)
 	client->init++;
 	if ((client->clt_cmd = strdup(client->team_name)) == NULL)
 	  return (my_error(ERR_STRDUP));
-      }
-  // END WELCOME
+      }// END WELCOME
   else
     {
       if (client->init == 1)
-	{
-	  // NUM CLIENT
+	{	  // NUM CLIENT
 	  if ((tmp = strtok(client->srv_cmd, "\n")) == NULL)
 	    return (my_error(ERR_WELCOME));
 	  else
@@ -41,10 +38,8 @@ int			init_connection(t_client *client)
 		return (my_error(ERR_WELCOME));
 	      client->num_client = atoi(tmp);
 	      client->init++;
-	    }
-	  // END NUM CLIENT
-	}
-      // PLAYER POS
+	    } // END NUM CLIENT
+	}      // PLAYER POS
       if (is_tok)
 	{
 	  if ((tmp = strtok(NULL, " ")) == NULL)
