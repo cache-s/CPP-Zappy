@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:38:38 2015 Jordan Chazottes
-** Last update Thu Jun 25 18:39:20 2015 Jordan Chazottes
+** Last update Fri Jun 26 13:48:30 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -27,8 +27,8 @@ int		server_read(t_gfx *s)
     s->network.entire_cmd = 0;
   else
     {
+      printf("Server message : %s\n", s->network.cmd);
       s->network.entire_cmd = 1;
-      printf("Server msg : %s", s->network.cmd);
     }
   return (EXIT_SUCCESS);
 }

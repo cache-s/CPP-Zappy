@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Tue Jun 16 13:11:45 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 13:31:24 2015 Jordan Chazottes
 */
 
 #ifndef			_SERVEUR_H_
@@ -73,6 +73,7 @@ typedef struct		s_client
   int			orientation;
   int			x;
   int			y;
+  char			gfx;
   struct s_client	*next;
 }			t_client;
 
@@ -154,5 +155,9 @@ int		fill_delay(t_settings *settings, char *av, int i);
 int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
+
+int		write_msz(t_serv *serv, t_client *client);
+int		write_sgt(t_serv *serv, t_client *client);
+int		write_tna(t_serv *serv, t_client *client);
 
 #endif

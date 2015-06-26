@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Thu Jun 25 18:42:57 2015 Jordan Chazottes
+## Last update Fri Jun 26 15:46:44 2015 Sebastien Cache-Delanos
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -18,7 +18,6 @@ NAME_CLIENT	=	zappy_ai
 
 NAME_GFX	=	gfx
 
-# CC		=	LD_LIBRARY_PATH=$(PWD) gcc
 CC		=	gcc
 
 CXX		=	g++
@@ -68,6 +67,7 @@ SRCS_CLIENT	=	sources/client/main.c		\
 			sources/client/parsing.c	\
 			sources/client/parsing_fct.c	\
 			sources/client/connect.c	\
+			sources/client/welcome.c	\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\
@@ -80,6 +80,8 @@ SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/initNetwork.c	\
 			sources/GFX/save_srv_cmd.c	\
 			sources/GFX/eventHandler.c	\
+			sources/GFX/initConnection.c	\
+			sources/GFX/handleCmd.c		\
 			$(SRCS_COMMONS)
 
 SRCS_COMMONS	=	sources/misc/errors.c		\

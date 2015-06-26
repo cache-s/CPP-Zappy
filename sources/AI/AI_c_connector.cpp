@@ -5,13 +5,13 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:39:45 2015 Sebastien Cache-Delanos
-// Last update Wed Jun 24 18:05:23 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 12:57:59 2015 Sebastien Cache-Delanos
 //
 
 #include			<cstdlib>
 
 #include			"AI_c_connector.h"
-#include			"AI.h"
+#include			"AI.hpp"
 
 #ifdef __cplusplus
 extern "C" {
@@ -27,7 +27,7 @@ extern "C" {
       }
   }
 
-  const char* AI_call(const char *cmdRcv)
+  char* AI_call(const char *cmdRcv)
   {
     lazyAI();
     return (AI_instance->call(cmdRcv));
