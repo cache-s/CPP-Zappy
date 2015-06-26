@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Thu Jun 25 13:46:13 2015 Jordan Chazottes
+** Last update Fri Jun 26 13:34:09 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -33,7 +33,9 @@
 /* /INCLUDE/ */
 
 # define		MAX_FD		1000
-#define                 BUFF_SIZE       8
+# define                BUFF_SIZE       8
+# define		WELCOME		"BIENVENUE\n"
+# define		GRAPHIC		"GRAPHIC\n"
 
 typedef			char*(*fct)();
 /* STRUCT */
@@ -52,6 +54,7 @@ typedef struct		s_network
   char			*cmd;
   fd_set		fd_read;
   fd_set		fd_write;
+  char			init;
 }			t_network;
 
 /* DISPLAY*/
@@ -103,4 +106,6 @@ int             my_write(int fd, char *str);
 int		server_read(t_gfx *s);
 int		gfx_loop(t_gfx *s);
 int		save_srv_cmd(t_gfx *s, char *buffer);
+int		handleCmd(t_gfx *s);
+int		initConnection(t_gfx *s);
 #endif
