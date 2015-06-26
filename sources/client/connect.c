@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Fri Jun 26 15:20:35 2015 Martin Porrès
+** Last update Fri Jun 26 15:44:33 2015 Sebastien Cache-Delanos
 */
 
 #include		"client.h"
@@ -75,7 +75,8 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
 
 int			write_cmd(t_client *client, fd_set *fd_write)
 {
-  if (client->srv_cmd != NULL)
+  printf("client->srv_cmd : %s\n", client->srv_cmd);
+  if (client->srv_cmd != NULL && strcmp(client->srv_cmd, "") != 0)
     free(client->srv_cmd);
   client->srv_cmd = NULL;
   if (client->clt_cmd == NULL)
@@ -87,8 +88,6 @@ int			write_cmd(t_client *client, fd_set *fd_write)
 	return (my_error(ERR_WRITE));
       if (write(client->fd_socket, "\n", 1) == -1)
 	return (my_error(ERR_WRITE));
-      free(client->clt_cmd);
-      client->clt_cmd = NULL;
     }
   return (EXIT_SUCCESS);
 }
