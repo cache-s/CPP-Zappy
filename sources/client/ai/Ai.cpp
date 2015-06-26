@@ -5,10 +5,10 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Fri Jun 26 15:23:30 2015 Pierre Charie
+// Last update Fri Jun 26 17:24:09 2015 Pierre Charie
 //
 
-#include "Ai.cpp"
+#include "Ai.hpp"
 
 Ai::Ai(int ID)
 {
@@ -128,32 +128,31 @@ void Ai::communicate(std::string cmd)
   std::string answer;
 
   if (cmd.find("AliveCheck"))
-    answer = "Alive(" + _level + ")";
+    answer = "Alive(" + std::to_string(_level) + ")";
   if (cmd.find ("PING ") && cmd.find(_ID))
     answer = "PONG " + _ID;
   if (cmd.find ("INV(") && cmd.find(_level))
     answer = cmd;
   if (cmd.find("OKINV") && cmd.find(_level)) //TODO verifier si la syntaxe issue de getline est correcte
     {
-      str.erase (str.begin(), str.find("("));
+      cmd.erase(0, cmd.find('('));
 
       std::istringstream iss(cmd);
       std::string line;
-      getline(iss, line, ",");
-      _targetID == line;
+      std::getline(iss, line, ',');
+      _targetID = line;
     }
   if (cmd.find("STOPINV") && cmd.find(_targetID))
-    _targetID = NULL;
+    _targetID.clear();
   std::string tmp;
   tmp = "broadcast " + answer;
   throw to_C(tmp);
 }
 
 
-void	Ai::move()
+void	Ai::move(int direction)
 {
-  int direction;
-  if (_targetID != NULL)
+  if (!_targetID.empty())
     {
       //"broadcast PING " + _targetID; TODO
       //direction = on listen jusqu'a un pong _targetID);
@@ -194,30 +193,30 @@ void	Ai::setInstruction(int mapCase, std::string obj)
 
   while (y > 0)
     {
-      _instruction.pushBack("avance");
+      _instruction.push_back("avance");
       y--;
     }
   if (x > 0)
     {
-      _instruction.pushBack("droite");
+      _instruction.push_back("droite");
       while (x > 0)
 	{
-	  _instruction.pushBack("avance");
+	  _instruction.push_back("avance");
 	  x--;
 	}
     }
   else
     {
-      _instruction.pushBack("gauche");
+      _instruction.push_back("gauche");
       while (x < 0)
 	{
-	  _instruction.pushBack("avance");
+	  _instruction.push_back("avance");
 	  x++;
 	}
     }
   std::string tmp;
   tmp = "ramasse " + obj;
-  _instruction.pushBack(tmp);
+  _instruction.push_back(tmp);
 }
 
 void	Ai::checkVision()
@@ -226,32 +225,32 @@ void	Ai::checkVision()
 
   while (i < ((_level * 2) - 1))
     {
-      int j = 0;
-      while (_vision[i][j])
-	{
-	  if ((_inventory[_vision[i][j]] == "nourriture" && _inventory["nourriture"] < 126) || (_inventory[_vision[i][j]] != "nourriture" && _inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])]))
-	    {
-	      if (i == 0)
-		throw to_C("ramasse");
-	      else
-		setInstruction(i, _vision[i][j]);
-	    }
-	  j++;
-	}
+      // int j = 0;
+      // while (_vision[i][j])
+      // 	{
+      // 	  if ((_inventory[_vision[i][j]] == "nourriture" && _inventory["nourriture"] < 126) || (_inventory[_vision[i][j]] != "nourriture" && _inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])]))
+      // 	    {
+      // 	      if (i == 0)
+      // 		throw to_C("ramasse");
+      // 	      else
+      // 		setInstruction(i, _vision[i][j]);
+      // 	    }
+      // 	  j++;
+      // 	}
       i++;
     }
 }
 
-char *Ai::action(std::string msg)
+const char *Ai::action(std::string msg)
 {
 
   try
     {
-      if (_waitInv != true && (_inventory == NULL || msg.find("ko")))
+      if (_waitInv != true && (_inventory.empty()  || msg.find("ko")))
 	return("inventaire");
       if (_waitInv == true)
 	this->setInventory(msg);
-      if (_waitVis != true &&  _vision == NULL)
+      if (_waitVis != true &&  _vision.empty())
 	return("voir");
       if (_waitVis == true)
 	this->setVision(msg);
@@ -271,10 +270,10 @@ char *Ai::action(std::string msg)
     {
       return e.what();
     }
-
   // _inventory = NULL;
-  _vision = NULL;
+  _vision.clear();
 
+  return NULL;
   //TODO select broadcast:
   // Si on envois PING, on passe mustWait à false tant qu'on recoit pas pong.
   // Si on recoit "INV(LVL)" et qu'on est du bon level, on répond la même chose;
