@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Fri Jun 26 11:17:35 2015 Pierre Charie
+// Last update Fri Jun 26 15:21:33 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -29,12 +29,12 @@ public:
 
   void		action(std::string msg);
 
-  void		setVision();
+  void		setVision(std::string canSee);
   void		checkVision();
-  void		setInventory();
+  void		setInventory(std::string inventory);
   void		checkInventory();
   void		communicate(std::string cmd);
-  void		setInstruction(int mapCase);
+  void		setInstruction(int mapCase, std::string obj);
   void		move();
 
 private:
@@ -47,6 +47,9 @@ private:
 
   std::list<std::string>			_instruction;
   bool						_mustWait;
+
+  bool						_waitInv;
+  bool						_waitVis;
 };
 
 #endif
