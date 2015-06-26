@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Fri Jun 26 11:55:20 2015 Martin Porrès
+** Last update Fri Jun 26 14:42:47 2015 Sebastien Cache-Delanos
 */
 
 #include		"client.h"
@@ -61,7 +61,10 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
   if (client->entire_cmd == 1)
     {
       if (client->init == 3)
-	/*client->clt_cmd = */AI_call(client->srv_cmd);
+	{
+	  client->clt_cmd = AI_call(client->srv_cmd);
+	  printf("reveived from ai : %s\n", client->clt_cmd);
+	}
       else
 	if (init_connection(client) == EXIT_FAILURE)
 	  return (EXIT_FAILURE);
@@ -81,7 +84,7 @@ int			write_cmd(t_client *client, fd_set *fd_write)
       if (write(client->fd_socket, client->clt_cmd, strlen(client->clt_cmd)) == -1)
 	return (my_error(ERR_WRITE));
       if (write(client->fd_socket, "\n", 1) == -1)
-	return (my_error(ERR_WRITE));  
+	return (my_error(ERR_WRITE));
       free(client->clt_cmd);
       client->clt_cmd = NULL;
       if (client->srv_cmd != NULL)
