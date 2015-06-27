@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Sat Jun 27 12:06:19 2015 Martin Porrès
-** Last update Sat Jun 27 17:55:12 2015 Martin Porrès
+** Last update Sat Jun 27 18:29:53 2015 Martin Porrès
 */
 
 #include	"serveur.h"
@@ -19,7 +19,6 @@ int		write_to_gfx(t_client *gfx, char *msg)
   tmp = gfx;
   while (tmp != NULL)
     {
-      printf("MESSAGE : %s|\n", msg);
       if (my_write(tmp->fd, msg) == EXIT_FAILURE)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;

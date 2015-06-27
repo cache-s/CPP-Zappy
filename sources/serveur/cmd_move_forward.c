@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 18:15:31 2015 Martin Porrès
+** Last update Sat Jun 27 18:28:43 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -102,6 +102,5 @@ int			write_player_pos_end(char *msg, char *id, char *pos[2], char *o)
     return (my_error(ERR_STRCAT));
   if ((msg = strcat(msg, o)) == NULL)
     return (my_error(ERR_STRCAT));
-  printf("END : %s|\n", msg);
   return (EXIT_SUCCESS);
 }
