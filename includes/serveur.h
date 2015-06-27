@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Fri Jun 26 13:31:24 2015 Jordan Chazottes
+** Last update Sat Jun 27 13:11:26 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -36,6 +36,14 @@
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
+
+typedef enum		eOrientation
+  {
+    NORTH = 1,
+    EST = 2,
+    SOUTH = 3,
+    WEST = 4
+  }			eOrientation;
 
 typedef struct		s_init_serv
 {
@@ -70,7 +78,8 @@ typedef struct		s_client
   char			*team;
   char			need_write;
   char			*cmd;
-  int			orientation;
+  eOrientation		orientation;
+  char			gfx;
   int			x;
   int			y;
   char			gfx;
@@ -103,6 +112,7 @@ typedef struct		s_serv
   t_init_serv		init;
   t_map			*map;
   t_client		*client;
+  t_client		*gfx;
   t_settings		*settings;
   t_parser		parse;
   int			nb_client;
@@ -117,11 +127,11 @@ int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
 int		init_server(t_serv *serv);
-char		*close_connect(t_serv *serv, int fd);
+char		*close_connect(t_serv *serv, int fd, int type);
 
 int		my_write(int fd, char *str);
 void		empty_fds(t_serv *serv);
-void		check_fds_states(t_serv *serv);
+void		check_fds_states(t_serv *serv, int type);
 char		*client_read(t_serv *serv, int fd);
 char		*server_read(t_serv *serv, int i);
 char		*client_write(t_serv *serv, int i, char *cmd);
@@ -129,7 +139,7 @@ char		*client_write(t_serv *serv, int i, char *cmd);
 int		call_cmds(t_serv *serv, char *cmd);
 int		check_values(t_settings *settings);
 
-int		close_first_elem(t_client *client, t_serv *serv, int fd);
+int		close_first_elem(t_client *tmp, t_serv *serv, int fd, int type);
 int		welcome_msg(t_serv *serv, int fd);
 int		count_char(char *str, char c);
 
@@ -154,6 +164,7 @@ int		fill_teams(t_settings *settings, char **av, int i);
 int		fill_nb_clients(t_settings *settings, char *av, int i);
 int		fill_delay(t_settings *settings, char *av, int i);
 
+int		move_to_gfx_list(t_serv *serv, t_client *client);
 int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);

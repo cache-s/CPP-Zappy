@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:09:32 2015 Mathieu Bourmaud
-** Last update Wed May  6 18:10:42 2015 Mathieu Bourmaud
+** Last update Sat Jun 27 13:10:04 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -18,6 +18,14 @@ void			empty_fds(t_serv *serv)
   FD_ZERO(&serv->readfds);
   FD_ZERO(&serv->writefds);
   FD_SET(serv->socket, &serv->readfds);
+  while (tmp != NULL)
+    {
+      FD_SET(tmp->fd, &serv->readfds);
+      if (tmp->need_write)
+	FD_SET(tmp->fd, &serv->writefds);
+      tmp = tmp->next;
+    }
+  tmp = serv->gfx;
   while (tmp != NULL)
     {
       FD_SET(tmp->fd, &serv->readfds);
@@ -41,12 +49,15 @@ void			fill_cmd(char *cmd, t_client *tmp)
     }
 }
 
-void			check_fds_states(t_serv *serv)
+void			check_fds_states(t_serv *serv, int type)
 {
   char			*cmd;
   t_client		*tmp;
 
-  tmp = serv->client;
+  if (type == 0)
+    tmp = serv->client;
+  else
+    tmp = serv->gfx;
   while (tmp != NULL)
     {
       if (FD_ISSET(tmp->fd, &(serv->readfds)))
@@ -69,17 +80,22 @@ void			check_fds_states(t_serv *serv)
     }
 }
 
-char			*close_connect(t_serv *serv, int fd)
+char			*close_connect(t_serv *serv, int fd, int type)
 {
   t_client		*tmp;
   t_client		*next;
 
-  tmp = serv->client;
+  if (type == 0)
+    tmp = serv->client;
+  else
+    tmp = serv->gfx;
   serv->nb_client--;
-  if (close_first_elem(tmp, serv, fd) == EXIT_FAILURE)
+  if (close_first_elem(tmp, serv, fd, type) == EXIT_FAILURE)
     return (NULL);
-  while (tmp->next->fd != fd)
+  while (tmp->next != NULL && tmp->next->fd != fd)
     tmp = tmp->next;
+  if (tmp->next->fd != fd)
+    return (NULL);
   if (tmp->next != NULL)
     {
       next = tmp->next->next;
@@ -93,13 +109,17 @@ char			*close_connect(t_serv *serv, int fd)
   return (NULL);
 }
 
-int			close_first_elem(t_client *tmp, t_serv *serv, int fd)
+int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
+
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
     {
-      serv->client = serv->client->next;
+      if (type == 0)
+	serv->client = serv->client->next;
+      else
+	serv->gfx = serv->gfx->next;
       free(tmp);
       close(fd);
       fprintf(stderr, "client %d has been disconnected\n", fd);
@@ -119,7 +139,11 @@ char			*client_read(UNUSED t_serv *serv, int fd)
   size_read = read(fd, cmd, BUFF_SIZE - 1);
   printf("%d\n", size_read);
   if (size_read <= 0)
-    return (close_connect(serv, fd));
+    {
+      close_connect(serv, fd, 0);
+      close_connect(serv, fd, 1);
+      return (NULL);
+    }
   if (size_read < BUFF_SIZE)
     return (cmd);
   return (cmd);
