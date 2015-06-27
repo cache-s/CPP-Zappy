@@ -1,0 +1,8 @@
+-> Fonction write_to_gfx(t_serv *serv, char *msg);
+-> enum Orientation
+-> donner un numéro à chaque client
+-> a chaque nouveau client -> envoyer pnw #n X Y O L N\n
+-> timer : Récupérer la commande la plus courte de tous les clients.
+   	 : Set struct tv.sec a cette valeur
+	 : décrémenter les compteurs de tous les clients, puis reprendre la valeur la plus courte
+	 : DONE.
