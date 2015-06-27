@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Thu Jun 25 16:55:26 2015 Mathieu
-** Last update Thu Jun 25 16:55:26 2015 Mathieu
+** Last update Sat Jun 27 12:45:55 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -96,7 +96,8 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
   int			j;
 
   i = 0;
-  client->gfx = 1;
+  if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   if (write_msz(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (write_sgt(serv, client) == EXIT_FAILURE)
@@ -114,5 +115,33 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
     }
   if (write_tna(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
+}
+
+int		move_to_gfx_list(t_serv *serv, t_client *client)
+{
+  t_client	*tmp;
+
+ client->gfx = 1;
+  if (serv->gfx == NULL)
+    serv->gfx = client;
+  else
+    {
+      tmp = serv->gfx;
+      while (tmp->next != NULL)
+	tmp = tmp->next;
+      tmp->next = client;
+    }
+  if (serv->client == client)
+    serv->client = client->next;
+  else
+    {
+      tmp = serv->client;
+      while (tmp->next != NULL && tmp->next != client)
+	tmp = tmp->next;
+      if (tmp->next == NULL)
+	return (my_error("move_to_gfx_list : can't find gfx in the list"));
+      tmp->next = client->next;
+    }
   return (EXIT_SUCCESS);
 }
