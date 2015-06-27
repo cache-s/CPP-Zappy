@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 16:51:39 2015 Martin Porrès
+** Last update Sat Jun 27 18:15:31 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -13,9 +13,9 @@
 int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
   if (client->orientation == NORTH || client->orientation == SOUTH)
-    modify_x(client);
+    modify_x(client, serv->settings->width);
   else
-    modify_y(client);
+    modify_y(client, serv->settings->height);
   if (write_player_pos(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
@@ -23,20 +23,36 @@ int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
   return (EXIT_SUCCESS);
 }
 
-void			modify_x(t_client *client)
+void			modify_x(t_client *client, int width)
 {
   if (client->orientation == NORTH)
-    client->x -= 1;
+    {
+      client->x -= 1;
+      if (client->x < 0)
+	client->x = width;
+    }
   else
-    client->x += 1;
+    {
+      client->x += 1;
+      if (client->x >= width)
+	client->x = 0;
+    }
 }
 
-void			modify_y(t_client *client)
+void			modify_y(t_client *client, int height)
 {
   if (client->orientation == WEST)
-    client->y -= 1;
+    {
+      client->y -= 1;
+      if (client->y < 0)
+	client->y = height;
+    }
   else
-    client->y += 1;
+    {
+      client->y += 1;
+      if (client->y >= height)
+	client->y = 0;
+    }
 }
 
 int			write_player_pos(t_serv *serv, t_client *client)
@@ -72,19 +88,20 @@ int			write_player_pos_end(char *msg, char *id, char *pos[2], char *o)
 {
   if ((msg = strcpy(msg, "ppo ")) == NULL)
     return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, id, 4)) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, " ", 4 + strlen(id))) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, pos[0], 5 + strlen(id))) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, " ", 5 + strlen(id) + strlen(pos[0]))) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, pos[1], 6 + strlen(id) + strlen(pos[0]))) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, " ", 6 + strlen(id) + strlen(pos[0]) + strlen(pos[1]))) == NULL)
-    return (my_error(ERR_STRCPY));
-  if ((msg = strncpy(msg, o, 7 + strlen(id) + strlen(pos[0]) + strlen(pos[1]))) == NULL)
-    return (my_error(ERR_STRCPY));
+  if ((msg = strcat(msg, id)) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, " ")) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, pos[0])) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, " ")) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, pos[1])) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, " ")) == NULL)
+    return (my_error(ERR_STRCAT));
+  if ((msg = strcat(msg, o)) == NULL)
+    return (my_error(ERR_STRCAT));
+  printf("END : %s|\n", msg);
   return (EXIT_SUCCESS);
 }
