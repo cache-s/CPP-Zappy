@@ -10,84 +10,20 @@
 
 #include		"serveur.h"
 
-char			*block_to_str(t_block *block)
+void			write_bct(t_block *block, int fd)
 {
-  char			*cmd;
   int			i;
   
   i = 0;
-  cmd = strdup("bct");
-  if ((cmd = realloc(cmd, strlen(itoa(block->x)) + strlen(itoa(block->y)) + 10)) == NULL)
-    return (my_error_null(ERR_MALLOC));
-  cmd = strcat(cmd, " ");
-  cmd = strcat(cmd, itoa(block->x));
-  cmd = strcat(cmd, " ");
-  cmd = strcat(cmd, itoa(block->y));
-  cmd = strcat(cmd, " ");
+  dprintf(fd, "bct %d %d ", block->x, block->y);
   while (i < 7)
     {
-      if ((cmd = realloc(cmd, strlen(cmd) + strlen(itoa(block->items[i]) + 5))) == NULL)
-  	return (my_error_null(ERR_REALLOC));
-      cmd = strcat(cmd, itoa(block->items[i]));
-      if (i + 1 != 7)
-  	cmd = strcat(cmd, " ");
+      if ((i + 1) >= 7)
+	dprintf(fd, "%d\n", block->items[i]);
+      else
+	dprintf(fd, "%d ", block->items[i]);
       i++;
     }
-  return (cmd);
-}
-
-int			write_msz(t_serv *serv, t_client *client)
-{
-  char			*msz;
-  
-  if ((msz = malloc(sizeof(char) * 17)) == NULL)
-    return (my_error(ERR_MALLOC));
-  msz = strcpy(msz, "msz ");
-  msz = strcat(msz, itoa(serv->settings->width));
-  msz = strcat(msz, " ");
-  msz = strcat(msz, itoa(serv->settings->height));
-  if (my_write(client->fd, msz) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  free(msz);
-  return (EXIT_SUCCESS);
-}
-
-int			write_sgt(t_serv *serv, t_client *client)
-{
-  char			*sgt;
-  
-  if ((sgt = malloc(sizeof(char) * 15)) == NULL)
-    return (my_error(ERR_MALLOC));
-  sgt = strcpy(sgt, "sgt ");
-  sgt = strcat(sgt, itoa(serv->settings->delay));
-  if (my_write(client->fd, sgt) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  free(sgt);
-  return (EXIT_SUCCESS);
-}
-
-int			write_tna(t_serv *serv, t_client *client)
-{
-  char			*str;
-  char			*tna;
-  char			*tmp;
-  (void)client;
-
-  tmp = strdup(serv->settings->teams);
-  printf("%s\n", serv->settings->teams);
-  str = strtok(tmp, ";");
-  while (str != NULL)
-    {
-      if ((tna = malloc(strlen(str) + strlen("tna ") + 10)) == NULL)
-      	return (my_error(ERR_MALLOC));
-      tna = strcpy(tna, "tna ");
-      tna = strcat(tna, str);
-      if (my_write(client->fd, tna) == EXIT_FAILURE)
-      	return (EXIT_FAILURE);
-      str = strtok(NULL, ";");
-    }
-  free(str);
-  return (EXIT_SUCCESS);
 }
 
 int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
@@ -98,24 +34,33 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
   i = 0;
   if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (write_msz(serv, client) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (write_sgt(serv, client) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  dprintf(client->fd, "msz %d %d", serv->settings->width, serv->settings->height);  
+  dprintf(client->fd, "sgt %d\n", serv->settings->delay);
   while (i < serv->settings->width)
     {
       j = 0;
       while (j < serv->settings->height)
 	{
-	  if (my_write(client->fd, block_to_str(&(serv->map->blocks[i][j]))) == EXIT_FAILURE)
-	    return (my_error(ERR_MALLOC));
+	  write_bct(&(serv->map->blocks[i][j]), client->fd);
 	  j++;
 	}
       i++;
     }
-  if (write_tna(serv, client) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  write_tna(serv, client->fd);
   return (EXIT_SUCCESS);
+}
+
+void		write_tna(t_serv *serv, int fd)
+{
+  char		*tmp;
+
+  tmp = serv->settings->teams;
+  tmp = strtok(tmp, ";");
+  while (tmp != NULL)
+    {
+      dprintf(fd, "tna %s\n", tmp);
+      tmp = strtok(NULL, ";");
+    }
 }
 
 int		move_to_gfx_list(t_serv *serv, t_client *client)

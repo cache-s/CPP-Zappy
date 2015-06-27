@@ -168,8 +168,7 @@ int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
 
-int		write_msz(t_serv *serv, t_client *client);
-int		write_sgt(t_serv *serv, t_client *client);
-int		write_tna(t_serv *serv, t_client *client);
+void		write_tna(t_serv *serv, int fd);
+void		write_bct(t_block *block, int fd);
 
 #endif

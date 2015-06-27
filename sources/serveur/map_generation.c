@@ -53,7 +53,7 @@ int			jewels_food_generation(t_block *block, int i, int j)
     }
   block->x = i;
   block->y = j;
-  if (rand() % 3 == 1)
+  if (rand() % 10 <= 4)
     {
       block->items[rand() % 7] += 1;
       block->items[rand() % 7] += 1;

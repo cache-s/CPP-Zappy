@@ -137,7 +137,6 @@ char			*client_read(UNUSED t_serv *serv, int fd)
     return (my_error_null(ERR_MALLOC));
   bzero(cmd, BUFF_SIZE);
   size_read = read(fd, cmd, BUFF_SIZE - 1);
-  printf("%d\n", size_read);
   if (size_read <= 0)
     {
       close_connect(serv, fd, 0);

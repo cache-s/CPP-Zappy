@@ -26,10 +26,12 @@ char			*client_write(t_serv *serv, int fd, char *line)
     return (NULL);
   arg = strtok(NULL, "\n");
   pos = call_cmds(serv, cmd);
-  if (pos == NB_CMDS)
+  if (pos == 42)
     arg = strdup(final);
-  if ((serv->cmds[pos](serv, fd, arg)) == EXIT_FAILURE)
-    return (NULL);
+  printf("POS = %d\n", pos);
+  if (pos != 42)
+    if ((serv->cmds[pos](serv, fd, arg)) == EXIT_FAILURE)
+      return (NULL);
   return ("toto");
 }
 
