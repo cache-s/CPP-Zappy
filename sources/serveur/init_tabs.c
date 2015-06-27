@@ -10,6 +10,21 @@
 
 #include		"serveur.h"
 
+int			init_items(t_serv *serv)
+{
+  if ((serv->items = malloc(sizeof(char *) * 8)) == NULL)
+    return (my_error(ERR_MALLOC));
+  serv->items[0] = strdup("nourriture");
+  serv->items[1] = strdup("linemate");
+  serv->items[2] = strdup("deraumêre");
+  serv->items[3] = strdup("sibur");
+  serv->items[4] = strdup("mendiane");
+  serv->items[5] = strdup("phiras");
+  serv->items[6] = strdup("thystame");
+  serv->items[7] = NULL;
+  return (EXIT_SUCCESS);
+}
+
 void			init_AI_cmds(t_serv *serv)
 {
   serv->cmds[0] = cmd_move_forward;
@@ -48,5 +63,6 @@ int			init_AI_tabs(t_serv *serv)
   serv->AIFcts[11] = strdup("connect_nbr");
   serv->AIFcts[12] = strdup("GRAPHIC");
   init_AI_cmds(serv);
+  init_items(serv);
   return (EXIT_SUCCESS);
 }

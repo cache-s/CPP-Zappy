@@ -74,6 +74,9 @@ typedef struct		s_client
   int			x;
   int			y;
   char			gfx;
+  int			x;
+  int			y;
+  int			items[7];
   struct s_client	*next;
 }			t_client;
 
@@ -105,6 +108,7 @@ typedef struct		s_serv
   t_settings		*settings;
   t_parser		parse;
   int			nb_client;
+  char			**items;
 }			t_serv;
 
 int		init_settings(t_settings *settings);

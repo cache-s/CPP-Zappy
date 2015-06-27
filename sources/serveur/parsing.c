@@ -101,14 +101,11 @@ int			check_teams(t_settings *settings)
       if (str != NULL && substr != NULL)
 	while ((substr = strstr(substr, str)))
 	  {
-	    printf("teams = %s|str = %s\n", settings->teams, str);
 	    occ++;
-	  substr++;
+	    substr++;
 	  }
       str = strtok(NULL, ";");
-      printf("%s|", str);
     }
-  printf("OCC = %d\n", occ);
   if (occ > count_char(settings->teams, ';'))
     return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
   if (count_char(settings->teams, ';') < 2)

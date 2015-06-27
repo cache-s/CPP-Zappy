@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Fri Jun 26 11:49:12 2015 Martin Porrès
+** Last update Fri Jun 26 17:07:22 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
@@ -63,8 +63,12 @@ int			connect_to_server(t_client *client);
 int			client_loop(t_client *client);
 int			server_read(t_client *client);
 int			save_srv_cmd(t_client *client, char *buffer);
-int			init_connection(t_client *client);
 int			write_cmd(t_client *client, fd_set *fd_write);
 int			handle_cmd(t_client *client, fd_set *fd_write);
+int			init_connection(t_client *client);
+int			init_num_and_pos(t_client *client);
+int			welcome(t_client *client);
+int			num_client(t_client *client, int *is_tok, char *tmp);
+int			pos_client(t_client *client, char *tmp);
 
 #endif
