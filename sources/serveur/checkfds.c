@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:09:32 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 13:10:04 2015 Martin Porrès
+** Last update Sat Jun 27 18:55:14 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -94,7 +94,7 @@ char			*close_connect(t_serv *serv, int fd, int type)
     return (NULL);
   while (tmp->next != NULL && tmp->next->fd != fd)
     tmp = tmp->next;
-  if (tmp->next->fd != fd)
+  if (tmp->next != NULL)
     return (NULL);
   if (tmp->next != NULL)
     {
@@ -111,7 +111,6 @@ char			*close_connect(t_serv *serv, int fd, int type)
 
 int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
-
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
