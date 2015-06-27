@@ -30,13 +30,8 @@ int			new_client(t_serv *serv)
   return (EXIT_SUCCESS);
 }
 
-int			create_client(t_serv *serv, int fd)
+void			set_client_values(t_serv *serv, t_client *new, int fd)
 {
-  t_client		*new;
-  t_client		*tmp;
-
-  if ((new = malloc(sizeof(t_client))) == NULL)
-    return (my_error(ERR_MALLOC));
   new->cmd = NULL;
   new->need_write = 0;
   new->next = NULL;
@@ -45,7 +40,19 @@ int			create_client(t_serv *serv, int fd)
   new->fct_read = client_read;
   new->fct_write = client_write;
   new->orientation = 1;
+  new->x = random() % serv->settings->width;
+  new->y = random() % serv->settings->height;
   serv->nb_client++;
+}
+
+int			create_client(t_serv *serv, int fd)
+{
+  t_client		*new;
+  t_client		*tmp;
+
+  if ((new = malloc(sizeof(t_client))) == NULL)
+    return (my_error(ERR_MALLOC));
+  set_client_values(serv, new, fd);
   if (serv->client == NULL)
     {
       serv->client = new;
