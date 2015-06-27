@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Fri Jun 26 15:17:19 2015 Jordan Chazottes
+## Last update Fri Jun 26 15:51:10 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -18,7 +18,6 @@ NAME_CLIENT	=	zappy_ai
 
 NAME_GFX	=	gfx
 
-# CC		=	LD_LIBRARY_PATH=$(PWD) gcc
 CC		=	gcc
 
 CXX		=	g++

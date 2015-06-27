@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Thu Jun 25 17:03:15 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 15:23:30 2015 Pierre Charie
 //
 
 #include "Ai.cpp"
@@ -75,17 +75,14 @@ Ai::Ai(int ID)
 
 Ai::~Ai()
 {
-  mort; //TODO
 }
 
-void		Ai::setInventory()
+void		Ai::setInventory(std::string inventory)
 {
-  std::string	inventory;
   std::string	bigItem;
   std::string	item;
   std::string	number;
   int		nbr;
-  //inventory = inventaire(); //TODO
   std::istringstream iss(inventory);
 
   while(std::getline(iss, bigItem, ','))
@@ -101,15 +98,13 @@ void		Ai::setInventory()
 
 }
 
-void Ai::setVision()
+void Ai::setVision(std::string canSee)
 {
-  std::string	canSee;
   std::string	mapCase;
   std::string	item;
   int		caseNbr = 0;
   bool		bDone;
 
-  //canSee = vision() //TODO
   std::istringstream iss(canSee);
   while(std::getline(iss, mapCase, ','))
     {
@@ -132,7 +127,7 @@ void Ai::communicate(std::string cmd)
 {
   std::string answer;
 
-  if (cmd == "AliveCheck")
+  if (cmd.find("AliveCheck"))
     answer = "Alive(" + _level + ")";
   if (cmd.find ("PING ") && cmd.find(_ID))
     answer = "PONG " + _ID;
@@ -149,41 +144,83 @@ void Ai::communicate(std::string cmd)
     }
   if (cmd.find("STOPINV") && cmd.find(_targetID))
     _targetID = NULL;
-  //todo envois answer;
+  std::string tmp;
+  tmp = "broadcast " + answer;
+  throw to_C(tmp);
 }
 
 
-void Ai::move()
+void	Ai::move()
 {
   int direction;
   if (_targetID != NULL)
     {
-
       //"broadcast PING " + _targetID; TODO
       //direction = on listen jusqu'a un pong _targetID);
       if (direction == 8 || direction == 1 || direction == 2)
-	avance; //TODO
+	throw to_C("avance");
       if (direction == 6 || direction == 7)
-	droite; //TODO
+	throw to_C("droite");
       if (direction == 4 || direction == 3 || direction == 5)
-	gauche; //TODO
+	throw to_C("gauche");
     }
   else
     {
       srand (time(NULL));
       direction = rand() % 10;
       if (direction < 4)
-	gauche; //TODO
+	throw to_C("gauche");
       else
-	avance; //TODO
+	throw to_C("avance");
     }
 }
 
-void Ai::checkInventory()
+void	Ai::checkInventory()
 {
 }
 
-void Ai::checkVision()
+void	Ai::setInstruction(int mapCase, std::string obj)
+{
+  int y = 0, x = 0, pos = 0, i = 3, median = 0;
+
+  while (pos <= mapCase)
+    {
+      pos += i;
+      i += 2;
+      y++;
+    }
+  median = (pos + 1 + pos - i) / 2;
+  x = pos - median;
+
+  while (y > 0)
+    {
+      _instruction.pushBack("avance");
+      y--;
+    }
+  if (x > 0)
+    {
+      _instruction.pushBack("droite");
+      while (x > 0)
+	{
+	  _instruction.pushBack("avance");
+	  x--;
+	}
+    }
+  else
+    {
+      _instruction.pushBack("gauche");
+      while (x < 0)
+	{
+	  _instruction.pushBack("avance");
+	  x++;
+	}
+    }
+  std::string tmp;
+  tmp = "ramasse " + obj;
+  _instruction.pushBack(tmp);
+}
+
+void	Ai::checkVision()
 {
   int i = 0;
 
@@ -192,14 +229,12 @@ void Ai::checkVision()
       int j = 0;
       while (_vision[i][j])
 	{
-	  if (_inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])])
+	  if ((_inventory[_vision[i][j]] == "nourriture" && _inventory["nourriture"] < 126) || (_inventory[_vision[i][j]] != "nourriture" && _inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])]))
 	    {
 	      if (i == 0)
-		ramasse;
+		throw to_C("ramasse");
 	      else
-		{
-		  //TODO on y va
-		}
+		setInstruction(i, _vision[i][j]);
 	    }
 	  j++;
 	}
@@ -212,15 +247,19 @@ char *Ai::action(std::string msg)
 
   try
     {
-      if (_inventory == NULL || msg.find("ko"))
-	this->setInventory();
-      if (_vision == NULL)
-	this->setVision();
+      if (_waitInv != true && (_inventory == NULL || msg.find("ko")))
+	return("inventaire");
+      if (_waitInv == true)
+	this->setInventory(msg);
+      if (_waitVis != true &&  _vision == NULL)
+	return("voir");
+      if (_waitVis == true)
+	this->setVision(msg);
       if (!_instruction.empty())
 	{
-	  std::string cmd = _instruction.front(); //TODO
+	  std::string cmd = _instruction.front();
 	  _instruction.pop_front();
-	  return cmd; //TODO
+	  return cmd.c_str();
 	}
       if (_mustWait == true)
 	return NULL;

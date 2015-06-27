@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Fri Jun 26 14:42:47 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 15:44:33 2015 Sebastien Cache-Delanos
 */
 
 #include		"client.h"
@@ -60,14 +60,13 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
     return (my_error(ERR_SERVER));
   if (client->entire_cmd == 1)
     {
+      if (client->init < 3 && init_connection(client) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
       if (client->init == 3)
 	{
 	  client->clt_cmd = AI_call(client->srv_cmd);
 	  printf("reveived from ai : %s\n", client->clt_cmd);
 	}
-      else
-	if (init_connection(client) == EXIT_FAILURE)
-	  return (EXIT_FAILURE);
       if (write_cmd(client, fd_write) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
@@ -76,6 +75,10 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
 
 int			write_cmd(t_client *client, fd_set *fd_write)
 {
+  printf("client->srv_cmd : %s\n", client->srv_cmd);
+  if (client->srv_cmd != NULL && strcmp(client->srv_cmd, "") != 0)
+    free(client->srv_cmd);
+  client->srv_cmd = NULL;
   if (client->clt_cmd == NULL)
     return (EXIT_SUCCESS);
   FD_SET(client->fd_socket, fd_write);
@@ -85,11 +88,6 @@ int			write_cmd(t_client *client, fd_set *fd_write)
 	return (my_error(ERR_WRITE));
       if (write(client->fd_socket, "\n", 1) == -1)
 	return (my_error(ERR_WRITE));
-      free(client->clt_cmd);
-      client->clt_cmd = NULL;
-      if (client->srv_cmd != NULL)
-	free(client->srv_cmd);
-      client->srv_cmd = NULL;
     }
   return (EXIT_SUCCESS);
 }

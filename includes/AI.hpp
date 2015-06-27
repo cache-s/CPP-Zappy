@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 12:05:52 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 15:24:35 2015 Sebastien Cache-Delanos
 //
 
 #ifndef				AI_HPP
@@ -15,6 +15,7 @@
 # include			<utility>
 # include			<vector>
 # include			<map>
+# include			<string.h>
 
 class				AI
 {

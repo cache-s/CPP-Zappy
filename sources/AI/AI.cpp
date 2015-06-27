@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 14:48:31 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 15:23:01 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -42,12 +42,12 @@ AI::~AI()
 
 char*			AI::call(const char* cmdRcv)
 {
-  char*			ret;
-
   std::cout << "debug cpp AI_call()" << std::endl;
   _cmdRcv = cmdRcv;
   act();
-  ret = &_cmdSnd[0u];
+
+  char *ret = new char[_cmdSnd.length() + 1];
+  strcpy(ret, _cmdSnd.c_str());
   return (ret);
 }
 
