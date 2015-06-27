@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 16:06:25 2015 Sebastien Cache-Delanos
+// Last update Fri Jun 26 16:48:53 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -42,11 +42,14 @@ AI::~AI()
 
 char*			AI::call(const char* cmdRcv)
 {
+  char*			ret;
+
   _cmdRcv = cmdRcv;
+  std::cout << _cmdRcv << std::endl;
+
   act();
 
-  char *ret = new char[_cmdSnd.length() + 1];
-  strcpy(ret, _cmdSnd.c_str());
+  ret = &_cmdSnd[0u];
   return (ret);
 }
 
@@ -56,29 +59,44 @@ void			AI::act()
     {
       (this->*_handleResponse[_cmdSnd])();
       _isWaiting = false;
+      if (_objective == "")
+	setObjective();
     }
   if (_objective == "")
     {
       _cmdSnd = "inventaire";
       _isWaiting = true;
     }
-  std::cout << _cmdRcv << std::endl;
   //doObjective
+}
+
+void			AI::setObjective()
+{
+
 }
 
 void			AI::forward()
 {
-  std::cout << "forward" << std::endl;
+  if (_cmdRcv == "ko")
+    {
+      //fail
+    }
 }
 
 void			AI::right()
 {
-  std::cout << "right" << std::endl;
+  if (_cmdRcv == "ko")
+    {
+      //fail
+    }
 }
 
 void			AI::left()
 {
-  std::cout << "left" << std::endl;
+  if (_cmdRcv == "ko")
+    {
+      //fail
+    }
 }
 
 void			AI::vision()
@@ -93,7 +111,10 @@ void			AI::inventory()
 
 void			AI::expulse()
 {
-  std::cout << "expulse" << std::endl;
+  if (_cmdRcv == "ko")
+    {
+      //fail
+    }
 }
 
 void			AI::incantation()
