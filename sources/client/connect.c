@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Fri Jun 26 15:44:33 2015 Sebastien Cache-Delanos
+** Last update Fri Jun 26 17:09:29 2015 Martin Porrès
 */
 
 #include		"client.h"
@@ -16,12 +16,14 @@ int			connect_to_server(t_client *client)
   struct sockaddr_in	sin;
   int			ret;
 
-  if ((client->fd_socket = socket(AF_INET, SOCK_STREAM, getprotobyname("TCP")->p_proto)) == -1)
+  if ((client->fd_socket = socket(AF_INET, SOCK_STREAM,
+				  getprotobyname("TCP")->p_proto)) == -1)
     return (my_error(ERR_SOCKET));
   sin.sin_family = AF_INET;
   sin.sin_port = htons(client->port);
   sin.sin_addr.s_addr = inet_addr(client->hostname);
-  if (connect(client->fd_socket, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
+  if (connect(client->fd_socket, (const struct sockaddr *)&sin,
+	      sizeof(sin)) == -1)
     {
       close(client->fd_socket);
       return (my_error(ERR_CONNECT));
@@ -63,10 +65,7 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
       if (client->init < 3 && init_connection(client) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       if (client->init == 3)
-	{
-	  client->clt_cmd = AI_call(client->srv_cmd);
-	  printf("reveived from ai : %s\n", client->clt_cmd);
-	}
+	client->clt_cmd = AI_call(client->srv_cmd);
       if (write_cmd(client, fd_write) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
@@ -75,7 +74,6 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
 
 int			write_cmd(t_client *client, fd_set *fd_write)
 {
-  printf("client->srv_cmd : %s\n", client->srv_cmd);
   if (client->srv_cmd != NULL && strcmp(client->srv_cmd, "") != 0)
     free(client->srv_cmd);
   client->srv_cmd = NULL;
@@ -84,7 +82,8 @@ int			write_cmd(t_client *client, fd_set *fd_write)
   FD_SET(client->fd_socket, fd_write);
   if (FD_ISSET(client->fd_socket, fd_write))
     {
-      if (write(client->fd_socket, client->clt_cmd, strlen(client->clt_cmd)) == -1)
+      if (write(client->fd_socket, client->clt_cmd,
+		strlen(client->clt_cmd)) == -1)
 	return (my_error(ERR_WRITE));
       if (write(client->fd_socket, "\n", 1) == -1)
 	return (my_error(ERR_WRITE));

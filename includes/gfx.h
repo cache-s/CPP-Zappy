@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Fri Jun 26 15:46:42 2015 Jordan Chazottes
+** Last update Sat Jun 27 16:49:09 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -81,6 +81,7 @@ typedef struct		s_gfx
 {
   int			width;
   int			height;
+  int			time;
   SDL_Surface*		screen;
   t_network		network;
   t_map			map;
@@ -106,5 +107,7 @@ int		gfx_loop(t_gfx *s);
 int		save_srv_cmd(t_gfx *s, char *buffer);
 int		handleCmd(t_gfx *s);
 int		initConnection(t_gfx *s);
-int		initMap(t_gfx *s);
+int		initMap(t_gfx *s, char *str, char *token, char *end_str);
+int		getMapSize(t_gfx *s, char *token);
+int		getTime(t_gfx *s, char *str);
 #endif

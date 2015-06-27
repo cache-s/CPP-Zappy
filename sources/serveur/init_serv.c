@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:07:30 2015 Mathieu Bourmaud
-** Last update Thu May  7 14:56:34 2015 Mathieu Bourmaud
+** Last update Sat Jun 27 12:45:13 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -30,6 +30,21 @@ int			new_client(t_serv *serv)
   return (EXIT_SUCCESS);
 }
 
+void			set_client_values(t_serv *serv, t_client *new, int fd)
+{
+  new->cmd = NULL;
+  new->need_write = 0;
+  new->next = NULL;
+  new->fd = fd;
+  new->gfx = 0;
+  new->fct_read = client_read;
+  new->fct_write = client_write;
+  new->orientation = NORTH;
+  new->x = random() % serv->settings->width;
+  new->y = random() % serv->settings->height;
+  serv->nb_client++;
+}
+
 int			create_client(t_serv *serv, int fd)
 {
   t_client		*new;
@@ -37,14 +52,7 @@ int			create_client(t_serv *serv, int fd)
 
   if ((new = malloc(sizeof(t_client))) == NULL)
     return (my_error(ERR_MALLOC));
-  new->cmd = NULL;
-  new->need_write = 0;
-  new->next = NULL;
-  new->fd = fd;
-  new->fct_read = client_read;
-  new->fct_write = client_write;
-  new->orientation = 1;
-  serv->nb_client++;
+  set_client_values(serv, new, fd);
   if (serv->client == NULL)
     {
       serv->client = new;
@@ -65,7 +73,8 @@ int			accept_clients(t_serv *serv)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
-   check_fds_states(serv);
+  check_fds_states(serv, 0);
+  check_fds_states(serv, 1);
   return (EXIT_SUCCESS);
 }
 
@@ -86,6 +95,7 @@ int			init_server(t_serv *serv)
     return (my_error_close(ERR_LISTEN, serv->socket));
   init_AI_tabs(serv);
   display_game_configuration(serv);
+  serv->gfx = NULL;
   while (42)
     if (accept_clients(serv) == EXIT_FAILURE)
       return (my_error(ERR_ACCEPT));
