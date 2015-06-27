@@ -26,11 +26,11 @@ int			cmd_see(t_serv *serv, t_client *client, char *cmd)
       char *oùestquoi;
       int i = 0;
       tmp_x_left = player->posX; //Seulement au début pour donner la valeur de départ du joueur
-      tmp_x_right = player->posX; // Pareil que ci dessus
+./      tmp_x_right = player->posX; // Pareil que ci dessus
       tmp_y = player->posY; 
 
       regarder à player->pos
-      si rien sur la case écrire ",", sinon écrire "Nom de l'objet," dans oùestquoi;
+     / //si rien sur la case écrire ",", sinon écrire "Nom de l'objet," dans oùestquoi;
       i++;
 
       tant que i != player->lvl 
