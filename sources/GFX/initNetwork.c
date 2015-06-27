@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 23 13:04:16 2015 Jordan Chazottes
-** Last update Thu Jun 25 18:41:41 2015 Jordan Chazottes
+** Last update Sat Jun 27 14:45:33 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -14,7 +14,8 @@ int		initNetwork(t_gfx *s, char *ip, int port)
 {
   struct sockaddr_in    sin;
 
-  if ((s->network.socket = socket(AF_INET, SOCK_STREAM, getprotobyname("TCP")->p_proto)) == -1)
+  if ((s->network.socket = socket(AF_INET, SOCK_STREAM,
+				  getprotobyname("TCP")->p_proto)) == -1)
     return (my_error(ERR_SOCKET));
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);

@@ -28,16 +28,14 @@ char			*client_write(t_serv *serv, int fd, char *line)
   pos = call_cmds(serv, cmd);
   if (pos == 42)
     arg = strdup(final);
-  printf("POS = %d\n", pos);
   if (pos != 42)
     if ((serv->cmds[pos](serv, fd, arg)) == EXIT_FAILURE)
       return (NULL);
   return ("toto");
 }
 
-char			*server_read(t_serv *serv, int i)
+char			*server_read(t_serv *serv, UNUSED int i)
 {
-  (void)i;
   if ((my_write(1, "New user")) == EXIT_FAILURE)
     return (NULL);
   if (new_client(serv) == EXIT_FAILURE)

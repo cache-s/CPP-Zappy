@@ -18,7 +18,6 @@ int                     call_cmds(t_serv *serv, char *cmd)
   i = 0;
   while (i < NB_CMDS)
     {
-      puts(serv->AIFcts[i]);
       if (strcmp(cmd, serv->AIFcts[i]) == 0)
 	return (i);
       i++;
