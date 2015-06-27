@@ -83,6 +83,7 @@ typedef struct		s_client
   char			gfx;
   int			x;
   int			y;
+  char			gfx;
   int			items[7];
   struct s_client	*next;
 }			t_client;
