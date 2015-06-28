@@ -32,6 +32,8 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
   int			j;
 
   i = 0;
+  if (client->gfx == 1)
+    return (EXIT_SUCCESS);
   if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   dprintf(client->fd, "msz %d %d", serv->settings->width, serv->settings->height);  

@@ -5,17 +5,20 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 16:49:11 2015 Sebastien Cache-Delanos
+// Last update Sun Jun 28 20:57:54 2015 Sebastien Cache-Delanos
 //
 
-#ifndef				AI_HPP
-# define			AI_HPP
+#ifndef				AI2_HPP
+# define			AI2_HPP
 
 # include			<iostream>
+# include			<string.h>
+# include			<sstream>
 # include			<utility>
 # include			<vector>
+# include			<string>
+# include			<deque>
 # include			<map>
-# include			<string.h>
 
 class				AI
 {
@@ -47,7 +50,10 @@ private:
   bool				_isWaiting;
 
   std::string			_objective;
-  std::vector<std::string>	_path;
+  std::deque<std::string>	_path;
+
+  std::map<std::string, int>			_inventory;
+  std::map<int, std::vector<std::string>>	_vision;
 
   typedef void (AI::*handleResponse)();
   std::map<std::string, handleResponse>	_handleResponse;

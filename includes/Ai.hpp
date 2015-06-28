@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Fri Jun 26 17:23:29 2015 Pierre Charie
+// Last update Sun Jun 28 17:31:59 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -28,7 +28,7 @@ public:
   Ai(int ID);
   ~Ai();
 
-  const char		*action(std::string msg);
+  char		*action(std::string msg);
 
   void		setVision(std::string canSee);
   void		checkVision();
@@ -49,8 +49,9 @@ private:
   std::list<std::string>			_instruction;
   bool						_mustWait;
 
-  bool						_waitInv;
-  bool						_waitVis;
+  bool						_waitInventory;
+  bool						_waitVision;
+  bool						_waitPong;
 };
 
 #endif
