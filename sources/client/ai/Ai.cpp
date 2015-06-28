@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Sun Jun 28 17:35:50 2015 Pierre Charie
+// Last update Sun Jun 28 19:45:40 2015 Pierre Charie
 //
 
 #include "Ai.hpp"
@@ -128,9 +128,9 @@ void Ai::communicate(std::string cmd)
 {
   std::string answer;
 
-  if (cmd.find("AliveCheck"))
+  if (cmd.find("AliveCheck") != std::string::npos)
     throw to_C("broadcast Alive");
-  if (cmd.find("PING") && cmd.find(_ID))
+  if (cmd.find("PING") != std::string::npos && cmd.find(_ID) != std::string::npos)
     {
       std::string ret =  "broadcast PONG " + _ID;
       throw to_C(ret.c_str());
@@ -143,21 +143,21 @@ void Ai::communicate(std::string cmd)
 	  std::string ret = "broadcast PING " + _targetID;
 	  throw to_C(ret.c_str());
 	}
-      if (cmd.find("PONG") && cmd.find(_targetID))
+      if (cmd.find("PONG") != std::string::npos && cmd.find(_targetID) != std::string::npos)
 	{
 	  _waitPong = false;
 	  int direction = cmd[8] - '0';
 	  move(direction);
 	}
     }
-  if (cmd.find ("INV(") && cmd.find(_level))
+  if (cmd.find ("INV(") != std::string::npos && cmd.find(_level) != std::string::npos)
     {
       std::string ret = "broadcast ";
       cmd.erase(0, 10);
       ret += cmd;
       throw to_C(ret);
     }
-  if (cmd.find("OKINV") && cmd.find(_level)) //TODO verifier si la syntaxe issue de getline est correcte
+  if (cmd.find("OKINV") != std::string::npos && cmd.find(_level) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
     {
       cmd.erase(0, cmd.find('('));
 
@@ -166,7 +166,7 @@ void Ai::communicate(std::string cmd)
       std::getline(iss, line, ',');
       _targetID = line;
     }
-  if (cmd.find("STOPINV") && cmd.find(_targetID))
+  if (cmd.find("STOPINV") != std::string::npos && cmd.find(_targetID) != std::string::npos)
     _targetID.clear();
 }
 
@@ -268,10 +268,17 @@ char *Ai::action(std::string msg)
 
   try
     {
+      std::cout << "debut IA" << std::endl;
+      if (msg.find("ok") != std::string::npos || msg.find("ko") != std::string::npos) //TODO gestion du KO
+	{
+	  std::cout << "NULL\n";
+	  return NULL;
+	}
       communicate(msg);
-      if (_waitInventory != true && (_inventory.empty()  || msg.find("ko")))
+      if (_waitInventory != true && (_inventory.empty()  || msg.find("ko") != std::string::npos))
 	{
 	  _waitInventory = true;
+	  std::cout << "Inventaire!\n";
 	  return((char*)"inventaire");
 	}
       if (_waitInventory == true)
@@ -279,6 +286,7 @@ char *Ai::action(std::string msg)
       if (_waitVision != true &&  _vision.empty())
 	{
 	  _waitVision = true;
+	  std::cout << "Vision!\n";
 	  return((char*)"voir");
 	}
       if (_waitVision == true)
@@ -287,6 +295,7 @@ char *Ai::action(std::string msg)
 	{
 	  std::string cmd = _instruction.front();
 	  _instruction.pop_front();
+	  std::cout << "instruction : " << cmd;
 	  return (char*)cmd.c_str();
 	}
       if (_mustWait == true)
@@ -294,11 +303,14 @@ char *Ai::action(std::string msg)
 
       checkVision();
       //faire OP ici;
+      std::cout << "On a rien a faire : msg = " << msg << std::endl;
       move(0);
     }
   catch (const to_C &e)
     {
       _vision.clear();
+      std::cout << "On a un objectif " << msg << std::endl;
+      std::cout << "commande = " << e.what() << std::endl;
       return (char*)e.what();
     }
   return NULL;
