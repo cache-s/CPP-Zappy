@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Thu Jun 25 16:55:26 2015 Mathieu
-** Last update Sat Jun 27 18:41:21 2015 Martin Porrès
+** Last update Sun Jun 28 12:41:04 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -88,5 +88,6 @@ int		move_to_gfx_list(t_serv *serv, t_client *client)
 	return (my_error("move_to_gfx_list : can't find gfx in the list"));
       tmp->next = client->next;
     }
+  client->next = NULL;
   return (EXIT_SUCCESS);
 }
