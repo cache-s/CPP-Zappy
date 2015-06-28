@@ -27,7 +27,7 @@
 
 # define		MAX_ARGS	6
 # define		MAX_FD		1000
-# define		BUFF_SIZE	5
+# define		BUFF_SIZE	500
 # define		NB_CMDS		13
 # define		WELCOME		"BIENVENUE\n"
 
@@ -83,6 +83,7 @@ typedef struct		s_client
   char			gfx;
   int			x;
   int			y;
+  char			connected;
   int			items[7];
   struct s_client	*next;
 }			t_client;
@@ -161,6 +162,7 @@ int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
+int		check_team(t_serv *serv, t_client *client, char *cmd);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);

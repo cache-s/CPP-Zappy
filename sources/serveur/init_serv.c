@@ -37,6 +37,7 @@ void			set_client_values(t_serv *serv, t_client *new, int fd)
   new->next = NULL;
   new->fd = fd;
   new->gfx = 0;
+  new->connected = 0;
   new->fct_read = client_read;
   new->fct_write = client_write;
   new->orientation = NORTH;

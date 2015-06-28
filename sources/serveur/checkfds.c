@@ -64,9 +64,14 @@ void			check_fds_states(t_serv *serv, int type)
 	{
 	  if ((cmd = tmp->fct_read(serv, tmp->fd)) == NULL)
 	    return;
-	  fill_cmd(cmd, tmp);
-	  FD_SET(serv->socket, &serv->writefds);
-	  tmp->need_write = 1;
+	  if (tmp->connected == 1)
+	    {
+	      fill_cmd(cmd, tmp);
+	      FD_SET(serv->socket, &serv->writefds);
+	      tmp->need_write = 1;
+	    }
+	  else 
+	    check_team(serv, tmp, cmd);
 	}
       if (tmp->cmd != NULL && count_char(tmp->cmd, '\n') == 1)
 	if (FD_ISSET(tmp->fd, &(serv->writefds)))
