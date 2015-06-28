@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Fri Jun 26 17:24:09 2015 Pierre Charie
+// Last update Sun Jun 28 15:44:32 2015 Pierre Charie
 //
 
 #include "Ai.hpp"
@@ -106,6 +106,7 @@ void Ai::setVision(std::string canSee)
   bool		bDone;
 
   std::istringstream iss(canSee);
+
   while(std::getline(iss, mapCase, ','))
     {
       std::istringstream issItem(mapCase);
@@ -225,18 +226,19 @@ void	Ai::checkVision()
 
   while (i < ((_level * 2) - 1))
     {
-      // int j = 0;
-      // while (_vision[i][j])
-      // 	{
-      // 	  if ((_inventory[_vision[i][j]] == "nourriture" && _inventory["nourriture"] < 126) || (_inventory[_vision[i][j]] != "nourriture" && _inventory[_vision[i][j]] < _forUp[std::make_pair(_level, _vision[i][j])]))
-      // 	    {
-      // 	      if (i == 0)
-      // 		throw to_C("ramasse");
-      // 	      else
-      // 		setInstruction(i, _vision[i][j]);
-      // 	    }
-      // 	  j++;
-      // 	}
+      size_t j = 0;
+      while (j < _vision[i].size())
+      	{
+	  std::string item = _vision[i][j];
+      	  if ((item == "nourriture" && _inventory["nourriture"] < 126) || (item != "nourriture" && _inventory[item] < _forUp[std::make_pair(_level, item)]))
+      	    {
+      	      if (i == 0)
+      	  	throw to_C("ramasse");
+      	      else
+      	  	setInstruction(i, item);
+      	    }
+      	  j++;
+      	}
       i++;
     }
 }
@@ -246,13 +248,41 @@ const char *Ai::action(std::string msg)
 
   try
     {
-      if (_waitInv != true && (_inventory.empty()  || msg.find("ko")))
-	return("inventaire");
-      if (_waitInv == true)
+      if (msg.find("AliveCheck"))
+	return ("broadcast Alive");
+      if (msg.find("PING") && msg.find(_ID))
+	{
+	  std::string ret =  "broadcast PONG " + _ID;
+	  return ret.c_str();
+	}
+      if (!_targetID.empty())
+	{
+	  if (_waitPong != true)
+	    {
+	      _waitPong = true;
+	      std::string ret = "broadcast PING " + _targetID;
+	      return (ret.c_str());
+	    }
+	  if (msg.find("PONG") && msg.find(_targetID))
+	    {
+	      _waitPong = false;
+	      int direction = msg[8] - '0';
+	      move(direction);
+	    }
+	}
+      if (_waitInventory != true && (_inventory.empty()  || msg.find("ko")))
+	{
+	  _waitInventory = true;
+	  return("inventaire");
+	}
+      if (_waitInventory == true)
 	this->setInventory(msg);
-      if (_waitVis != true &&  _vision.empty())
-	return("voir");
-      if (_waitVis == true)
+      if (_waitVision != true &&  _vision.empty())
+	{
+	  _waitVision = true;
+	  return("voir");
+	}
+      if (_waitVision == true)
 	this->setVision(msg);
       if (!_instruction.empty())
 	{
@@ -268,10 +298,9 @@ const char *Ai::action(std::string msg)
     }
   catch (const to_C &e)
     {
+      _vision.clear();
       return e.what();
     }
-  // _inventory = NULL;
-  _vision.clear();
 
   return NULL;
   //TODO select broadcast:
