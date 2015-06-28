@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:07:30 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 18:41:27 2015 Martin Porrès
+** Last update Sun Jun 28 13:22:43 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -73,8 +73,8 @@ int			accept_clients(t_serv *serv)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
-  check_fds_states(serv, 0);
   check_fds_states(serv, 1);
+  check_fds_states(serv, 0);
   return (EXIT_SUCCESS);
 }
 

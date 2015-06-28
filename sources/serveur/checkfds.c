@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:09:32 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 18:55:14 2015 Martin Porrès
+** Last update Sun Jun 28 13:23:21 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -77,7 +77,7 @@ void			check_fds_states(t_serv *serv, int type)
 	    tmp->cmd = NULL;
 	  }
       tmp = tmp->next;
-    }
+   }
 }
 
 char			*close_connect(t_serv *serv, int fd, int type)
