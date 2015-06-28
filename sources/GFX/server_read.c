@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:38:38 2015 Jordan Chazottes
-** Last update Fri Jun 26 18:18:50 2015 Jordan Chazottes
+** Last update Sun Jun 28 10:39:45 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -26,9 +26,9 @@ int		server_read(t_gfx *s)
   if (ret == BUFF_SIZE - 1)
     s->network.entire_cmd = 0;
   else
-    {
-      printf("Server message : %s\n", s->network.cmd);
+    /* { */
+    /*   printf("Server message : %s\n", s->network.cmd); */
       s->network.entire_cmd = 1;
-    }
+    /* } */
   return (EXIT_SUCCESS);
 }

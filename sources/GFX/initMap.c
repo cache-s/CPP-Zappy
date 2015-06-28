@@ -5,59 +5,54 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 15:11:07 2015 Jordan Chazottes
-** Last update Sat Jun 27 16:50:03 2015 Jordan Chazottes
+** Last update Sun Jun 28 10:49:41 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 #include	<string.h>
 
-int		getMapSize(t_gfx *s, char *str)
+int		setBlock(t_gfx *s, char *token)
 {
-  char		*tmp;
-  char		*token;
+  (void)s;
+  char		*tok;
 
-  tmp = strdup(str);
-  token = strtok(tmp, " ");
-  if (strcmp(token, "msz") != 0)
+  tok = strtok(token, " ");
+  if (strcmp(tok, "bct") != 0)
     return (EXIT_FAILURE);
-  s->width = atoi(strtok(NULL, " "));
-  s->height = atoi(strtok(NULL, " "));
+  while (tok != NULL)
+    {
+      printf("-%s\n", tok);
+      tok = strtok(NULL, " ");
+    }
   return (EXIT_SUCCESS);
 }
 
-int		getTime(t_gfx *s, char *str)
+int		getCmd(t_gfx *s, char *token)
 {
-  char		*tmp;
-  char		*token;
+  char		*tok;
+  char		*str;
+  int		i;
 
-  tmp = strdup(str);
-  token = strtok(tmp, " ");
-  if (strcmp(token, "sgt") != 0)
+  i = 0;
+  str = strdup(token);
+  tok = strtok(str, " ");
+  while (s->cmdTab[i] != NULL && strcmp(tok, s->cmdTab[i]) != 0)
+    ++i;
+  if (s->cmdTab[i] == NULL)
     return (EXIT_FAILURE);
-  s->time = atoi(strtok(NULL, " "));
+  if ((s->cmds[i](s, token)) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
 int		initMap(t_gfx *s, char *str, char *token, char *end_str)
 {
-  char		*str2;
-  char		*token2;
-  char		*end_token;
-
   str = strdup(s->network.cmd);
-  /* token = strtok_r(str, "\n", &end_str); */
-  if (getMapSize(s, strtok_r(str, "\n", &end_str)) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (getTime(s, strtok_r(NULL, "\n", &end_str)) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  token = strtok_r(str, "\n", &end_str);
   while (token != NULL)
     {
-      str2 = strdup(token);
-      token2 = strtok_r(str2, " ", &end_token);
-      while (token2 != NULL)
-	{
-	  token2 = strtok_r(NULL, " ", &end_token);
-	}
+      printf("*%s*\n", token);
+      getCmd(s, token);      
       token = strtok_r(NULL, "\n", &end_str);
     }
   s->network.init = 2;
