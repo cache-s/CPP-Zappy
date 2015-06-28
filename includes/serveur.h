@@ -79,7 +79,7 @@ typedef struct		s_client
   char			need_write;
   char			*cmd;
   eOrientation		orientation;
-  char			gfx;
+  int			lvl;
   int			x;
   int			y;
   char			gfx;

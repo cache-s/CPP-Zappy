@@ -10,6 +10,27 @@
 
 #include		"serveur.h"
 
+void			look_floor(int x, int y, t_serv *serv, t_client *client)
+{
+  int			i;
+  // int			j;
+  int			tmp_i;
+  /* dprintf(client->fd, "%i", serv->map->blocks[x][y].items[2]); */
+
+ i = 0;
+  //  j = 0;
+  while (i < 7)
+    {
+      tmp_i = serv->map->blocks[x][y].items[i];
+      if (serv->map->blocks[x][y].items[i] != 0)
+	{
+	  dprintf(client->fd, "%i", serv->map->blocks[x][y].items[i]);
+	}
+      i++;
+    }
+  dprintf(client->fd, ",");
+  }
+
 int			cmd_see(t_serv *serv, t_client *client, char *cmd)
 {
   (void)serv;
@@ -17,6 +38,15 @@ int			cmd_see(t_serv *serv, t_client *client, char *cmd)
   if (my_write(client->fd, "cmd_see") == EXIT_FAILURE)
     return (EXIT_FAILURE);
 
+  look_floor(10, 10, serv, client);
+
+  /* int	tmp_x_left; */
+  /* int   tmp_x_right; */
+  /* int   tmp_y; */
+
+  /* tmp_x_left = client->x; */
+  /* tmp_x_right = client->x; */
+  /* tmp_y = client_y; */
   /* 
      Permet de regarder ce qui se trouve sur les cases alentours, en fonction d'un champ de vision. Le champ de vision augmente en fonction du niveau d'incantation et commence à 1.
      -
