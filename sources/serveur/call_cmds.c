@@ -16,13 +16,11 @@ int                     call_cmds(t_serv *serv, char *cmd)
   int                   i;
 
   i = 0;
-  printf("Cmd = %s\n", cmd);
-  while (i < (NB_CMDS - 1))
+  while (i < NB_CMDS)
     {
-      puts(serv->AIFcts[i]);
       if (strcmp(cmd, serv->AIFcts[i]) == 0)
 	return (i);
       i++;
     }
-  return (i);
+  return (42);
 }

@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Wed Jun 24 18:40:00 2015 Mathieu
-** Last update Wed Jun 24 18:40:00 2015 Mathieu
+** Last update Fri Jun 26 16:38:40 2015 Jordan Chazottes
 */
 
 #include		"serveur.h"
@@ -53,7 +53,7 @@ int			jewels_food_generation(t_block *block, int i, int j)
     }
   block->x = i;
   block->y = j;
-  if (rand() % 3 == 1)
+  if (rand() % 10 <= 4)
     {
       block->items[rand() % 7] += 1;
       block->items[rand() % 7] += 1;

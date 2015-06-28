@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:09:32 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 13:10:04 2015 Martin Porrès
+** Last update Sun Jun 28 13:23:21 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -77,7 +77,7 @@ void			check_fds_states(t_serv *serv, int type)
 	    tmp->cmd = NULL;
 	  }
       tmp = tmp->next;
-    }
+   }
 }
 
 char			*close_connect(t_serv *serv, int fd, int type)
@@ -94,7 +94,7 @@ char			*close_connect(t_serv *serv, int fd, int type)
     return (NULL);
   while (tmp->next != NULL && tmp->next->fd != fd)
     tmp = tmp->next;
-  if (tmp->next->fd != fd)
+  if (tmp->next != NULL)
     return (NULL);
   if (tmp->next != NULL)
     {
@@ -111,7 +111,6 @@ char			*close_connect(t_serv *serv, int fd, int type)
 
 int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
-
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
@@ -137,7 +136,6 @@ char			*client_read(UNUSED t_serv *serv, int fd)
     return (my_error_null(ERR_MALLOC));
   bzero(cmd, BUFF_SIZE);
   size_read = read(fd, cmd, BUFF_SIZE - 1);
-  printf("%d\n", size_read);
   if (size_read <= 0)
     {
       close_connect(serv, fd, 0);

@@ -14,10 +14,8 @@ char			*itoa(int val)
 {
   char			*str;
 
-  str = NULL;
   if ((str = malloc(sizeof(char) * 50)) == NULL)
     return (my_error_null(ERR_MALLOC));
-  str[50] = '\0';
   sprintf(str, "%d", val);
   return (str);
 }

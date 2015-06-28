@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 13:29:44 2015 Jordan Chazottes
-** Last update Fri Jun 26 14:48:38 2015 Jordan Chazottes
+** Last update Sat Jun 27 15:24:58 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -21,17 +21,22 @@ int		welcomeServ(t_gfx *s)
       if (s->network.cmd != NULL)
 	free(s->network.cmd);
       s->network.cmd = NULL;
-      s->network.init++;
+      s->network.init = 1;
     }
   return (EXIT_SUCCESS);
 }
 
 int		initConnection(t_gfx *s)
 {
+  printf("Init = %d\n", s->network.init);
   if (s->network.init == 0)
-    if (welcomeServ(s) == EXIT_FAILURE)
+    {
+      if (welcomeServ(s) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      return (EXIT_SUCCESS);
+    }
+  if (s->network.init == 1)
+    if (initMap(s, NULL, NULL, NULL) == EXIT_FAILURE)
       return (EXIT_FAILURE);
-  /* if (s->network.init == 1) */
-  /*   if (initMap */
   return (EXIT_SUCCESS);
 }

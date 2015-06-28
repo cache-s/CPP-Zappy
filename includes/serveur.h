@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 13:11:26 2015 Martin Porrès
+** Last update Sat Jun 27 18:17:05 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -72,6 +72,7 @@ typedef struct		s_settings
 
 typedef struct		s_client
 {
+  int			id;
   fct			fct_read;
   fct			fct_write;
   int			fd;
@@ -82,7 +83,6 @@ typedef struct		s_client
   int			lvl;
   int			x;
   int			y;
-  char			gfx;
   int			items[7];
   struct s_client	*next;
 }			t_client;
@@ -144,6 +144,11 @@ int		welcome_msg(t_serv *serv, int fd);
 int		count_char(char *str, char c);
 
 int		cmd_move_forward(t_serv *serv, t_client *client, char *cmd);
+void		modify_x(t_client *client, int width);
+void		modify_y(t_client *client, int height);
+int		write_player_pos(t_serv *serv, t_client *client);
+int		write_player_pos_end(char *msg, char *id, char *pos[2], char *o);
+
 int		cmd_right(t_serv *serv, t_client *client, char *cmd);
 int		cmd_left(t_serv *serv, t_client *client, char *cmd);
 int		cmd_see(t_serv *serv, t_client *client, char *cmd);
@@ -169,8 +174,8 @@ int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
 
-int		write_msz(t_serv *serv, t_client *client);
-int		write_sgt(t_serv *serv, t_client *client);
-int		write_tna(t_serv *serv, t_client *client);
+void		write_tna(t_serv *serv, int fd);
+void		write_bct(t_block *block, int fd);
+int		write_to_gfx(t_client *gfx, char *msg);
 
 #endif
