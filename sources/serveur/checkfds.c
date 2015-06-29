@@ -70,7 +70,7 @@ void			check_fds_states(t_serv *serv, int type)
 	      FD_SET(serv->socket, &serv->writefds);
 	      tmp->need_write = 1;
 	    }
-	  else 
+	  else
 	    check_team(serv, tmp, cmd);
 	}
       if (tmp->cmd != NULL && count_char(tmp->cmd, '\n') == 1)
