@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 23 13:04:16 2015 Jordan Chazottes
-** Last update Sat Jun 27 14:45:33 2015 Jordan Chazottes
+** Last update Sun Jun 28 14:52:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -20,7 +20,6 @@ int		initNetwork(t_gfx *s, char *ip, int port)
   sin.sin_family = AF_INET;
   sin.sin_port = htons(port);
   sin.sin_addr.s_addr = inet_addr(ip);
-  printf(BOLD GREEN "Connecting to server\n" END);
   if (connect(s->network.socket, (const struct sockaddr *)&sin, sizeof(sin)) == -1)
     return (my_error_close(ERR_CONNECT, s->network.socket));
   return (EXIT_SUCCESS);

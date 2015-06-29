@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Fri Jun 26 11:54:22 2015 Martin Porrès
-** Last update Sun Jun 28 18:55:31 2015 Martin Porrès
+** Last update Mon Jun 29 15:00:49 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -20,6 +20,11 @@ int		init_connection(t_client *client)
     }
   else
     {
+      if (client->clt_cmd != NULL)
+	{
+	  free(client->clt_cmd);
+	  client->clt_cmd = NULL;
+	}
       if (init_num_and_pos(client) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }

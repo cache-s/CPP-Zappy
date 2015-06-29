@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 18:01:03 2015 Pierre Charie
-// Last update Sun Jun 28 17:31:59 2015 Pierre Charie
+// Last update Mon Jun 29 11:59:33 2015 Pierre Charie
 //
 
 #ifndef		AI_HPP
@@ -52,6 +52,9 @@ private:
   bool						_waitInventory;
   bool						_waitVision;
   bool						_waitPong;
+  bool						_waitOk;
+
+  std::string					_lastInstruction;
 };
 
 #endif

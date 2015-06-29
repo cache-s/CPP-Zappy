@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Sun Jun 28 20:01:25 2015 Pierre Charie
+// Last update Mon Jun 29 14:44:56 2015 Pierre Charie
 //
 
 #include "Ai.hpp"
@@ -77,7 +77,7 @@ Ai::~Ai()
 {
 }
 
-void		Ai::setInventory(std::string inventory)
+void		Ai::setInventory(std::string inventory) //Work
 {
   std::string	bigItem;
   std::string	item;
@@ -89,21 +89,23 @@ void		Ai::setInventory(std::string inventory)
     {
       std::istringstream issItem(bigItem);
       std::getline(issItem, item, ' ');
+      if (item[0] == '{')
+	item.erase(0,1);
       if (item[0] == ' ')
-	item.erase(1,1);
+	item.erase(0,1);
       std::getline(issItem, number);
-      std::istringstream (number) >> nbr; //a verif que ca marche
-      _inventory[item] = nbr; // ou _inventory.insert( std::make_pair(item, nbr) ); ?
+      std::istringstream (number) >> nbr;
+      // std::cout << "item = " << item << " nbr = " << nbr << std::endl;
+      _inventory[item] = nbr;
     }
 
 }
 
-void Ai::setVision(std::string canSee)
+void Ai::setVision(std::string canSee) //WORK
 {
   std::string	mapCase;
   std::string	item;
   int		caseNbr = 0;
-  bool		bDone;
 
   std::istringstream iss(canSee);
 
@@ -111,16 +113,18 @@ void Ai::setVision(std::string canSee)
   while(std::getline(iss, mapCase, ','))
     {
       std::istringstream issItem(mapCase);
-      bDone = false;
       while (std::getline(issItem, item, ' '))
 	{
-	  if (item[0] == ' ')
-	    item.erase(1,1);
+	  if (item[0] == '{')
+	    item.erase(0,1);
+	  if (item.find('}') != std::string::npos)
+	    item.erase(item.find('}'));
+	  while (item[0] == ' ')
+	    item.erase(0,1);
+	  if (item != "")
+	    std::cout << "item " << item << " at case " << caseNbr << std::endl;
 	  _vision[caseNbr].push_back(item);
-	  caseNbr++;
-	  bDone = true;
 	}
-      if (bDone == false)
 	caseNbr++;
     }
 }
@@ -200,18 +204,21 @@ void	Ai::checkInventory()
 {
 }
 
-void	Ai::setInstruction(int mapCase, std::string obj)
+void	Ai::setInstruction(int mapCase, std::string obj) //WORK
 {
   int y = 0, x = 0, pos = 0, i = 3, median = 0;
 
-  while (pos <= mapCase)
+  while (pos < mapCase)
     {
       pos += i;
       i += 2;
       y++;
     }
-  median = (pos + 1 + pos - i) / 2;
-  x = pos - median;
+  median = ((pos + 1 + pos - i) / 2) + 1;
+  x = mapCase - median;
+  std::cout << "pos = " << pos << "median =" << median << std::endl;
+
+  std::cout << "Y = " << y << " X = " << x << std::endl;
 
   while (y > 0)
     {
@@ -227,7 +234,7 @@ void	Ai::setInstruction(int mapCase, std::string obj)
 	  x--;
 	}
     }
-  else
+  else if (x < 0)
     {
       _instruction.push_back("gauche");
       while (x < 0)
@@ -237,7 +244,7 @@ void	Ai::setInstruction(int mapCase, std::string obj)
 	}
     }
   std::string tmp;
-  tmp = "ramasse " + obj;
+  tmp = "prend " + obj;
   _instruction.push_back(tmp);
 }
 
@@ -245,17 +252,20 @@ void	Ai::checkVision()
 {
   int i = 0;
 
-  while (i < ((_level * 2) - 1))
+  while (i < (((_level + 1) * _level) + _level))
     {
       size_t j = 0;
       while (j < _vision[i].size())
       	{
 	  std::string item = _vision[i][j];
-	  std::cout << "item en vue! = " << item << std::endl;
-      	  if ((item == "nourriture" && _inventory["nourriture"] < 126) || (item != "nourriture" && _inventory[item] < _forUp[std::make_pair(_level, item)]))
+      	  if ((item == "nourriture" && _inventory["nourriture"] < 126) || (item != "nourriture" && item != "joueur" && item != "" && _inventory[item] < _forUp[std::make_pair(_level, item)]))
       	    {
+	      std::cout << "item en vue! = " << item << " case " << i << std::endl;
       	      if (i == 0)
-      	  	throw to_C("ramasse");
+		{
+		  std::string inst = "prend " + item;
+		  throw to_C(inst);
+		}
       	      else
       	  	setInstruction(i, item);
       	    }
@@ -265,61 +275,97 @@ void	Ai::checkVision()
     }
 }
 
+#include <unistd.h>
+
 char *Ai::action(std::string msg)
 {
 
   try
     {
+      usleep(100000);
       std::cout << "debut IA : msg = " << msg << std::endl;
       // if (msg.find("ok") != std::string::npos || msg.find("ko") != std::string::npos) //TODO gestion du KO
       // 	{
       // 	  std::cout << "NULL\n";
       // 	  return NULL;
       // 	}
+      if (_waitOk == true)
+      	{
+      	  if (msg.find("ok") != std::string::npos || msg.find("ko") != std::string::npos)
+      	    _waitOk = false;
+      	  else
+      	    throw to_C(_lastInstruction);
+      	}
+      std::cout << "1" << std::endl;
       communicate(msg);
-      if (_waitInventory != true && (_inventory.empty()  || msg.find("ko") != std::string::npos))
-	{
-	  _waitInventory = true;
-	  std::cout << "Inventaire!\n";
-	  return((char*)"inventaire");
-	}
+      std::cout << "2" << std::endl;
+      if (_waitInventory != true && (_inventory.empty()))
+      	{
+      	  _waitInventory = true;
+      	  throw to_C("inventaire");
+      	}
+      std::cout << "3" << std::endl;
       if (_waitInventory == true)
-	{
-	  _waitInventory = false;
-	  this->setInventory(msg);
-	}
-      if (_waitVision != true &&  _vision.empty())
-	{
-	  _waitVision = true;
-	  std::cout << "Vision!\n";
-	  return((char*)"voir");
-	}
+      	{
+      	  if (msg[0] == '{')
+      	    {
+      	      std::cout << "inventaire = " << msg << std::endl;
+      	      _waitInventory = false;
+      	      this->setInventory(msg);
+      	    }
+      	  else
+      	    throw to_C("inventaire");
+       	}
+      if (_waitVision != true && (_vision.empty()))
+      	{
+      	  _waitVision = true;
+      	  std::cout << "Vision!\n";
+      	  throw to_C("voir");
+      	}
       if (_waitVision == true)
-	{
-	  _waitVision = false;
-	  std::cout << "we see " << msg;
-	  this->setVision(msg);
-	}
+      	{
+      	  if (msg[0] == '{')
+      	    {
+      	      _waitVision = false;
+      	      std::cout << "we see " << msg;
+      	      this->setVision(msg);
+      	    }
+      	  else
+      	    throw to_C("voir");
+      	}
       if (!_instruction.empty())
-	{
-	  std::string cmd = _instruction.front();
-	  _instruction.pop_front();
-	  std::cout << "instruction : " << cmd;
-	  return (char*)cmd.c_str();
-	}
+      	{
+      	  std::string cmd = _instruction.front();
+      	  _instruction.pop_front();
+      	  std::cout << "instruction : " << cmd;
+      	  throw to_C(cmd.c_str());
+      	}
       if (_mustWait == true)
-	return NULL;
+      	return NULL;
 
       checkVision();
-      //faire OP ici;
-      std::cout << "On a rien a faire : msg = " << msg << std::endl;
+      if (!_instruction.empty())
+      	{
+      	  std::string cmd = _instruction.front();
+      	  _instruction.pop_front();
+      	  std::cout << "instruction : " << cmd << std::endl;
+      	  throw to_C(cmd.c_str());
+      	}
+      // //   //faire OP ici;
+      // //   std::cout << "On a rien a faire : msg = " << msg << std::endl;
       move(0);
     }
   catch (const to_C &e)
     {
       _vision.clear();
-      std::cout << "On a un objectif " << msg << std::endl;
+      // std::cout << "On a un objectif " << msg << std::endl;
       std::cout << "commande = " << e.what() << std::endl;
+      std::string cmd = e.what();
+      if (cmd.find("prend") != std::string::npos)
+	  {
+	    _lastInstruction = cmd;
+	    _waitOk = true;
+	  }
       return (char*)e.what();
     }
   return NULL;
