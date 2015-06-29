@@ -14,7 +14,6 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
 {
   int			pos;
 
-  
   pos = 0;
   cmd = strtok(cmd, "\n");
   if (cmd == NULL)
@@ -35,6 +34,7 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       	}
       dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[pos]);
       dprintf(client->fd, "%d %d\n", client->x, client->y);
+      client->id = client->fd;
     }
   else  
     if (my_write(client->fd, "ko") == EXIT_FAILURE)
