@@ -65,6 +65,7 @@ typedef struct		s_settings
   int			width;
   int			height;
   char			*teams;
+  int			*clients;
   int			nb_clients;
   int			delay;
   t_parser		parser;
@@ -163,11 +164,13 @@ int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
 int		check_team(t_serv *serv, t_client *client, char *cmd);
+int		get_team_pos(t_serv *serv, char *team);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
 int		fill_height(t_settings *settings, char *av, int i);
 int		fill_teams(t_settings *settings, char **av, int i);
+int		fill_teams_tabs(t_settings *settings);
 int		fill_nb_clients(t_settings *settings, char *av, int i);
 int		fill_delay(t_settings *settings, char *av, int i);
 
