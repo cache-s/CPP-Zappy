@@ -45,34 +45,41 @@ void			look_floor(int x, int y, t_serv *serv, t_client *client)
   dprintf(client->fd, ",");
 }
 
-int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
+void			see_with_orientation(t_serv *serv, t_client *client)
 {
   int			tmp_x_left;
   int			tmp_x_right;
   int			tmp_y;
   int			j;
+
+  tmp_x_left = client->x;
+  tmp_x_right = client->x;
+  tmp_y = client->y;
+  tmp_y = tmp_y + 1;
+  tmp_x_left = tmp_x_left - 1;
+  tmp_x_right = tmp_x_right + 1;     
+  j = tmp_x_left;
+  dprintf(client->fd, "<j = %i>",j);
+  dprintf(client->fd, "<x = %i>",tmp_x_right);
+  while (j != tmp_x_right)
+    {
+      look_floor(j, tmp_y, serv, client); 
+      j++;
+    }
+}
+
+int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
+{
   int			i;
   int			lvl;
   
   dprintf(client->fd, "{");
   lvl = 2;
   i = 1;
-  j = 0;
-  tmp_x_left = client->x;
-  tmp_x_right = client->x;
-  tmp_y = client->y;
-  look_floor(tmp_x_left, tmp_y, serv, client);
+  look_floor(client->x, client->y, serv, client);
   while (i <= lvl)
     {
-      tmp_y = tmp_y + 1;
-      tmp_x_left = tmp_x_left - 1;
-      tmp_x_right = tmp_x_right + 1;     
-      j = tmp_x_left;
-      while (j != tmp_x_right)
-	{
-	  look_floor(j, tmp_y, serv, client); 
-	  j++;
-	}
+      see_with_orientation(serv, client);
       i++;
     }
   dprintf(client->fd, "}\n");
