@@ -74,9 +74,11 @@ t_settings		*parse_args(char **av)
     {
       pos = get_pos_in_tab(settings, av[i]);
       if (pos != 42 && pos != 3)
-      	i = settings->parser.args[pos](settings, av[i + 1], i);
+      	if ((i = settings->parser.args[pos](settings, av[i + 1], i)) == EXIT_FAILURE)
+	  return (NULL);
       if (pos == 3)
-	i = settings->parser.args[pos](settings, av, i);
+	if ((i = settings->parser.args[pos](settings, av, i)) == EXIT_FAILURE)
+	  return (NULL);
       i++;
     }
   if ((check_values(settings) == EXIT_FAILURE))
