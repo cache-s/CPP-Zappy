@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sun Jun 28 10:49:26 2015 Jordan Chazottes
+** Last update Sun Jun 28 20:37:48 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -57,13 +57,32 @@ typedef struct		s_network
 }			t_network;
 
 /* DISPLAY*/
+typedef enum		eOrientation
+  {
+    NORTH	= 1,
+    EST		= 2,
+    SOUTH	= 3,
+    WEST	= 4
+  }			eOrientation;
+
+typedef enum		eType
+  {
+    PLAYER	= 0,
+    EGG		= 1
+  }			eType;
 
 typedef struct		s_player
 {
-  int			posX;
-  int			posY;
+  int			id;
+  int			x;
+  int			y;
+  int			level;
+  char			*team;
+  eOrientation		ori;
+  eType			type;
+  int			eId;
+  int			items[8];
   struct s_player	*next;
-  struct s_player	*prev;
 }			t_player; 
 
 typedef struct		s_block
@@ -86,7 +105,7 @@ typedef struct		s_gfx
   SDL_Surface*		screen;
   t_network		network;
   t_map			*map;
-
+  t_player		*players;
   char			**cmdTab;
   tabFcts		cmds[NB_CMDS];
 }			t_gfx;
@@ -102,19 +121,19 @@ char		*client_read();
 char		*client_write();
 
 int             my_write(int fd, char *str);
-/* char		*client_read(); */
-/* char		*client_write(); */
-/* int		create_client(t_gfx*, int); */
-/* int		welcome_msg(int); */
 int		server_read(t_gfx *s);
 int		gfx_loop(t_gfx *s);
 int		save_srv_cmd(t_gfx *s, char *buffer);
 int		handleCmd(t_gfx *s);
-int		initConnection(t_gfx *s);
 int		initMap(t_gfx *s, char *str, char *token, char *end_str);
 void		initFctTab(t_gfx *s);
 int		initCmdTab(t_gfx *s);
 int		allocMap(t_gfx *s);
+int		getCmd(t_gfx *s, char *token);
+int		welcomeServ(t_gfx *s);
+int		setPlayerParam(t_player *new, char *token);
+t_player	*getPlayer(t_gfx *s, int id);
+t_player	*getPrevPlayer(t_gfx *s, int id);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);
