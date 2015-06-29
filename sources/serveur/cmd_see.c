@@ -10,41 +10,71 @@
 
 #include		"serveur.h"
 
-int			cmd_see(t_serv *serv, t_client *client, char *cmd)
+void			look_floor(int x, int y, t_serv *serv, t_client *client)
 {
-  (void)serv;
-  (void)cmd;
-  if (my_write(client->fd, "cmd_see") == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-
-  /* 
-     Permet de regarder ce qui se trouve sur les cases alentours, en fonction d'un champ de vision. Le champ de vision augmente en fonction du niveau d'incantation et commence à 1.
-     -
-     
-     char *algodelamortquitue(t_client *player)
-     {
-      char *oùestquoi;
-      int i = 0;
-      tmp_x_left = player->posX; //Seulement au début pour donner la valeur de départ du joueur
-./      tmp_x_right = player->posX; // Pareil que ci dessus
-      tmp_y = player->posY; 
-
-      regarder à player->pos
-     / //si rien sur la case écrire ",", sinon écrire "Nom de l'objet," dans oùestquoi;
+  int			i;
+  int			tmp_i;
+  int			check;
+  
+  i = 0;
+  check = 0;
+  while (i < 7)
+    {
+      tmp_i = serv->map->blocks[x][y].items[i];
+      if (serv->map->blocks[x][y].items[i] != 0)
+	{
+	  if (tmp_i > 1)
+	    {
+	      while (tmp_i != 0)
+		{
+		  dprintf(client->fd, "%i ", i);
+		  tmp_i--;
+		}
+	    }
+	  else
+	    {
+	      if (check == 1)
+		dprintf(client->fd, "%i ", i);
+	      else
+		dprintf(client->fd, "%i", i);
+	    }
+	  check = 1;
+	}
       i++;
+    }
+  dprintf(client->fd, ",");
+}
 
-      tant que i != player->lvl 
-      {
-      	//A réfléchir mais en gros rajouter + 2 à chaque incrémentation de level de chaque coté des cases du lvl du dessous.
-	 i++;
-      }
-      return (oùestquoi);
-     }
-
-     
-     Rien a envoyer à la GFX
-     Send to IA : case1, case2, case3 [...]
-       Exemple -> thysthame,,,nourriture,,
-   */
+int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
+{
+  int			tmp_x_left;
+  int			tmp_x_right;
+  int			tmp_y;
+  int			j;
+  int			i;
+  int			lvl;
+  
+  dprintf(client->fd, "{");
+  lvl = 2;
+  i = 1;
+  j = 0;
+  tmp_x_left = client->x;
+  tmp_x_right = client->x;
+  tmp_y = client->y;
+  look_floor(tmp_x_left, tmp_y, serv, client);
+  while (i <= lvl)
+    {
+      tmp_y = tmp_y + 1;
+      tmp_x_left = tmp_x_left - 1;
+      tmp_x_right = tmp_x_right + 1;     
+      j = tmp_x_left;
+      while (j != tmp_x_right)
+	{
+	  look_floor(j, tmp_y, serv, client); 
+	  j++;
+	}
+      i++;
+    }
+  dprintf(client->fd, "}\n");
   return (EXIT_SUCCESS);
 }

@@ -27,7 +27,7 @@
 
 # define		MAX_ARGS	6
 # define		MAX_FD		1000
-# define		BUFF_SIZE	5
+# define		BUFF_SIZE	500
 # define		NB_CMDS		13
 # define		WELCOME		"BIENVENUE\n"
 
@@ -65,6 +65,7 @@ typedef struct		s_settings
   int			width;
   int			height;
   char			*teams;
+  int			*clients;
   int			nb_clients;
   int			delay;
   t_parser		parser;
@@ -81,8 +82,10 @@ typedef struct		s_client
   char			*cmd;
   eOrientation		orientation;
   char			gfx;
+  int			lvl;
   int			x;
   int			y;
+  char			connected;
   int			items[7];
   struct s_client	*next;
 }			t_client;
@@ -161,11 +164,14 @@ int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
+int		check_team(t_serv *serv, t_client *client, char *cmd);
+int		get_team_pos(t_serv *serv, char *team);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
 int		fill_height(t_settings *settings, char *av, int i);
 int		fill_teams(t_settings *settings, char **av, int i);
+int		fill_teams_tabs(t_settings *settings);
 int		fill_nb_clients(t_settings *settings, char *av, int i);
 int		fill_delay(t_settings *settings, char *av, int i);
 

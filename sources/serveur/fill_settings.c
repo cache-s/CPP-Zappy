@@ -50,7 +50,24 @@ int			fill_teams(t_settings *settings, char **args, int i)
       i++;
       j++;
     }
+  if (fill_teams_tabs(settings) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (i);
+}
+
+int			fill_teams_tabs(t_settings *settings)
+{
+  int			i;
+
+  i = 0;
+  if ((settings->clients = malloc(sizeof(int) * count_char(settings->teams, ';') + 1)) == NULL)
+    return (my_error(ERR_MALLOC));
+  while (settings->clients[i])
+    {
+      settings->clients[i] = 0;
+      i++;
+    }
+  return (EXIT_SUCCESS);
 }
 
 int			fill_nb_clients(t_settings *settings, char *arg, int i)

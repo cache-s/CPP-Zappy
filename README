@@ -1,4 +1,4 @@
--> Fonction write_to_gfx(t_serv *serv, char *msg);
+B1;2802;0c-> Fonction write_to_gfx(t_serv *serv, char *msg);
 -> enum Orientation
 -> donner un numéro à chaque client
 -> a chaque nouveau client -> envoyer pnw #n X Y O L N\n
@@ -6,3 +6,4 @@
    	 : Set struct tv.sec a cette valeur
 	 : décrémenter les compteurs de tous les clients, puis reprendre la valeur la plus courte
 	 : DONE.
+-> Verifier valeur de port & doublons team (FDP)

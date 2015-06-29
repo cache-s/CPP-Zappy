@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sun Jun 28 20:37:48 2015 Jordan Chazottes
+** Last update Mon Jun 29 14:08:26 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -134,6 +134,7 @@ int		welcomeServ(t_gfx *s);
 int		setPlayerParam(t_player *new, char *token);
 t_player	*getPlayer(t_gfx *s, int id);
 t_player	*getPrevPlayer(t_gfx *s, int id);
+int		draw(t_gfx *s);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);
