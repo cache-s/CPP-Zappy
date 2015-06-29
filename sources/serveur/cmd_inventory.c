@@ -5,28 +5,17 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Mon Jun 15 16:20:56 2015 Mathieu Bourmaud
+** Last update Mon Jun 29 18:06:32 2015 Martin Porrès
 */
 
 #include		"serveur.h"
 
-int			cmd_inventory(t_serv *serv, t_client *client, char *cmd)
+int			cmd_inventory(UNUSED t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  (void)serv;
-  (void)cmd;
-  if (my_write(client->fd, "cmd_inventory") == EXIT_FAILURE)
+  if (dprintf(client->fd, "{nourriture %d, linemate %d, deraumere %d, sibur %d, \
+mendiane %d, phiras %d, thystame %d}\n", client->items[0], client->items[1],
+	      client->items[2], client->items[3], client->items[4],
+	      client->items[5], client->items[6]) == -1)
     return (EXIT_FAILURE);
-  
-  /* 
-     Renvoie l'inventaire du player.
-     -
-     
-     char *my_inv;
-     while (player->inv != vide)
-     my_inv = strcat(player->inv[x]);
-
-     Send to GFX : Rien
-     Send to IA : linemate n, sibur n [...]
-  */
   return (EXIT_SUCCESS);
 }
