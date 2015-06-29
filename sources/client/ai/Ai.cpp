@@ -5,7 +5,7 @@
 // Login   <charie_p@epitech.net>
 //
 // Started on  Wed Jun 17 17:31:45 2015 Pierre Charie
-// Last update Sun Jun 28 19:45:40 2015 Pierre Charie
+// Last update Sun Jun 28 20:01:25 2015 Pierre Charie
 //
 
 #include "Ai.hpp"
@@ -106,6 +106,7 @@ void Ai::setVision(std::string canSee)
   bool		bDone;
 
   std::istringstream iss(canSee);
+
 
   while(std::getline(iss, mapCase, ','))
     {
@@ -250,6 +251,7 @@ void	Ai::checkVision()
       while (j < _vision[i].size())
       	{
 	  std::string item = _vision[i][j];
+	  std::cout << "item en vue! = " << item << std::endl;
       	  if ((item == "nourriture" && _inventory["nourriture"] < 126) || (item != "nourriture" && _inventory[item] < _forUp[std::make_pair(_level, item)]))
       	    {
       	      if (i == 0)
@@ -268,12 +270,12 @@ char *Ai::action(std::string msg)
 
   try
     {
-      std::cout << "debut IA" << std::endl;
-      if (msg.find("ok") != std::string::npos || msg.find("ko") != std::string::npos) //TODO gestion du KO
-	{
-	  std::cout << "NULL\n";
-	  return NULL;
-	}
+      std::cout << "debut IA : msg = " << msg << std::endl;
+      // if (msg.find("ok") != std::string::npos || msg.find("ko") != std::string::npos) //TODO gestion du KO
+      // 	{
+      // 	  std::cout << "NULL\n";
+      // 	  return NULL;
+      // 	}
       communicate(msg);
       if (_waitInventory != true && (_inventory.empty()  || msg.find("ko") != std::string::npos))
 	{
@@ -282,7 +284,10 @@ char *Ai::action(std::string msg)
 	  return((char*)"inventaire");
 	}
       if (_waitInventory == true)
-	this->setInventory(msg);
+	{
+	  _waitInventory = false;
+	  this->setInventory(msg);
+	}
       if (_waitVision != true &&  _vision.empty())
 	{
 	  _waitVision = true;
@@ -290,7 +295,11 @@ char *Ai::action(std::string msg)
 	  return((char*)"voir");
 	}
       if (_waitVision == true)
-	this->setVision(msg);
+	{
+	  _waitVision = false;
+	  std::cout << "we see " << msg;
+	  this->setVision(msg);
+	}
       if (!_instruction.empty())
 	{
 	  std::string cmd = _instruction.front();
