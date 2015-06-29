@@ -24,7 +24,7 @@ CXX		=	g++
 
 RM		=	rm -f
 
-CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
+CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs -lncurses
 
 CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
 

@@ -21,7 +21,7 @@ int			new_client(t_serv *serv)
     return (my_error_close(ERR_ACCEPT, serv->socket));
   if (cs > serv->fds)
     serv->fds = cs;
-  if (my_write(2, "New client connected on the server") == EXIT_FAILURE)
+  if (my_write(2, CYAN "*** New client connected on the server" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (create_client(serv, cs) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -63,6 +63,8 @@ int			create_client(t_serv *serv, int fd)
   while (tmp->next != NULL)
     tmp = tmp->next;
   tmp->next = new;
+  if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
