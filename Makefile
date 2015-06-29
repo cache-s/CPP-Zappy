@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Mon Jun 29 15:02:33 2015 Jordan Chazottes
+## Last update Mon Jun 29 19:34:25 2015 Sebastien Cache-Delanos
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -35,7 +35,6 @@ GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image -lpthread
 DYNLIB		+=	-fpic -shared
 
 SRCS_AI		=	sources/AI/AI.cpp			\
-			sources/client/ai/Ai.cpp		\
 
 SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 
