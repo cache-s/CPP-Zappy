@@ -15,7 +15,8 @@ void			write_bct(t_block *block, int fd)
   int			i;
   
   i = 0;
-  dprintf(fd, "bct %d %d ", block->x, block->y);
+  if (dprintf(fd, "bct %d %d ", block->x, block->y) == -1)
+    puts("gros fdp");
   while (i < 7)
     {
       if ((i + 1) >= 7)

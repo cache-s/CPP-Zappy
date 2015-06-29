@@ -14,28 +14,27 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
 {
   int			pos;
 
+  
   pos = 0;
   cmd = strtok(cmd, "\n");
+  if (cmd == NULL)
+    return (EXIT_FAILURE);
   if (strcmp(cmd, "GRAPHIC") == 0)
     return (cmd_graphic(serv, client, cmd));
-  printf("%s %s\n", cmd, serv->settings->teams);
   if (strstr(serv->settings->teams, cmd) != NULL)
     {
       client->team = strdup(cmd);
       client->connected = 1;
-      if (my_write(client->fd, "ok") == EXIT_FAILURE)
-	return (EXIT_FAILURE);
       pos = get_team_pos(serv, cmd);
-      printf("%d\n", pos);
-      /* serv->settings->clients[pos] += 1; */
-      /* if (serv->settings->clients[pos] > serv->settings->nb_clients) */
-      /* 	{ */
-      /* 	  if (my_write(client->fd, "ko") == EXIT_FAILURE) */
-      /* 	    return (EXIT_FAILURE); */
-      /* 	  serv->settings->clients[pos] = serv->settings->nb_clients; */
-      /* 	} */
-      /* dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[pos]); */
-      /* dprintf(client->fd, "%d %d\n", client->x, client->y); */
+      serv->settings->clients[pos] += 1;
+      if (serv->settings->clients[pos] > serv->settings->nb_clients)
+      	{
+      	  if (my_write(client->fd, "ko") == EXIT_FAILURE)
+      	    return (EXIT_FAILURE);
+      	  serv->settings->clients[pos] = serv->settings->nb_clients;
+      	}
+      dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[pos]);
+      dprintf(client->fd, "%d %d\n", client->x, client->y);
     }
   else  
     if (my_write(client->fd, "ko") == EXIT_FAILURE)
