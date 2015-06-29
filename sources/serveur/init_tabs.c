@@ -25,6 +25,21 @@ int			init_items(t_serv *serv)
   return (EXIT_SUCCESS);
 }
 
+int			init_clients(t_serv *serv)
+{
+  int			i;
+
+  i = 0;
+  if ((serv->settings->clients = malloc(sizeof(int) * 8)) == NULL)
+    return (my_error(ERR_MALLOC));
+  while (i < 7)
+    {
+      serv->settings->clients[i] = 0;
+      i++;
+    }
+  return (EXIT_SUCCESS);
+}
+
 void			init_AI_cmds(t_serv *serv)
 {
   serv->cmds[0] = cmd_move_forward;
@@ -64,5 +79,6 @@ int			init_AI_tabs(t_serv *serv)
   serv->AIFcts[12] = strdup("GRAPHIC");
   init_AI_cmds(serv);
   init_items(serv);
+  init_clients(serv);
   return (EXIT_SUCCESS);
 }
