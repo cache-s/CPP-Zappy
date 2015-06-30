@@ -102,6 +102,13 @@ typedef struct		s_map
   t_block	       	**blocks;
 }			t_map;
 
+typedef struct		s_timer
+{
+  time_t		start;
+  time_t		end;
+  time_t		elapsed;
+}			t_timer;
+
 typedef struct		s_serv
 {
   int			port;
@@ -118,9 +125,12 @@ typedef struct		s_serv
   t_client		*gfx;
   t_settings		*settings;
   t_parser		parse;
+  t_timer		timer;
   int			nb_client;
   char			**items;
 }			t_serv;
+
+void		get_elapsed_time(t_serv *serv);
 
 int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
@@ -131,6 +141,7 @@ int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
 int		init_server(t_serv *serv);
 char		*close_connect(t_serv *serv, int fd, int type);
+int		set_client_values(t_serv *serv, t_client *new, int fd);
 
 int		my_write(int fd, char *str);
 void		empty_fds(t_serv *serv);
@@ -188,5 +199,6 @@ int		write_pgt_gfx(t_client *gfx, t_client *client, int item);
 int		write_pdr_gfx(t_client *gfx, t_client *client, int item);
 int		write_to_gfx(t_client *gfx, char *msg);
 int		write_ok(int fd, int ok);
+
 
 #endif

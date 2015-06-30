@@ -88,25 +88,26 @@ t_settings		*parse_args(char **av)
 
 int			check_teams(t_settings *settings)
 {
-  char			*str;
-  char			*tmp;
   int			occ;
-  const char		*substr;
+  char			*saveptr;
+  char			*tmp;
+  char			*token;
+  char			*save;
 
   occ = 0;
-  str = NULL;
   tmp = strdup(settings->teams);
-  str = strtok(tmp, ";");
-  substr = settings->teams;
-  while (str != NULL)
+  save = strdup(settings->teams);
+  token = strtok_r(tmp, ";", &saveptr);
+  while (token != NULL)
     {
-      if (str != NULL && substr != NULL)
-	while ((substr = strstr(substr, str)))
-	  {
-	    occ++;
-	    substr++;
-	  }
-      str = strtok(NULL, ";");
+      save = strdup(settings->teams);
+      while ((save = strstr(save, token)) != NULL)
+	{
+	  printf("%s | %s\n", save, token);
+	  occ++;
+	  save++;
+	}
+      token = strtok_r(NULL, ";", &saveptr);
     }
   if (occ > count_char(settings->teams, ';'))
     return (my_error(BOLD RED ERR_UNIQUE_TEAM END));

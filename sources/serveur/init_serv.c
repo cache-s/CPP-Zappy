@@ -30,7 +30,7 @@ int			new_client(t_serv *serv)
   return (EXIT_SUCCESS);
 }
 
-void			set_client_values(t_serv *serv, t_client *new, int fd)
+int			set_client_values(t_serv *serv, t_client *new, int fd)
 {
   new->cmd = NULL;
   new->need_write = 0;
@@ -44,6 +44,9 @@ void			set_client_values(t_serv *serv, t_client *new, int fd)
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
   serv->nb_client++;
+  if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
 }
 
 int			create_client(t_serv *serv, int fd)
@@ -63,19 +66,21 @@ int			create_client(t_serv *serv, int fd)
   while (tmp->next != NULL)
     tmp = tmp->next;
   tmp->next = new;
-  if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
 int			accept_clients(t_serv *serv)
 {
   empty_fds(serv);
+  serv->timer.start = time(NULL);
   if ((select(serv->fds + 1, &serv->readfds,
 	      &serv->writefds, NULL, NULL)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
+  serv->timer.end = time(NULL);
+  get_elapsed_time(serv);
+  printf("%d\n", (int)serv->timer.elapsed);
   check_fds_states(serv, 1);
   check_fds_states(serv, 0);
   return (EXIT_SUCCESS);

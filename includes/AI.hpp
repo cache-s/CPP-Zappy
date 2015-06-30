@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Mon Jun 29 18:21:30 2015 Sebastien Cache-Delanos
+// Last update Tue Jun 30 15:13:10 2015 Sebastien Cache-Delanos
 //
 
 #ifndef				AI_HPP
@@ -32,16 +32,10 @@ public:
 
 private:
 
-  void				forward();
-  void				right();
-  void				left();
   void				vision();
   void				inventory();
-  void				expulse();
   void				incantation();
-  void				fork();
   void				connect_nbr();
-  void				death();
 
   void				act();
   void				setObjective();
@@ -49,15 +43,18 @@ private:
   void				setPath(int pos, const std::string & obj);
   void				getMissingStones();
   bool				tryIncant();
+  void				dropToIncant();
+  void				grabAll();
 
   void				printInventory();
 
   typedef void (AI::*handleResponse)();
 
-  std::deque<std::string>			_path;
+  std::deque<std::string>			_todo;
   int						_level;
   int						_state;
   std::map<std::pair<int, std::string>, int >	_lvlUp;
+  std::vector<std::string>			_stones;
   std::string					_cmdRcv;
   std::string					_cmdSnd;
   std::map<int, std::vector<std::string>>	_vision;
@@ -66,6 +63,7 @@ private:
   std::string					_objective;
   std::map<std::string, int>			_inventory;
   int						_sightRange;
+  std::vector<std::string>			_needResponse;
   std::map<std::string, handleResponse>		_handleResponse;
 };
 

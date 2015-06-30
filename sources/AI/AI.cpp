@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Mon Jun 29 19:26:42 2015 Sebastien Cache-Delanos
+// Last update Tue Jun 30 16:01:30 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -19,21 +19,22 @@ AI::AI()
   _state = 1;
   _level = 1;
 
-  _handleResponse["avance"] = &AI::forward;
-  _handleResponse["droite"] = &AI::right;
-  _handleResponse["gauche"] = &AI::left;
+  _stones.push_back("linemate");
+  _stones.push_back("deraumere");
+  _stones.push_back("sibur");
+  _stones.push_back("mendiane");
+  _stones.push_back("phiras");
+  _stones.push_back("thystame");
+
   _handleResponse["voir"] = &AI::vision;
   _handleResponse["inventaire"] = &AI::inventory;
-  _handleResponse["expulse"] = &AI::expulse;
   _handleResponse["incantation"] = &AI::incantation;
-  _handleResponse["fork"] = &AI::fork;
   _handleResponse["connect_nbr"] = &AI::connect_nbr;
-  _handleResponse["mort"] = &AI::death;
-  /*
-  **  TODO:
-  **  - add "prendre objet"
-  **  - add "pose objet"
-  */
+
+  _needResponse.push_back("voir");
+  _needResponse.push_back("inventaire");
+  _needResponse.push_back("incantation");
+  _needResponse.push_back("connect_nbr");
 
   _lvlUp[std::make_pair(1, "joueur")] = 0;
   _lvlUp[std::make_pair(2, "joueur")] = 1;
@@ -116,13 +117,16 @@ void			AI::act()
     (this->*_handleResponse[_lastSnd])();
   else
     {
-      if (_objective == "" && _path.empty())
+      if (_todo.empty())
 	setObjective();
-      if (!_path.empty())
+      if (!_todo.empty())
 	{
-	  _cmdSnd = _path.front();
-	  _path.pop_front();
+	  _cmdSnd = _todo.front();
+	  _todo.pop_front();
 	}
+      for (unsigned int i = 0; i < _needResponse.size(); ++i)
+	if (_cmdSnd == _needResponse[i])
+	  _isWaiting = true;
     }
   if (_cmdSnd != "")
     _lastSnd = _cmdSnd;
@@ -132,20 +136,18 @@ void			AI::setObjective()
 {
   if (_state == 1)
     {
-      _cmdSnd = "inventaire";
-      _isWaiting = true;
+      _todo.push_back("inventaire");
       _state++;
       return;
     }
   if (_state == 2)
     {
-      _cmdSnd = "voir";
-      _isWaiting = true;
+      _todo.push_back("voir");
       _state++;
       return;
     }
   _state = 1;
-  if (_inventory["nourriture"] < 15)
+  if (_inventory["nourriture"] < 10)
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();
@@ -153,22 +155,38 @@ void			AI::setObjective()
 
 bool			AI::tryIncant()
 {
-  if (_inventory["linemate"] < _lvlUp[std::make_pair(_level, "linemate")])
-    return (false);
-  if (_inventory["deraumere"] < _lvlUp[std::make_pair(_level, "deraumere")])
-    return (false);
-  if (_inventory["sibur"] < _lvlUp[std::make_pair(_level, "sibur")])
-    return (false);
-  if (_inventory["mendiane"] < _lvlUp[std::make_pair(_level, "mendiane")])
-    return (false);
-  if (_inventory["phiras"] < _lvlUp[std::make_pair(_level, "phiras")])
-    return (false);
-  if (_inventory["thystame"] < _lvlUp[std::make_pair(_level, "thystame")])
-    return (false);
-  _cmdSnd = "incantation";
-  std::cout << "ON INCANTE MDR" << std::endl;
-  _isWaiting = true;
+  for (unsigned int i = 0; i < _stones.size(); ++i)
+    {
+      if (_inventory[_stones[i]] < _lvlUp[std::make_pair(_level, _stones[i])])
+	return (false);
+    }
+  grabAll();
+  dropToIncant();
+  _todo.push_back("incantation");
   return (true);
+}
+
+void			AI::grabAll()
+{
+  for (unsigned int j = 0; j < _vision[0].size(); ++j)
+    {
+      std::string item = _vision[0][j];
+      if (item != "joueur")
+	{
+	  std::string inst = "prend " + item;
+	  _todo.push_back(inst);
+	}
+    }
+}
+
+void			AI::dropToIncant()
+{
+  for (unsigned int i = 0; i < _stones.size(); ++i)
+    {
+      std::string inst = "pose " + _stones[i];
+      for (int j = 0; j < _lvlUp[std::make_pair(_level, _stones[i])]; ++j)
+	_todo.push_back(inst);
+    }
 }
 
 void			AI::getMissingStones()
@@ -183,7 +201,7 @@ void			AI::getMissingStones()
               if (i == 0)
                 {
 		  std::string inst = "prend " + item;
-		  _cmdSnd = inst;
+		  _todo.push_back(inst);
 		  return;
                 }
               else
@@ -211,9 +229,9 @@ void			AI::lookFor(const std::string & toget)
   srand (time(NULL));
   direction = rand() % 10;
   if (direction < 3)
-    _cmdSnd = "gauche";
+    _todo.push_back("gauche");
   else
-    _cmdSnd = "avance";
+    _todo.push_back("avance");
 }
 
 void			AI::setPath(int mapCase, const std::string & obj)
@@ -230,85 +248,30 @@ void			AI::setPath(int mapCase, const std::string & obj)
   x = mapCase - median;
   while (y > 0)
     {
-      _path.push_back("avance");
+      _todo.push_back("avance");
       y--;
     }
   if (x > 0)
     {
-      _path.push_back("droite");
+      _todo.push_back("droite");
       while (x > 0)
         {
-          _path.push_back("avance");
+          _todo.push_back("avance");
           x--;
         }
     }
   else if (x < 0)
     {
-      _path.push_back("gauche");
+      _todo.push_back("gauche");
       while (x < 0)
         {
-          _path.push_back("avance");
+          _todo.push_back("avance");
           x++;
         }
     }
   std::string tmp;
   tmp = "prend " + obj;
-  _path.push_back(tmp);
-}
-
-void			AI::printInventory()
-{
-  std::cout << "INVENTORY :" << std::endl;
-  std::cout << "Nourriture = " << _inventory["nourriture"] << std::endl;
-  std::cout << "Linemate   = " << _inventory["linemate"] << std::endl;
-  std::cout << "Deraumere  = " << _inventory["deraumere"] << std::endl;
-  std::cout << "Sibur      = " << _inventory["sibur"] << std::endl;
-  std::cout << "Mendiane   = " << _inventory["mendiane"] << std::endl;
-  std::cout << "Phiras     = " << _inventory["phiras"] << std::endl;
-  std::cout << "Thystame   = " << _inventory["thystame"] << std::endl;
-}
-
-void			AI::forward()
-{
-  _isWaiting = false;
-}
-
-void			AI::right()
-{
-  _isWaiting = false;
-}
-
-void			AI::left()
-{
-  _isWaiting = false;
-}
-
-void			AI::expulse()
-{
-  _isWaiting = false;
-}
-
-void			AI::incantation()
-{
-  if (_cmdRcv[0] != 'n' && _cmdRcv[1] != 'i')
-    {
-      _cmdSnd = "";
-      return;
-    }
-  if (_cmdRcv == "ko\n")
-    {
-      _isWaiting = false;
-      return;
-    }
-
-  _level++;
-  std::cout << "ELEVATION TERMINEE" << std::endl;
-  _isWaiting = false;
-}
-
-void			AI::fork()
-{
-  _isWaiting = false;
+  _todo.push_back(tmp);
 }
 
 void			AI::connect_nbr()
@@ -316,9 +279,21 @@ void			AI::connect_nbr()
   _isWaiting = false;
 }
 
-void			AI::death()
+void			AI::incantation()
 {
+  if (_cmdRcv[0] != 'n' && _cmdRcv[1] != 'i')//TODO: Améliorer le check
+    {
+      _cmdSnd = "";
+      return;
+    }
+  if (_cmdRcv == "ko\n")
+    {
+      _cmdSnd = "";
+      return;
+    }
+  _level++;
   _isWaiting = false;
+  std::cout << "ELEVATION TEMRINEE" << std::endl;
 }
 
 void			AI::vision()
