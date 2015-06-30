@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Mon Jun 29 17:48:21 2015 Martin Porrès
+** Last update Tue Jun 30 19:51:18 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -165,6 +165,11 @@ int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
 int		check_team(t_serv *serv, t_client *client, char *cmd);
 int		get_team_pos(t_serv *serv, char *team);
 int		get_item_number(t_serv *serv, char *cmd);
+int		get_k(t_settings *settings, t_client *speaker, t_client *listener);
+int		find_closest_path(int map_size, int speaker, int listener);
+int		set_path_orientation(int x, int y);
+int		find_best_orientation(int x, int y, int base);
+int		set_real_orientation(int o, eOrientation client_o);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
@@ -187,6 +192,8 @@ int		write_ppo_gfx(t_client *gfx, t_client *client);
 int		write_pgt_gfx(t_client *gfx, t_client *client, int item);
 int		write_pdr_gfx(t_client *gfx, t_client *client, int item);
 int		write_to_gfx(t_client *gfx, char *msg);
+int		write_pbc_gfx(t_client *gfx, t_client *client, char *cmd);
+int		write_pnw_gfx(t_client *gfx, t_client *client);
 int		write_ok(int fd, int ok);
 
 #endif
