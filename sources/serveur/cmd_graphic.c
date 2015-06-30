@@ -15,7 +15,8 @@ void			write_bct(t_block *block, int fd)
   int			i;
   
   i = 0;
-  dprintf(fd, "bct %d %d ", block->x, block->y);
+  if (dprintf(fd, "bct %d %d ", block->x, block->y) == -1)
+    puts("gros fdp");
   while (i < 7)
     {
       if ((i + 1) >= 7)
@@ -36,7 +37,7 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
     return (EXIT_SUCCESS);
   if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  dprintf(client->fd, "msz %d %d", serv->settings->width, serv->settings->height);  
+  dprintf(client->fd, "msz %d %d\n", serv->settings->width, serv->settings->height);  
   dprintf(client->fd, "sgt %d\n", serv->settings->delay);
   while (i < serv->settings->width)
     {

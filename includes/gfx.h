@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Mon Jun 29 19:46:00 2015 Jordan Chazottes
+** Last update Tue Jun 30 15:13:43 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -39,6 +39,7 @@
 # define		NB_CMDS		24
 # define		SPR_RES		8
 # define		NB_ITEMS	7
+# define		NB_LEVELS	8
 
 typedef			int(*tabFcts)();
 /* STRUCT */
@@ -131,7 +132,8 @@ typedef struct		s_gfx
   t_res			*res;
   char			**cmdTab;
   tabFcts		cmds[NB_CMDS];
-  tabFcts		draw[NB_ITEMS];
+  tabFcts		drawItem[NB_ITEMS];
+  tabFcts		drawPlayer[NB_LEVELS];
 }			t_gfx;
 
 int		main(int ac, char** av);
@@ -193,5 +195,13 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos);
+int		draw_p1(t_gfx *s, t_pos pos);
+int		draw_p2(t_gfx *s, t_pos pos);
+int		draw_p3(t_gfx *s, t_pos pos);
+int		draw_p4(t_gfx *s, t_pos pos);
+int		draw_p5(t_gfx *s, t_pos pos);
+int		draw_p6(t_gfx *s, t_pos pos);
+int		draw_p7(t_gfx *s, t_pos pos);
+int		draw_p8(t_gfx *s, t_pos pos);
 #endif
 

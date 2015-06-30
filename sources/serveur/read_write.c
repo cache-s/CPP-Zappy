@@ -34,10 +34,9 @@ char			*client_write(t_serv *serv, int fd, char *line)
   return ("toto");
 }
 
-char			*server_read(t_serv *serv, UNUSED int i)
+char			*server_read(t_serv *serv, int i)
 {
-  if ((my_write(1, "New user")) == EXIT_FAILURE)
-    return (NULL);
+  fprintf(stderr, CYAN "*** New connection %d\n" END, i);
   if (new_client(serv) == EXIT_FAILURE)
     return (NULL);
   return (NULL);

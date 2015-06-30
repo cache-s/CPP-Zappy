@@ -70,7 +70,7 @@ void			check_fds_states(t_serv *serv, int type)
 	      FD_SET(serv->socket, &serv->writefds);
 	      tmp->need_write = 1;
 	    }
-	  else 
+	  else
 	    check_team(serv, tmp, cmd);
 	}
       if (tmp->cmd != NULL && count_char(tmp->cmd, '\n') == 1)
@@ -109,13 +109,14 @@ char			*close_connect(t_serv *serv, int fd, int type)
     }
   else
     tmp->next = NULL;
-  fprintf(stderr, "Client %d has been disconnected\n", fd);
+  fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
   close(fd);
   return (NULL);
 }
 
 int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
+  fprintf(stderr, CYAN "*** Attempting to delete player %d\n" END, fd);
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
@@ -126,7 +127,7 @@ int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 	serv->gfx = serv->gfx->next;
       free(tmp);
       close(fd);
-      fprintf(stderr, "client %d has been disconnected\n", fd);
+      fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
       return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);

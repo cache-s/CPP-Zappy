@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Tue Jun 30 12:52:55 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:17:38 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -36,7 +36,7 @@ int		drawItems(t_gfx *s, SDL_Surface *img)
 	  while (i < NB_ITEMS)
 	    {
 	      if (s->map->blocks[pos.i][pos.j].items[i] > 0)
-		s->draw[i](s, img, pos);
+		s->drawItem[i](s, img, pos);
 	      i++;
 	    }
 	  pos.j++;
@@ -66,21 +66,35 @@ int		drawFloor(t_gfx *s)
   return (EXIT_SUCCESS);
 }
 
+int		drawPlayers(t_gfx *s)
+{
+  t_player	*tmp;
+  t_pos		pos;
+
+  tmp = s->players;
+  while (tmp != NULL)
+    {
+      pos.x = tmp->x*64;
+      pos.y = tmp->y*64;
+      s->drawPlayer[tmp->level - 1](s, pos);
+      tmp = tmp->next;
+    }
+  return (EXIT_SUCCESS);
+}
+
 int		draw(t_gfx *s)
 {
   SDL_Surface	*resImg;
-  /* SDL_Surface	*pImg; */
 
   resImg = SDL_LoadBMP("assets/sprites/resources.bmp");
-  /* pImg = SDL_LoadBMP("assets/sprites/mage_charset1.bmp"); */
   if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY, SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   if (drawFloor(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawItems(s, resImg) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  /* if (drawPlayers(s, pImg) == EXIT_FAILURE) */
-  /*   return (EXIT_FAILURE); */
+  if (drawPlayers(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   SDL_Flip(s->screen);
   return (EXIT_SUCCESS);
 }

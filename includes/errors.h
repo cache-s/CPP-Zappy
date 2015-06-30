@@ -18,7 +18,7 @@
 #include	"colors.h"
 
 /* NETWORK ERRORS */
-#define		ERR_PORT		"The port must contains only numbers."
+#define		ERR_PORT		"The port is not available. It must contains only numbers"
 #define		ERR_USAGE_SRV		"Usage : ./server [-p port] [-x world_x] [-y world_y] [-c max_clients] [-t speed] -n team_name1 team_name2 ..."
 #define		ERR_USAGE_CLT		"Usage : ./client -n \"team name\" -p port [-h hostname]\n"
 #define		ERR_INIT_CLT		"init_client() has failed"

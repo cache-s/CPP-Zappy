@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Mon Jun 29 15:43:59 2015 Jordan Chazottes
+## Last update Tue Jun 30 12:53:34 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -24,7 +24,7 @@ CXX		=	g++
 
 RM		=	rm -f
 
-CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
+CFLAGS		+=	-W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs -lncurses
 
 CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath=./libs
 
@@ -35,7 +35,6 @@ GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image -lpthread
 DYNLIB		+=	-fpic -shared
 
 SRCS_AI		=	sources/AI/AI.cpp			\
-			sources/client/ai/Ai.cpp		\
 
 SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 

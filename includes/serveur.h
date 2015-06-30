@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Sat Jun 27 18:17:05 2015 Martin Porrès
+** Last update Mon Jun 29 17:48:21 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -149,8 +149,6 @@ int		count_char(char *str, char c);
 int		cmd_move_forward(t_serv *serv, t_client *client, char *cmd);
 void		modify_x(t_client *client, int width);
 void		modify_y(t_client *client, int height);
-int		write_player_pos(t_serv *serv, t_client *client);
-int		write_player_pos_end(char *msg, char *id, char *pos[2], char *o);
 
 int		cmd_right(t_serv *serv, t_client *client, char *cmd);
 int		cmd_left(t_serv *serv, t_client *client, char *cmd);
@@ -166,6 +164,7 @@ int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
 int		check_team(t_serv *serv, t_client *client, char *cmd);
 int		get_team_pos(t_serv *serv, char *team);
+int		get_item_number(t_serv *serv, char *cmd);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
@@ -182,6 +181,12 @@ void		display_game_configuration(t_serv *serv);
 
 void		write_tna(t_serv *serv, int fd);
 void		write_bct(t_block *block, int fd);
+int		write_bct_gfx(t_client *gfx, t_block *block);
+int		write_pin_gfx(t_client *gfx, t_client *client);
+int		write_ppo_gfx(t_client *gfx, t_client *client);
+int		write_pgt_gfx(t_client *gfx, t_client *client, int item);
+int		write_pdr_gfx(t_client *gfx, t_client *client, int item);
 int		write_to_gfx(t_client *gfx, char *msg);
+int		write_ok(int fd, int ok);
 
 #endif

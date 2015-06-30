@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 18 12:30:42 2015 Jordan Chazottes
-** Last update Mon Jun 29 18:27:21 2015 Jordan Chazottes
+** Last update Tue Jun 30 15:33:01 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -28,7 +28,7 @@ void		*poll_event(void* arg)
 
 void		initWindow(t_gfx *s)
 {
-  pthread_t	thread1;
+  /* pthread_t	thread1; */
 
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {
@@ -38,8 +38,8 @@ void		initWindow(t_gfx *s)
   SDL_WM_SetCaption("Zappy", "Zappy");
   s->screen = SDL_SetVideoMode(1280, 920, 32, SDL_SWSURFACE | SDL_DOUBLEBUF);
   /* s->screen = SDL_SetVideoMode(1920, 1080, 32, SDL_SWSURFACE | SDL_DOUBLEBUF | SDL_FULLSCREEN); // PLEIN ECRAN FULLSCREEN */
-  if (pthread_create(&thread1, NULL, &poll_event, (void*)s) != 0)
-    return;
+  /* if (pthread_create(&thread1, NULL, &poll_event, (void*)s) != 0) */
+  /*   return; */
 }
 
 
