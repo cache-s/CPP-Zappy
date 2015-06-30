@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:07:30 2015 Mathieu Bourmaud
-** Last update Sun Jun 28 13:22:43 2015 Martin Porrès
+** Last update Tue Jun 30 20:00:29 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -21,7 +21,7 @@ int			new_client(t_serv *serv)
     return (my_error_close(ERR_ACCEPT, serv->socket));
   if (cs > serv->fds)
     serv->fds = cs;
-  if (my_write(2, "New client connected on the server") == EXIT_FAILURE)
+  if (my_write(2, CYAN "*** New client connected on the server" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (create_client(serv, cs) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -30,7 +30,7 @@ int			new_client(t_serv *serv)
   return (EXIT_SUCCESS);
 }
 
-void			set_client_values(t_serv *serv, t_client *new, int fd)
+int			set_client_values(t_serv *serv, t_client *new, int fd)
 {
   new->cmd = NULL;
   new->need_write = 0;
@@ -43,7 +43,11 @@ void			set_client_values(t_serv *serv, t_client *new, int fd)
   new->orientation = NORTH;
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
+  new->lvl = 1;
   serv->nb_client++;
+  if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
 }
 
 int			create_client(t_serv *serv, int fd)
@@ -69,11 +73,15 @@ int			create_client(t_serv *serv, int fd)
 int			accept_clients(t_serv *serv)
 {
   empty_fds(serv);
+  serv->timer.start = time(NULL);
   if ((select(serv->fds + 1, &serv->readfds,
 	      &serv->writefds, NULL, NULL)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
+  serv->timer.end = time(NULL);
+  get_elapsed_time(serv);
+  printf("%d\n", (int)serv->timer.elapsed);
   check_fds_states(serv, 1);
   check_fds_states(serv, 0);
   return (EXIT_SUCCESS);

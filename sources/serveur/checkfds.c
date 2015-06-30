@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:09:32 2015 Mathieu Bourmaud
-** Last update Sun Jun 28 13:23:21 2015 Martin Porrès
+** Last update Tue Jun 30 20:11:53 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -103,30 +103,37 @@ char			*close_connect(t_serv *serv, int fd, int type)
     return (NULL);
   if (tmp->next != NULL)
     {
+      if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
+	return (NULL);
       next = tmp->next->next;
       free(tmp->next);
       tmp->next = next;
     }
   else
     tmp->next = NULL;
-  fprintf(stderr, "Client %d has been disconnected\n", fd);
+  fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
   close(fd);
   return (NULL);
 }
 
 int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
+  fprintf(stderr, CYAN "*** Attempting to delete player %d\n" END, fd);
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
     {
       if (type == 0)
-	serv->client = serv->client->next;
+	{
+	  serv->client = serv->client->next;
+	  if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
+	    return (EXIT_FAILURE);
+	}
       else
 	serv->gfx = serv->gfx->next;
       free(tmp);
       close(fd);
-      fprintf(stderr, "client %d has been disconnected\n", fd);
+      fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
       return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);

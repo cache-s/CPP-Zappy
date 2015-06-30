@@ -5,14 +5,15 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Sun Jun 28 20:57:54 2015 Sebastien Cache-Delanos
+// Last update Tue Jun 30 15:13:10 2015 Sebastien Cache-Delanos
 //
 
-#ifndef				AI2_HPP
-# define			AI2_HPP
+#ifndef				AI_HPP
+# define			AI_HPP
 
 # include			<iostream>
 # include			<string.h>
+# include			<unistd.h>
 # include			<sstream>
 # include			<utility>
 # include			<vector>
@@ -31,32 +32,39 @@ public:
 
 private:
 
-  void				forward();
-  void				right();
-  void				left();
   void				vision();
   void				inventory();
-  void				expulse();
   void				incantation();
-  void				fork();
   void				connect_nbr();
-  void				death();
 
   void				act();
   void				setObjective();
+  void				lookFor(const std::string & toget);
+  void				setPath(int pos, const std::string & obj);
+  void				getMissingStones();
+  bool				tryIncant();
+  void				dropToIncant();
+  void				grabAll();
 
-  std::string			_cmdRcv;
-  std::string			_cmdSnd;
-  bool				_isWaiting;
-
-  std::string			_objective;
-  std::deque<std::string>	_path;
-
-  std::map<std::string, int>			_inventory;
-  std::map<int, std::vector<std::string>>	_vision;
+  void				printInventory();
 
   typedef void (AI::*handleResponse)();
-  std::map<std::string, handleResponse>	_handleResponse;
+
+  std::deque<std::string>			_todo;
+  int						_level;
+  int						_state;
+  std::map<std::pair<int, std::string>, int >	_lvlUp;
+  std::vector<std::string>			_stones;
+  std::string					_cmdRcv;
+  std::string					_cmdSnd;
+  std::map<int, std::vector<std::string>>	_vision;
+  std::string					_lastSnd;
+  bool						_isWaiting;
+  std::string					_objective;
+  std::map<std::string, int>			_inventory;
+  int						_sightRange;
+  std::vector<std::string>			_needResponse;
+  std::map<std::string, handleResponse>		_handleResponse;
 };
 
 #endif				//AI_HPP

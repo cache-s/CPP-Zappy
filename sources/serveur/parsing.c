@@ -74,9 +74,11 @@ t_settings		*parse_args(char **av)
     {
       pos = get_pos_in_tab(settings, av[i]);
       if (pos != 42 && pos != 3)
-      	i = settings->parser.args[pos](settings, av[i + 1], i);
+      	if ((i = settings->parser.args[pos](settings, av[i + 1], i)) == EXIT_FAILURE)
+	  return (NULL);
       if (pos == 3)
-	i = settings->parser.args[pos](settings, av, i);
+	if ((i = settings->parser.args[pos](settings, av, i)) == EXIT_FAILURE)
+	  return (NULL);
       i++;
     }
   if ((check_values(settings) == EXIT_FAILURE))
@@ -86,25 +88,26 @@ t_settings		*parse_args(char **av)
 
 int			check_teams(t_settings *settings)
 {
-  char			*str;
-  char			*tmp;
   int			occ;
-  const char		*substr;
+  char			*saveptr;
+  char			*tmp;
+  char			*token;
+  char			*save;
 
   occ = 0;
-  str = NULL;
   tmp = strdup(settings->teams);
-  str = strtok(tmp, ";");
-  substr = settings->teams;
-  while (str != NULL)
+  save = strdup(settings->teams);
+  token = strtok_r(tmp, ";", &saveptr);
+  while (token != NULL)
     {
-      if (str != NULL && substr != NULL)
-	while ((substr = strstr(substr, str)))
-	  {
-	    occ++;
-	    substr++;
-	  }
-      str = strtok(NULL, ";");
+      save = strdup(settings->teams);
+      while ((save = strstr(save, token)) != NULL)
+	{
+	  printf("%s | %s\n", save, token);
+	  occ++;
+	  save++;
+	}
+      token = strtok_r(NULL, ";", &saveptr);
     }
   if (occ > count_char(settings->teams, ';'))
     return (my_error(BOLD RED ERR_UNIQUE_TEAM END));

@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Sat Jun 27 12:06:19 2015 Martin Porrès
-** Last update Tue Jun 30 19:52:06 2015 Martin Porrès
+** Last update Tue Jun 30 20:06:13 2015 Martin Porrès
 */
 
 #include	"serveur.h"
@@ -122,6 +122,22 @@ int		write_pnw_gfx(t_client *gfx, t_client *client)
       if (dprintf(tmp->fd, "pnw %d %d %d %d %d %s\n", client->id, client->x,
 		  client->y, client->orientation, client->lvl, client->team)
 	  == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_pdi_gfx(t_client *gfx, t_client *client)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "pdi %d\n", client->id) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }

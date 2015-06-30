@@ -10,6 +10,17 @@
 
 #include	"serveur.h"
 
+void			handle_ctrl_c(int sig)
+{
+  char			c;
+
+  signal(sig, SIG_IGN);
+  puts(BOLD RED "Do you want to quit ? [Y/N]" END);
+  c = getchar();
+  if (c == 'Y' || c == 'y')
+    exit(0);
+}
+
 void		display_game_configuration(t_serv *serv)
 {
   char		*str;
@@ -40,7 +51,7 @@ int		main(UNUSED int ac, char **av)
   av[ac + 1] = NULL;
   srand(time(NULL));
   if ((serv.settings = parse_args(av)) == NULL)
-    return (my_error(ERR_USAGE_SRV));
+    return (my_error(BOLD RED ERR_USAGE_SRV END));
   if (map_generation(&serv) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (init_server(&serv) == EXIT_FAILURE)
