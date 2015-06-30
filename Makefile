@@ -62,6 +62,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/cmd_take.c		\
 			sources/serveur/read_write.c		\
 			sources/serveur/check_team.c		\
+			sources/serveur/timer.c			\
 			sources/serveur/write_to_gfx.c		\
 			$(SRCS_COMMONS)
 
