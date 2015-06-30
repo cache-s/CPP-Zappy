@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Mon Jun 29 14:12:22 2015 Jordan Chazottes
+** Last update Mon Jun 29 19:43:49 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -36,6 +36,17 @@ void		initFctTab(t_gfx *s)
   s->cmds[21] = cmd_smg;
   s->cmds[22] = cmd_suc;
   s->cmds[23] = cmd_sbp;
+}
+
+void		initDrawTab(t_gfx *s)
+{
+  s->draw[0] = draw_food;
+  s->draw[1] = draw_linemate;
+  s->draw[2] = draw_deraumere;
+  s->draw[3] = draw_sibur;
+  s->draw[4] = draw_mendiane;
+  s->draw[5] = draw_phiras;
+  s->draw[6] = draw_thystame;
 }
 
 int		initCmdTab(t_gfx *s)

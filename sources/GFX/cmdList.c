@@ -5,10 +5,115 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Sun Jun 28 21:27:14 2015 Jordan Chazottes
+** Last update Tue Jun 30 12:40:35 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
+
+int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing food\n");
+  rect[0].x = 0;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_linemate(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing linemate\n");
+  rect[0].x = 16;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 16;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);  
+  return (EXIT_SUCCESS);
+}
+
+int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing deraumere\n");
+  rect[0].x = 32;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 32;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);  
+  return (EXIT_SUCCESS);
+}
+
+int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing sibur\n");
+  rect[0].x = 48;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 48;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing mendiane\n");
+  rect[0].x = 64;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = pos.i*64;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing phiras\n");
+  rect[0].x = 80;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 16;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  printf("Drawing thystame\n");
+  rect[0].x = 96;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 32;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
 
 int		cmd_msz(t_gfx *s, char *token)
 {
