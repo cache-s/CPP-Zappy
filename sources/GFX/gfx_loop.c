@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:41:21 2015 Jordan Chazottes
+** Last update Wed Jul  1 16:51:18 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -14,8 +14,8 @@ int		gfx_loop(t_gfx *s)
 {
   struct timeval	tv;
 
-  tv.tv_usec = 2;
-  tv.tv_sec = 0;
+  tv.tv_usec = 0;
+  tv.tv_sec = 1;
   s->network.cmd = NULL;
   s->network.init = 0;
   FD_ZERO(&s->network.fd_write);
@@ -32,8 +32,6 @@ int		gfx_loop(t_gfx *s)
 	  if (handleCmd(s) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	}
-      if (draw(s) == EXIT_FAILURE)
-	return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }

@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Tue Jun 30 16:01:30 2015 Sebastien Cache-Delanos
+// Last update Wed Jul  1 11:58:09 2015 Jordan Chazottes
 //
 
 #include		"AI.hpp"
@@ -147,7 +147,7 @@ void			AI::setObjective()
       return;
     }
   _state = 1;
-  if (_inventory["nourriture"] < 10)
+  if (_inventory["nourriture"] < 100000)
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();

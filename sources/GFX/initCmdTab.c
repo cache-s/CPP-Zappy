@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:15:04 2015 Jordan Chazottes
+** Last update Wed Jul  1 17:50:59 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -59,7 +59,7 @@ void		initDrawTab(t_gfx *s)
 
 int		initCmdTab(t_gfx *s)
 {
-  if ((s->cmdTab = malloc(sizeof(char *) * NB_CMDS + 1)) == NULL)
+  if ((s->cmdTab = malloc(sizeof(char *) * NB_CMDS)) == NULL)
     return (my_error(ERR_MALLOC));
   s->cmdTab[0] = strdup("msz");
   s->cmdTab[1] = strdup("bct");
