@@ -5,10 +5,259 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Sun Jun 28 21:27:14 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:57:26 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
+
+int		draw_p1(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset1.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  /* pos.x = pos.i*64; */
+  /* pos.y = pos.j*64; */
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p2(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset2.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 2");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  /* pos.x = pos.i*64; */
+  /* pos.y = pos.j*64; */
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p3(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset3.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 3");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p4(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset4.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 4");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p5(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset5.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 5");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p6(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset6.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 6");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p7(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset7.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 7");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p8(t_gfx *s, t_pos pos)
+{
+  SDL_Rect	rect[1];
+  SDL_Surface	*pImg;
+
+  pImg = SDL_LoadBMP("assets/sprites/mage_charset8.bmp");
+  if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
+    return (EXIT_FAILURE);
+  printf("Drawing Player lvl 8");
+  rect[0].x = 35;
+  rect[0].y = 0;
+  rect[0].w = 34;
+  rect[0].h = 66;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, pImg, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 0;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_linemate(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 16;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 16;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);  
+  return (EXIT_SUCCESS);
+}
+
+int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 32;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 32;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);  
+  return (EXIT_SUCCESS);
+}
+
+int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 48;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 48;
+  pos.y = pos.j*64;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 64;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = pos.i*64;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 80;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 16;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos)
+{
+  SDL_Rect	rect[1];
+
+  rect[0].x = 96;
+  rect[0].y = 0;
+  rect[0].w = 16;
+  rect[0].h = 16;
+  pos.x = (pos.i*64) + 32;
+  pos.y = (pos.j*64) + 16;
+  applySurface(pos, s, img, &rect[0]);
+  return (EXIT_SUCCESS);
+}
 
 int		cmd_msz(t_gfx *s, char *token)
 {
@@ -98,6 +347,7 @@ int		cmd_pnw(t_gfx *s, char *token)
     return (my_error(ERR_MALLOC));
   new->type = PLAYER;
   new->eId = -1;
+  new->next = NULL;
   setPlayerParam(new, token);
   if (s->players == NULL)
     {
@@ -281,6 +531,7 @@ int		cmd_pdi(t_gfx *s, char *token)
   char		*tok;
   int		id;
 
+  
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
@@ -289,9 +540,10 @@ int		cmd_pdi(t_gfx *s, char *token)
   if ((tmp = getPlayer(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tmp2 = getPrevPlayer(s, id)) == NULL)
-    return (EXIT_FAILURE);
-  tmp2->next = tmp->next;
-  //free
+    s->players = NULL;
+  else
+    tmp2->next = tmp->next;
+  free(tmp);
   return (EXIT_SUCCESS);
 }
 

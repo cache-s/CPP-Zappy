@@ -1,0 +1,9 @@
+#!/bin/sh
+
+sleep 2
+
+for ((i = 0; i < 15; i++))
+do
+    sleep 0.01
+    ./zappy_ai -n toto -p 4242 &
+done
