@@ -4,8 +4,8 @@
 ** Made by Jordan Chazottes
 ** Login   <chazot_a@epitech.net>
 ** 
-** Started on  Tue Jun 16 14:40:17 2015 Jordan Chazottes
-** Last update Tue Jun 16 14:51:04 2015 Jordan Chazottes
+** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
+** Last update Wed Jul  1 15:10:44 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -14,20 +14,8 @@ int		eventHandler()
 {
   SDL_Event	event;
 
-  SDL_PollEvent(&event);
-  switch (event.type)
-    {
-    case (SDL_QUIT):
-      return -1;
-    case SDL_KEYDOWN:
-      switch (event.key.keysym.sym)
-	{
-	case SDLK_ESCAPE:
-	  return -1;
-	default :
-	  return 0;
-	}
-    default :
-      return 0;
-    }
+  if (SDL_PollEvent(&event) == 1)
+    if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
+      return (-1);
+  return (0);
 }

@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Mon Jun 29 19:34:25 2015 Sebastien Cache-Delanos
+## Last update Wed Jul  1 17:54:41 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -92,6 +92,7 @@ SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/allocMap.c		\
 			sources/GFX/getPlayer.c		\
 			sources/GFX/draw.c		\
+			sources/GFX/freeStruct.c	\
 			$(SRCS_COMMONS)
 
 SRCS_COMMONS	=	sources/misc/errors.c		\
