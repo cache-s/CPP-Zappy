@@ -5,12 +5,24 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:57:26 2015 Jordan Chazottes
+** Last update Wed Jul  1 16:57:43 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		draw_p1(t_gfx *s, t_pos pos)
+int		getOri(eOrientation ori)
+{
+  if (ori == NORTH)
+    return (162);
+  if (ori == EAST)
+    return (0);
+  if (ori == SOUTH)
+    return (74);
+  return (250);
+
+}
+
+int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -19,16 +31,15 @@ int		draw_p1(t_gfx *s, t_pos pos)
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  /* pos.x = pos.i*64; */
-  /* pos.y = pos.j*64; */
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p2(t_gfx *s, t_pos pos)
+int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -38,16 +49,15 @@ int		draw_p2(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 2");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  /* pos.x = pos.i*64; */
-  /* pos.y = pos.j*64; */
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p3(t_gfx *s, t_pos pos)
+int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -57,16 +67,15 @@ int		draw_p3(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 3");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p4(t_gfx *s, t_pos pos)
+int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -76,16 +85,15 @@ int		draw_p4(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 4");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p5(t_gfx *s, t_pos pos)
+int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -95,16 +103,15 @@ int		draw_p5(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 5");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p6(t_gfx *s, t_pos pos)
+int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -114,16 +121,15 @@ int		draw_p6(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 6");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p7(t_gfx *s, t_pos pos)
+int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -133,16 +139,15 @@ int		draw_p7(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 7");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p8(t_gfx *s, t_pos pos)
+int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori)
 {
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
@@ -152,12 +157,11 @@ int		draw_p8(t_gfx *s, t_pos pos)
     return (EXIT_FAILURE);
   printf("Drawing Player lvl 8");
   rect[0].x = 35;
-  rect[0].y = 0;
+  rect[0].y = getOri(ori);
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
   applySurface(pos, s, pImg, &rect[0]);
+  SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
@@ -279,26 +283,24 @@ int		cmd_msz(t_gfx *s, char *token)
 int		cmd_bct(t_gfx *s, char *token)
 {
   char		*tok;
-  int		x;
-  int		y;
+  t_pos		pos;
   int		i;
 
-  i = 0;
+  i = -1;
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
-  x = atoi(tok);
+  pos.x = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
-  y = atoi(tok);
-  s->map->blocks[x][y].x = x;
-  s->map->blocks[x][y].y = y;
+  pos.y = atoi(tok);
+  s->map->blocks[pos.x][pos.y].x = pos.x;
+  s->map->blocks[pos.x][pos.y].y = pos.y;
   tok = strtok(NULL, " ");
   while (tok != NULL)
     {
-      s->map->blocks[x][y].items[i] = atoi(tok);
-      ++i;
+      s->map->blocks[pos.x][pos.y].items[++i] = atoi(tok);
       tok = strtok(NULL, " ");
     }
   return (EXIT_SUCCESS);
@@ -544,6 +546,7 @@ int		cmd_pdi(t_gfx *s, char *token)
   else
     tmp2->next = tmp->next;
   free(tmp);
+  free(tmp2);
   return (EXIT_SUCCESS);
 }
 
@@ -587,6 +590,8 @@ int		cmd_enw(t_gfx *s, char *token)
     tmp = tmp->next;
   tmp->next = new;
   tmp = s->players;
+  free(tmp);
+  free(new);
   return (EXIT_SUCCESS);
 }
 

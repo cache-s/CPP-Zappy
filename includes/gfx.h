@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Tue Jun 30 18:33:31 2015 Jordan Chazottes
+** Last update Wed Jul  1 17:55:05 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -63,7 +63,7 @@ typedef struct		s_network
 typedef enum		eOrientation
   {
     NORTH	= 1,
-    EST		= 2,
+    EAST	= 2,
     SOUTH	= 3,
     WEST	= 4
   }			eOrientation;
@@ -100,17 +100,6 @@ typedef struct		s_map
   t_block		**blocks;
 }			t_map;
 
-typedef struct		s_floor
-{
-  SDL_Rect		pos[1];
-  SDL_Surface		*img;
-}			t_floor;
-
-typedef struct		s_res
-{
-  SDL_Rect		pos[SPR_RES];
-  SDL_Surface		*img;
-}			t_res;
 typedef struct		s_pos
 {
   int			i;
@@ -128,8 +117,6 @@ typedef struct		s_gfx
   t_network		network;
   t_map			*map;
   t_player		*players;
-  t_floor		*floor;
-  t_res			*res;
   char			**cmdTab;
   tabFcts		cmds[NB_CMDS];
   tabFcts		drawItem[NB_ITEMS];
@@ -164,6 +151,7 @@ t_player	*getPrevPlayer(t_gfx *s, int id);
 int		draw(t_gfx *s);
 int		initSprites(t_gfx *s);
 void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
+void		freeStruct(t_gfx *s);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);
@@ -195,13 +183,13 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos);
-int		draw_p1(t_gfx *s, t_pos pos);
-int		draw_p2(t_gfx *s, t_pos pos);
-int		draw_p3(t_gfx *s, t_pos pos);
-int		draw_p4(t_gfx *s, t_pos pos);
-int		draw_p5(t_gfx *s, t_pos pos);
-int		draw_p6(t_gfx *s, t_pos pos);
-int		draw_p7(t_gfx *s, t_pos pos);
-int		draw_p8(t_gfx *s, t_pos pos);
+int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori);
 #endif
 
