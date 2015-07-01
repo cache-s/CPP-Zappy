@@ -10,14 +10,18 @@
 
 #include		"serveur.h"
 
-void			look_floor(int x, int y, t_serv *serv, t_client *client)
+int			look_floor(int x, int y, t_serv *serv, t_client *client)
 {
   int			i;
   int			tmp_i;
   int			check;
-  
+
   i = 0;
   check = 0;
+  
+  /* dprintf(client->fd, "x = %i\n", x); */
+  /* dprintf(client->fd, "y = %i\n", y); */
+
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
@@ -34,51 +38,35 @@ void			look_floor(int x, int y, t_serv *serv, t_client *client)
 	  else
 	    {
 	      if (check == 1)
-		dprintf(client->fd, "%i ", i);
+	      	dprintf(client->fd, "%i ", i);
 	      else
-		dprintf(client->fd, "%i", i);
+	      	dprintf(client->fd, "%i", i);
 	    }
 	  check = 1;
 	}
       i++;
     }
-  dprintf(client->fd, ",");
-}
 
-void			see_with_orientation(t_serv *serv, t_client *client)
-{
-  int			tmp_x_left;
-  int			tmp_x_right;
-  int			tmp_y;
-  int			j;
-
-  tmp_x_left = client->x;
-  tmp_x_right = client->x;
-  tmp_y = client->y;
-  tmp_y = tmp_y + 1;
-  tmp_x_left = tmp_x_left - 1;
-  tmp_x_right = tmp_x_right + 1;     
-  j = tmp_x_left;
-  dprintf(client->fd, "<j = %i>",j);
-  dprintf(client->fd, "<x = %i>",tmp_x_right);
-  while (j != tmp_x_right)
-    {
-      look_floor(j, tmp_y, serv, client); 
-      j++;
-    }
+  if (serv->see->end != 1)
+    dprintf(client->fd, ",");
+  return (EXIT_SUCCESS);
 }
 
 int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
   int			i;
-  int			lvl;
-  
+
+  if ((serv->see = malloc(sizeof(* serv->see))) == NULL)
+    return (my_error(ERR_MALLOC));
+  serv->see->end = 0;
+  serv->see->check = 0;
   dprintf(client->fd, "{");
-  lvl = 2;
+  serv->see->lvl = 1;
   i = 1;
   look_floor(client->x, client->y, serv, client);
-  while (i <= lvl)
+  while (i <= serv->see->lvl)
     {
+      serv->see->coma++;
       see_with_orientation(serv, client);
       i++;
     }

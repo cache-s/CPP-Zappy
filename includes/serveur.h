@@ -90,6 +90,17 @@ typedef struct		s_client
   struct s_client	*next;
 }			t_client;
 
+typedef struct		s_see
+{
+  int			tmp_x_left;
+  int			tmp_x_right;
+  int			tmp_y;
+  int			check;
+  int			coma;
+  int			end;
+  int			lvl; // a remove
+}			t_see;
+
 typedef struct		s_block
 {
   int			x;
@@ -126,6 +137,7 @@ typedef struct		s_serv
   t_settings		*settings;
   t_parser		parse;
   t_timer		timer;
+  t_see			*see;
   int			nb_client;
   char			**items;
 }			t_serv;
@@ -181,6 +193,8 @@ int		find_closest_path(int map_size, int speaker, int listener);
 int		set_path_orientation(int x, int y);
 int		find_best_orientation(int x, int y, int base);
 int		set_real_orientation(int o, eOrientation client_o);
+int		see_with_orientation(t_serv *serv, t_client *client);
+int		look_floor(int x, int y, t_serv *serv, t_client *client);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
