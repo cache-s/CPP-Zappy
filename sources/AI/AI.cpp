@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 15:29:03 2015 Pierre Charie
+// Last update Wed Jul  1 17:05:54 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -157,14 +157,31 @@ void			AI::setObjective()
 
 bool			AI::tryIncant()
 {
+  int   peopleNbr = 0;
+
   for (unsigned int i = 0; i < _stones.size(); ++i)
     {
       if (_inventory[_stones[i]] < _lvlUp[std::make_pair(_level, _stones[i])])
 	return (false);
     }
+  for (unsigned int j = 0; j < _vision[0].size(); ++j)
+    {
+      std::string item = _vision[0][j];
+      if (item == "joueur")
+        peopleNbr++;
+    }
+  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")])
+    {
+      std::string msg = "broadcast INV(";
+      msg += std::to_string(_level);
+      msg += ")";
+      _todo.push_back("broadcast ");
+      return false;
+    }
+
+  _todo.push_back("incantation");
   grabAll();
   dropToIncant();
-  _todo.push_back("incantation");
   return (true);
 }
 
