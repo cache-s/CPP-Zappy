@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 15:29:03 2015 Pierre Charie
+// Last update Wed Jul  1 17:06:08 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -13,10 +13,10 @@
 AI::AI()
 {
   _isWaiting = false;
+  _update = false;
   _cmdRcv = "";
   _cmdSnd = "";
   _objective = "";
-  _state = 1;
   _level = 1;
 
   _stones.push_back("linemate");
@@ -136,20 +136,15 @@ void			AI::act()
 
 void			AI::setObjective()
 {
-  if (_state == 1)
+  if (_update == false)
     {
+      _update = true;
       _todo.push_back("inventaire");
-      _state++;
-      return;
-    }
-  if (_state == 2)
-    {
       _todo.push_back("voir");
-      _state++;
       return;
     }
-  _state = 1;
-  if (_inventory["nourriture"] < 15)
+  _update = false;
+  if (_inventory["nourriture"] < 10)
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();
