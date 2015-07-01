@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 19:52:04 2015 Jordan Chazottes
-** Last update Sun Jun 28 21:19:11 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:49:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -15,10 +15,10 @@ t_player	*getPrevPlayer(t_gfx *s, int id)
   t_player	*tmp;
 
   tmp = s->players;
+  if (tmp->id == id)
+    return (NULL);
   while (tmp != NULL && tmp->next != NULL && tmp->next->id != id)
     tmp = tmp->next;
-  if (tmp->next == NULL)
-    return (NULL);
   return (tmp);
 }
 

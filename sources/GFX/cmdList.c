@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:17:00 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:57:26 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -15,7 +15,6 @@ int		draw_p1(t_gfx *s, t_pos pos)
   SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
-  printf("Drawing Player lvl 1");
   pImg = SDL_LoadBMP("assets/sprites/mage_charset1.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
@@ -23,8 +22,8 @@ int		draw_p1(t_gfx *s, t_pos pos)
   rect[0].y = 0;
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
+  /* pos.x = pos.i*64; */
+  /* pos.y = pos.j*64; */
   applySurface(pos, s, pImg, &rect[0]);
   return (EXIT_SUCCESS);
 }
@@ -42,8 +41,8 @@ int		draw_p2(t_gfx *s, t_pos pos)
   rect[0].y = 0;
   rect[0].w = 34;
   rect[0].h = 66;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
+  /* pos.x = pos.i*64; */
+  /* pos.y = pos.j*64; */
   applySurface(pos, s, pImg, &rect[0]);
   return (EXIT_SUCCESS);
 }
@@ -532,6 +531,7 @@ int		cmd_pdi(t_gfx *s, char *token)
   char		*tok;
   int		id;
 
+  
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
@@ -540,9 +540,10 @@ int		cmd_pdi(t_gfx *s, char *token)
   if ((tmp = getPlayer(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tmp2 = getPrevPlayer(s, id)) == NULL)
-    return (EXIT_FAILURE);
-  tmp2->next = tmp->next;
-  //free
+    s->players = NULL;
+  else
+    tmp2->next = tmp->next;
+  free(tmp);
   return (EXIT_SUCCESS);
 }
 

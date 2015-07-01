@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Tue Jun 30 15:13:43 2015 Jordan Chazottes
+** Last update Tue Jun 30 18:33:31 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -36,7 +36,7 @@
 # define                BUFF_SIZE       8
 # define		WELCOME		"BIENVENUE\n"
 # define		GRAPHIC		"GRAPHIC\n"
-# define		NB_CMDS		24
+# define		NB_CMDS		25
 # define		SPR_RES		8
 # define		NB_ITEMS	7
 # define		NB_LEVELS	8
@@ -124,7 +124,7 @@ typedef struct		s_gfx
   int			width;
   int			height;
   int			time;
-  SDL_Surface*		screen;
+  SDL_Surface		*screen;
   t_network		network;
   t_map			*map;
   t_player		*players;

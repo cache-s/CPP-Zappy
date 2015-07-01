@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:17:38 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:27:21 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -74,6 +74,7 @@ int		drawPlayers(t_gfx *s)
   tmp = s->players;
   while (tmp != NULL)
     {
+      printf("Player lvl %d on %d %d\n", tmp->level, tmp->x, tmp->y);
       pos.x = tmp->x*64;
       pos.y = tmp->y*64;
       s->drawPlayer[tmp->level - 1](s, pos);

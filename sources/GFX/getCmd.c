@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 15:11:07 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:01:35 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:40:27 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -25,8 +25,6 @@ int		getCmd(t_gfx *s, char *token)
   if (s->cmdTab[i] == NULL)
     return (EXIT_FAILURE);
   if ((s->cmds[i](s, token)) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (draw(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Tue Jun 30 12:53:34 2015 Jordan Chazottes
+## Last update Tue Jun 30 18:15:23 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:07:18 2015 Jordan Chazottes
+** Last update Tue Jun 30 17:41:21 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -32,6 +32,8 @@ int		gfx_loop(t_gfx *s)
 	  if (handleCmd(s) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	}
+      if (draw(s) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }
