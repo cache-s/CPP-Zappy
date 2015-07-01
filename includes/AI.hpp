@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Tue Jun 30 15:13:10 2015 Sebastien Cache-Delanos
+// Last update Wed Jul  1 17:04:41 2015 Sebastien Cache-Delanos
 //
 
 #ifndef				AI_HPP
@@ -52,9 +52,9 @@ private:
 
   std::deque<std::string>			_todo;
   int						_level;
-  int						_state;
   std::map<std::pair<int, std::string>, int >	_lvlUp;
   std::vector<std::string>			_stones;
+  bool						_update;
   std::string					_cmdRcv;
   std::string					_cmdSnd;
   std::map<int, std::vector<std::string>>	_vision;
