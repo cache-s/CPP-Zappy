@@ -1,11 +1,11 @@
 //
 // AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy/sources/AI
-// 
+//
 // Made by Sebastien Cache-Delanos
 // Login   <cache-_s@epitech.net>
-// 
+//
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Tue Jun 30 16:01:30 2015 Sebastien Cache-Delanos
+// Last update Wed Jul  1 11:27:56 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -118,7 +118,9 @@ void			AI::act()
   else
     {
       if (_todo.empty())
-	setObjective();
+	{
+	  setObjective();
+	}
       if (!_todo.empty())
 	{
 	  _cmdSnd = _todo.front();
@@ -281,7 +283,7 @@ void			AI::connect_nbr()
 
 void			AI::incantation()
 {
-  if (_cmdRcv[0] != 'n' && _cmdRcv[1] != 'i')//TODO: Améliorer le check
+  if (_cmdRcv.find("niveau actuel") == std::string::npos)
     {
       _cmdSnd = "";
       return;
@@ -294,11 +296,13 @@ void			AI::incantation()
   _level++;
   _isWaiting = false;
   std::cout << "ELEVATION TEMRINEE" << std::endl;
+  _cmdSnd = "inventaire";
+  return;
 }
 
 void			AI::vision()
 {
-  if (_cmdRcv[0] != '{' && _cmdRcv[1] != ' ')//TODO: Améliorer le check
+  if (_cmdRcv.find("{ ") == std::string::npos)
     {
       _cmdSnd = "";
       return;
@@ -329,7 +333,8 @@ void			AI::vision()
 
 void			AI::inventory()
 {
-  if (_cmdRcv[0] != '{' && _cmdRcv[1] != 'n')//TODO: Améliorer le check
+
+  if (_cmdRcv.find("{nourriture") == std::string::npos)
     {
       _cmdSnd = "";
       return;
