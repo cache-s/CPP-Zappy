@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Tue Jun 30 20:06:56 2015 Martin Porrès
+** Last update Thu Jul  2 00:05:35 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -36,6 +36,7 @@
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
+typedef			int(*incFct)();
 
 typedef enum		eOrientation
   {
@@ -128,6 +129,7 @@ typedef struct		s_serv
   t_timer		timer;
   int			nb_client;
   char			**items;
+  incFct		inc_lvl[8];
 }			t_serv;
 
 void		get_elapsed_time(t_serv *serv);
@@ -136,6 +138,7 @@ int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
+void		init_inc_tab(t_serv *serv);
 int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
@@ -170,6 +173,7 @@ int		cmd_drop(t_serv *serv, t_client *client, char *cmd);
 int		cmd_kick(t_serv *serv, t_client *client, char *cmd);
 int		cmd_broadcast(t_serv *serv, t_client *client, char *cmd);
 int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
+int		cmd_end_incantation(t_serv *serv, t_client *client);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
@@ -181,6 +185,8 @@ int		find_closest_path(int map_size, int speaker, int listener);
 int		set_path_orientation(int x, int y);
 int		find_best_orientation(int x, int y, int base);
 int		set_real_orientation(int o, eOrientation client_o);
+int		up_players(t_serv *serv, t_client *client);
+void		empty_block(t_block *block);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
@@ -206,6 +212,18 @@ int		write_to_gfx(t_client *gfx, char *msg);
 int		write_pbc_gfx(t_client *gfx, t_client *client, char *cmd);
 int		write_pnw_gfx(t_client *gfx, t_client *client);
 int		write_pdi_gfx(t_client *gfx, t_client *client);
+int		write_pic_gfx(t_serv *serv, t_client *client);
+int		write_pic_end(t_serv *serv, t_client *client, char *ids);
+int		write_pie_gfx(t_client *gfx, t_client *client, int r);
+int		write_plv_gfx(t_client *gfx, t_client *client);
 int		write_ok(int fd, int ok);
+
+int		inc_lvl1(t_serv *serv, t_client *client);
+int		inc_lvl2(t_serv *serv, t_client *client);
+int		inc_lvl3(t_serv *serv, t_client *client);
+int		inc_lvl4(t_serv *serv, t_client *client);
+int		inc_lvl5(t_serv *serv, t_client *client);
+int		inc_lvl6(t_serv *serv, t_client *client);
+int		inc_lvl7(t_serv *serv, t_client *client);
 
 #endif

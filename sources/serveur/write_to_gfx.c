@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Sat Jun 27 12:06:19 2015 Martin Porrès
-** Last update Tue Jun 30 20:06:13 2015 Martin Porrès
+** Last update Thu Jul  2 00:08:15 2015 Martin Porrès
 */
 
 #include	"serveur.h"
@@ -138,6 +138,79 @@ int		write_pdi_gfx(t_client *gfx, t_client *client)
   while (tmp != NULL)
     {
       if (dprintf(tmp->fd, "pdi %d\n", client->id) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_pic_gfx(t_serv *serv, t_client *client)
+{
+  t_client	*tmp;
+  char		*ids;
+
+  tmp = serv->client;
+  if ((ids = malloc(66)) == NULL)
+    return (my_error(ERR_MALLOC));
+  bzero(ids, 66);
+  if ((ids = strcpy(ids, "")) == NULL)
+    return (my_error(ERR_STRCPY));
+  while (tmp != NULL)
+    {
+      if (tmp->x == client->x && tmp->y == client->y && tmp->lvl == client->lvl)
+	{
+	  if ((ids = strcat(ids, " ")) == NULL)
+	    return (my_error(ERR_STRCAT));
+	  if ((ids = strcat(ids, itoa(tmp->id))) == NULL)
+	    return (my_error(ERR_STRCAT));
+	}
+      tmp = tmp->next;
+    }
+  return (write_pic_end(serv, client, ids));
+}
+
+int		write_pic_end(t_serv *serv, t_client *client, char *ids)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = serv->gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "pic %d %d %d %s\n", client->x, client->y, client->lvl + 1, ids) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_pie_gfx(t_client *gfx, t_client *client, int r)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "pie %d %d %d\n", client->x, client->y, r) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_plv_gfx(t_client *gfx, t_client *client)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "plv %d %d\n", client->id, client->lvl) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }
