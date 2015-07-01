@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 11:27:56 2015 Pierre Charie
+// Last update Wed Jul  1 15:29:03 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -149,7 +149,7 @@ void			AI::setObjective()
       return;
     }
   _state = 1;
-  if (_inventory["nourriture"] < 10)
+  if (_inventory["nourriture"] < 15)
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();
@@ -198,7 +198,11 @@ void			AI::getMissingStones()
       for (unsigned int j = 0; j < _vision[i].size(); ++j)
         {
 	  std::string item = _vision[i][j];
-          if (_inventory[item] < _lvlUp[std::make_pair(_level, item)])
+
+	  std::cout << "size of case : " << _vision[i].size() << std::endl;
+	  std::cout << "on vois un " << item << " case " << i << std::endl;
+	  std::cout << "I = " << i << " J = " << j << std::endl;
+          if (item.find("joueur") == std::string::npos && _inventory[item] < _lvlUp[std::make_pair(_level, item)])
             {
               if (i == 0)
                 {
@@ -208,6 +212,7 @@ void			AI::getMissingStones()
                 }
               else
 		{
+		  std::cout << "on va chercher le " << item << std::endl;
 		  setPath(i, item);
 		  return;
 		}
@@ -290,7 +295,7 @@ void			AI::incantation()
     }
   if (_cmdRcv == "ko\n")
     {
-      _cmdSnd = "";
+      _cmdSnd = "inventaire";
       return;
     }
   _level++;
