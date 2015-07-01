@@ -13,6 +13,8 @@
 int			fill_port(t_settings *settings, char *arg, int i)
 {
   settings->port = atoi(arg);
+  if (settings->port == 0 || strlen(arg) > 4)
+    return (my_error(BOLD RED ERR_PORT END));
   return (i + 1);
 }
 

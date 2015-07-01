@@ -5,14 +5,14 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Mon Jun 29 17:03:17 2015 Martin Porrès
+** Last update Tue Jun 30 19:17:28 2015 Martin Porrès
 */
 
 #include		"serveur.h"
 
 int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  if (client->orientation == NORTH || client->orientation == SOUTH)
+  if (client->orientation == EST || client->orientation == WEST)
     modify_x(client, serv->settings->width);
   else
     modify_y(client, serv->settings->height);
@@ -25,7 +25,7 @@ int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
 
 void			modify_x(t_client *client, int width)
 {
-  if (client->orientation == NORTH)
+  if (client->orientation == WEST)
     {
       client->x -= 1;
       if (client->x < 0)
@@ -41,7 +41,7 @@ void			modify_x(t_client *client, int width)
 
 void			modify_y(t_client *client, int height)
 {
-  if (client->orientation == WEST)
+  if (client->orientation == NORTH)
     {
       client->y -= 1;
       if (client->y < 0)

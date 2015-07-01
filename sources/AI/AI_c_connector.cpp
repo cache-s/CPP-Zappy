@@ -1,37 +1,36 @@
 //
 // AI_c_connector.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-//
+// 
 // Made by Sebastien Cache-Delanos
 // Login   <cache-_s@epitech.net>
-//
+// 
 // Started on  Wed Jun 24 11:39:45 2015 Sebastien Cache-Delanos
-// Last update Sun Jun 28 18:53:56 2015 Pierre Charie
+// Last update Fri Jun 26 12:57:59 2015 Sebastien Cache-Delanos
 //
 
 #include			<cstdlib>
 
 #include			"AI_c_connector.h"
 #include			"AI.hpp"
-#include			"Ai.hpp"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-  static Ai *AI_instance = NULL;
+  static AI *AI_instance = NULL;
 
   void lazyAI()
   {
     if (AI_instance == NULL)
       {
-	AI_instance = new Ai(42); //TODO transmettre du client l'ID
+	AI_instance = new AI();
       }
   }
 
   char* AI_call(const char *cmdRcv)
   {
     lazyAI();
-    return (AI_instance->action(cmdRcv));
+    return (AI_instance->call(cmdRcv));
   }
 
 #ifdef __cplusplus
