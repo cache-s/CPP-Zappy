@@ -36,7 +36,7 @@ int			init_settings(t_settings *settings)
   settings->height = 50;
   settings->teams = strdup("Team1;Team2;");
   settings->nb_clients = 200;
-  settings->delay = 1;
+  settings->delay = 100;
   return (EXIT_SUCCESS);
 }
 
@@ -103,7 +103,6 @@ int			check_teams(t_settings *settings)
       save = strdup(settings->teams);
       while ((save = strstr(save, token)) != NULL)
 	{
-	  printf("%s | %s\n", save, token);
 	  occ++;
 	  save++;
 	}

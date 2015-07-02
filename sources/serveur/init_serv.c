@@ -37,6 +37,8 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->next = NULL;
   new->fd = fd;
   new->gfx = 0;
+  new->time_left = 0;
+  new->is_full = 0;
   new->connected = 0;
   new->fct_read = client_read;
   new->fct_write = client_write;
@@ -71,16 +73,24 @@ int			create_client(t_serv *serv, int fd)
 
 int			accept_clients(t_serv *serv)
 {
+  struct timeval	tv;
+  double		time;
+  static int		toto = 0;
+
+  toto += 1;
   empty_fds(serv);
-  serv->timer.start = time(NULL);
-  if ((select(serv->fds + 1, &serv->readfds,
-	      &serv->writefds, NULL, NULL)) == -1)
+  tv.tv_sec = 0;
+  tv.tv_usec = 0;
+  time = get_the_shortest_cmd(serv);
+  printf("%f\n", time);
+  tv.tv_usec = time * 1000000;
+  printf("time = %f | usec = %d | sec = %d\n", time, (int)tv.tv_usec, (int)tv.tv_sec);
+  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL,
+	      (time == -42) ? NULL : &tv)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
-  serv->timer.end = time(NULL);
-  get_elapsed_time(serv);
-  printf("%d\n", (int)serv->timer.elapsed);
+  update_timers(serv, &tv, time);
   check_fds_states(serv, 1);
   check_fds_states(serv, 0);
   return (EXIT_SUCCESS);

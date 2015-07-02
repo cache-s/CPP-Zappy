@@ -34,6 +34,7 @@ int			cmd_connect_nbr(t_serv *serv, t_client *client, UNUSED char *cmd)
   i = EXIT_SUCCESS;
   if (my_write(client->fd, value) == EXIT_FAILURE)
     i = EXIT_FAILURE;
+  printf(RED BOLD "Sending '%s' to %d\n" END, value, client->fd);
   free(value);
   return (i);
 }
