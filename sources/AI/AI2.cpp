@@ -1,11 +1,11 @@
 //
-// AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-// 
+// AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy/sources/AI
+//
 // Made by Sebastien Cache-Delanos
 // Login   <cache-_s@epitech.net>
-// 
-// Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 17:29:13 2015 Sebastien Cache-Delanos
+//
+// Started on  Wed Jun 24 11:29:59 2015 Sebastien Cache-Delanos
+// Last update Wed Jul  1 17:06:08 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -152,25 +152,10 @@ void			AI::setObjective()
 
 bool			AI::tryIncant()
 {
-  int			peopleNbr = 0;
-
   for (unsigned int i = 0; i < _stones.size(); ++i)
     {
       if (_inventory[_stones[i]] < _lvlUp[std::make_pair(_level, _stones[i])])
 	return (false);
-    }
-  for (unsigned int j = 0; j < _vision[0].size(); ++j)
-    {
-      if (_vision[0][j] == "joueur")
-        peopleNbr++;
-    }
-  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")])
-    {
-      std::string msg = "broadcast INV(";
-      msg += std::to_string(_level);
-      msg += ")";
-      _todo.push_back("broadcast ");
-      return false;
     }
   grabAll();
   dropToIncant();
@@ -208,6 +193,10 @@ void			AI::getMissingStones()
       for (unsigned int j = 0; j < _vision[i].size(); ++j)
         {
 	  std::string item = _vision[i][j];
+
+	  std::cout << "size of case : " << _vision[i].size() << std::endl;
+	  std::cout << "on vois un " << item << " case " << i << std::endl;
+	  std::cout << "I = " << i << " J = " << j << std::endl;
           if (item.find("joueur") == std::string::npos && _inventory[item] < _lvlUp[std::make_pair(_level, item)])
             {
               if (i == 0)
@@ -218,6 +207,7 @@ void			AI::getMissingStones()
                 }
               else
 		{
+		  std::cout << "on va chercher le " << item << std::endl;
 		  setPath(i, item);
 		  return;
 		}
@@ -293,19 +283,19 @@ void			AI::connect_nbr()
 
 void			AI::incantation()
 {
-  if (_cmdRcv == "ko\n")
-    {
-      _isWaiting = false;
-      _todo.push_back("inventaire");
-      return;
-    }
   if (_cmdRcv.find("niveau actuel") == std::string::npos)
     {
       _cmdSnd = "";
       return;
     }
+  if (_cmdRcv == "ko\n")
+    {
+      _cmdSnd = "inventaire";
+      return;
+    }
   _level++;
   _isWaiting = false;
+  std::cout << "ELEVATION TEMRINEE" << std::endl;
   _cmdSnd = "inventaire";
   return;
 }
@@ -343,6 +333,7 @@ void			AI::vision()
 
 void			AI::inventory()
 {
+
   if (_cmdRcv.find("{nourriture") == std::string::npos)
     {
       _cmdSnd = "";

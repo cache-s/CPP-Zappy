@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Wed Mar 11 11:07:30 2015 Mathieu Bourmaud
-** Last update Sun Jun 28 13:22:43 2015 Martin Porrès
+** Last update Tue Jun 30 20:00:29 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -45,6 +45,7 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->orientation = NORTH;
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
+  new->lvl = 1;
   serv->nb_client++;
   if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);

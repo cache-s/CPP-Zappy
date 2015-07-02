@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 15:11:07 2015 Jordan Chazottes
-** Last update Mon Jun 29 13:03:33 2015 Jordan Chazottes
+** Last update Wed Jul  1 17:08:41 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -18,7 +18,6 @@ int		getCmd(t_gfx *s, char *token)
   int		i;
 
   i = 0;
-  printf("Token = %s\n", token);
   str = strdup(token);
   tok = strtok(str, " ");
   while (s->cmdTab[i] != NULL && strcmp(tok, s->cmdTab[i]) != 0)
@@ -27,5 +26,6 @@ int		getCmd(t_gfx *s, char *token)
     return (EXIT_FAILURE);
   if ((s->cmds[i](s, token)) == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  free(tok);
   return (EXIT_SUCCESS);
 }

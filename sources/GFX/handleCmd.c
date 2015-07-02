@@ -5,14 +5,13 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 12:57:34 2015 Jordan Chazottes
-** Last update Mon Jun 29 13:19:49 2015 Jordan Chazottes
+** Last update Wed Jul  1 16:56:46 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
 int		handleCmd(t_gfx *s)
 {
-  char		*str;
   char		*end_str;
   char		*token;
 
@@ -22,15 +21,18 @@ int		handleCmd(t_gfx *s)
     {
       if (s->network.init == 0)
 	return (welcomeServ(s));
-      str = strdup(s->network.cmd);
-      token = strtok_r(str, "\n", &end_str);
+      token = strtok_r(strdup(s->network.cmd), "\n", &end_str);
       while (token != NULL)
 	{
 	  if (getCmd(s, token) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	  token = strtok_r(NULL, "\n", &end_str);
 	}
+      free(token);
+      free(s->network.cmd);
       s->network.cmd = NULL;
+      if (draw(s) == EXIT_FAILURE)
+        return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }
