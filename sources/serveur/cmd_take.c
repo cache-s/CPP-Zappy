@@ -24,6 +24,7 @@ int			cmd_take(t_serv *serv, t_client *client, char *cmd)
 	client->items[item] += 1;
 	ok = 1;
       }
+  printf(RED BOLD "Sending 'ok' to %d\n" END, client->fd);
   if (write_pgt_gfx(serv->gfx, client, item) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (write_pin_gfx(serv->gfx, client) == EXIT_FAILURE)

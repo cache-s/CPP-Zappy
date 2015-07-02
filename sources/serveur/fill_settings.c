@@ -12,6 +12,8 @@
 
 int			fill_port(t_settings *settings, char *arg, int i)
 {
+  if (arg == NULL)
+    return (my_error(BOLD RED ERR_PORT END));
   settings->port = atoi(arg);
   if (settings->port == 0 || strlen(arg) > 4)
     return (my_error(BOLD RED ERR_PORT END));
@@ -20,12 +22,16 @@ int			fill_port(t_settings *settings, char *arg, int i)
 
 int			fill_width(t_settings *settings, char *arg, int i)
 {
+  if (arg == NULL)
+    return (my_error(BOLD RED ERR_WIDTH END));
   settings->width = atoi(arg);
   return (i + 1);
 }
 
 int			fill_height(t_settings *settings, char *arg, int i)
 {
+  if (arg == NULL)
+    return (my_error(BOLD RED ERR_HEIGHT END));
   settings->height = atoi(arg);
   return (i + 1);
 }
@@ -36,6 +42,8 @@ int			fill_teams(t_settings *settings, char **args, int i)
 
   j = 0;
   i += 1;
+  if (args[i] == NULL)
+    return (my_error(BOLD RED ERR_TEAM END));
   settings->teams = strdup(args[i]);
   if ((settings->teams = realloc(settings->teams, strlen(settings->teams) + strlen(";") + 1)) == NULL)
     return (my_error(ERR_REALLOC));
@@ -74,13 +82,16 @@ int			fill_teams_tabs(t_settings *settings)
 
 int			fill_nb_clients(t_settings *settings, char *arg, int i)
 {
-  printf("nbclient = %s\n", arg);
+  if (arg == NULL)
+    return (my_error(BOLD RED ERR_NB_CLIENTS END));
   settings->nb_clients = atoi(arg);
   return (i + 1);
 }
 
 int			fill_delay(t_settings *settings, char *arg, int i)
 {
+  if (arg == NULL)
+    return (my_error(BOLD RED ERR_DELAY END));
   settings->delay = atof(arg);
   return (i + 1);
 }

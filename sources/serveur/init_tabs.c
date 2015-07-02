@@ -80,6 +80,7 @@ int			init_AI_tabs(t_serv *serv)
   init_AI_cmds(serv);
   init_items(serv);
   init_clients(serv);
+  set_delay_tab(serv);
   init_inc_tab(serv);
   return (EXIT_SUCCESS);
 }

@@ -1,11 +1,11 @@
 //
 // AI.hpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-// 
+//
 // Made by Sebastien Cache-Delanos
 // Login   <cache-_s@epitech.net>
-// 
+//
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 17:04:41 2015 Sebastien Cache-Delanos
+// Last update Thu Jul  2 17:13:18 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -45,6 +45,7 @@ private:
   bool				tryIncant();
   void				dropToIncant();
   void				grabAll();
+  void				listenSummon();
 
   void				printInventory();
 

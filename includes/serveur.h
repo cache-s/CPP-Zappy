@@ -74,6 +74,7 @@ typedef struct		s_settings
 
 typedef struct		s_client
 {
+  char			is_full;
   int			id;
   fct			fct_read;
   fct			fct_write;
@@ -81,6 +82,8 @@ typedef struct		s_client
   char			*team;
   char			need_write;
   char			*cmd;
+  char			*shortest_cmd;
+  double		time_left;
   eOrientation		orientation;
   char			gfx;
   int			lvl;
@@ -129,10 +132,9 @@ typedef struct		s_serv
   t_timer		timer;
   int			nb_client;
   char			**items;
+  double		cmd_time[12];
   incFct		inc_lvl[8];
 }			t_serv;
-
-void		get_elapsed_time(t_serv *serv);
 
 int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
@@ -225,6 +227,12 @@ int		write_enw_gfx(t_client *gfx, t_client *client);
 int		write_eht_gfx(t_client *gfx, int id);
 
 int		write_ok(int fd, int ok);
+
+int		get_the_shortest_cmd(t_serv *serv);
+double		get_delay(t_serv *serv, char *cmd);
+void		set_delay_tab(t_serv *serv);
+int		update_timers(t_serv *serv, struct timeval *tv, double time);
+int		update_client(t_client *client, t_serv *serv);
 
 int		inc_lvl1(t_serv *serv, t_client *client);
 int		inc_lvl2(t_serv *serv, t_client *client);
