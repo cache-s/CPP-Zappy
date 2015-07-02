@@ -45,3 +45,25 @@ Instructions :
        16) Si une pierre recherchée est présente, on y va
        17) Sinon, on le fait avancer dans une direction random (Pour controler, go mettre 1/X chance qu'il tourne vers la gauche, sinon il avance tout droit, ca le fera se balader un peu partout) (actuellement, 40% de chance de tourner)
 18) Si on est sur la case d'un mec et qu'il invoque pas (pour pas qu'on lui casse trop les couille) on lui botte le cul
+
+
+
+
+
+
+
+
+INCANTATION 
+
+
+1) On constitue une réserve de nourriture suffisante pour rester immobile le temps d'incanter ET de regrouper les gens.
+
+2) On lance une demande d'invocation, en stockant sa Q de bouffe.
+
+3) on compte le nombre de reponse positive jusqu'à Q - 3;
+
+4) Si assez de réponse, on se fout immobile, et on ne lance que des PONG, en verifiant a chaque fois le nombre de personne sur la case;
+
+5) Si assez de personne sur la case, on lance l'invocation, on annonce que  et ZOU, 
+
+
