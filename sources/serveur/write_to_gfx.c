@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Sat Jun 27 12:06:19 2015 Martin Porrès
-** Last update Thu Jul  2 00:08:15 2015 Martin Porrès
+** Last update Thu Jul  2 15:49:48 2015 Martin Porrès
 */
 
 #include	"serveur.h"
@@ -211,6 +211,70 @@ int		write_plv_gfx(t_client *gfx, t_client *client)
   while (tmp != NULL)
     {
       if (dprintf(tmp->fd, "plv %d %d\n", client->id, client->lvl) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_pex_gfx(t_client *gfx, t_client *client)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "pex %d\n", client->id) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_pfk_gfx(t_client *gfx, t_client *client)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "pfk %d\n", client->id) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_enw_gfx(t_client *gfx, t_client *client)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "enw %d %d %d %d\n", client->id, client->id, client->x, client->y) == -1)
+	ret = EXIT_FAILURE;
+      tmp = tmp->next;
+    }
+  return (ret);
+}
+
+int		write_eht_gfx(t_client *gfx, int id)
+{
+  t_client	*tmp;
+  int		ret;
+
+  ret = EXIT_SUCCESS;
+  tmp = gfx;
+  while (tmp != NULL)
+    {
+      if (dprintf(tmp->fd, "eht %d\n", id) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }

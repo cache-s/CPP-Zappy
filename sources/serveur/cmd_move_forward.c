@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Tue Jun 30 19:17:28 2015 Martin Porrès
+** Last update Thu Jul  2 12:02:23 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -13,9 +13,9 @@
 int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
   if (client->orientation == EST || client->orientation == WEST)
-    modify_x(client, serv->settings->width);
+    modify_x(client->orientation, client, serv->settings->width);
   else
-    modify_y(client, serv->settings->height);
+    modify_y(client->orientation, client, serv->settings->height);
   if (write_ppo_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
@@ -23,9 +23,9 @@ int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
   return (EXIT_SUCCESS);
 }
 
-void			modify_x(t_client *client, int width)
+void			modify_x(eOrientation orientation, t_client *client, int width)
 {
-  if (client->orientation == WEST)
+  if (orientation == WEST)
     {
       client->x -= 1;
       if (client->x < 0)
@@ -39,9 +39,9 @@ void			modify_x(t_client *client, int width)
     }
 }
 
-void			modify_y(t_client *client, int height)
+void			modify_y(eOrientation orientation, t_client *client, int height)
 {
-  if (client->orientation == NORTH)
+  if (orientation == NORTH)
     {
       client->y -= 1;
       if (client->y < 0)
