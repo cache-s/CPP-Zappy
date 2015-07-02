@@ -85,7 +85,7 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
   printf("elapsed = %f\n", elapsed);
   while (tmp != NULL)
     {
-      tmp->time_left -= elapsed;
+      tmp->time_left -= elapsed / 1000000;
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)
