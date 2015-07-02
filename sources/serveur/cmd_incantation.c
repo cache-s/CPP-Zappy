@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Thu Jul  2 00:25:20 2015 Martin Porrès
+** Last update Thu Jul  2 18:01:31 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -41,7 +41,8 @@ int			cmd_end_incantation(t_serv *serv, t_client *client)
   empty_block(&(serv->map->blocks[client->x][client->y]));
   if (write_bct_gfx(serv->gfx, &(serv->map->blocks[client->x][client->y])) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  // faire pop des ressources
+  if (generate_all_item(serv, 1) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   if (write_pie_gfx(serv->gfx, client, 1) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (up_players(serv, client) == EXIT_FAILURE)

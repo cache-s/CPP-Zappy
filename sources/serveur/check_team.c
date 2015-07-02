@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Sun Jun 28 18:23:25 2015 Mathieu
-** Last update Tue Jun 30 19:56:10 2015 Martin Porrès
+** Last update Thu Jul  2 18:07:04 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -36,6 +36,8 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       dprintf(client->fd, "%d %d\n", client->x, client->y);
       client->id = client->fd;
       if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      if (generate_all_item(serv, 1) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
   else  

@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Thu Jul  2 15:51:59 2015 Martin Porrès
+** Last update Thu Jul  2 18:01:03 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -201,6 +201,8 @@ int		move_to_gfx_list(t_serv *serv, t_client *client);
 int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
+int		generate_random_item(t_serv *serv, int item, int nb);
+int		generate_all_item(t_serv *serv, int nb);
 
 void		write_tna(t_serv *serv, int fd);
 void		write_bct(t_block *block, int fd);
