@@ -1,11 +1,11 @@
 //
 // AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-// 
+//
 // Made by Sebastien Cache-Delanos
 // Login   <cache-_s@epitech.net>
-// 
+//
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Wed Jul  1 17:29:13 2015 Sebastien Cache-Delanos
+// Last update Thu Jul  2 17:20:29 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -36,13 +36,13 @@ AI::AI()
   _needResponse.push_back("incantation");
   _needResponse.push_back("connect_nbr");
 
-  _lvlUp[std::make_pair(1, "joueur")] = 0;
-  _lvlUp[std::make_pair(2, "joueur")] = 1;
-  _lvlUp[std::make_pair(3, "joueur")] = 1;
-  _lvlUp[std::make_pair(4, "joueur")] = 3;
-  _lvlUp[std::make_pair(5, "joueur")] = 3;
-  _lvlUp[std::make_pair(6, "joueur")] = 5;
-  _lvlUp[std::make_pair(7, "joueur")] = 5;
+  _lvlUp[std::make_pair(1, "joueur")] = 1;
+  _lvlUp[std::make_pair(2, "joueur")] = 2;
+  _lvlUp[std::make_pair(3, "joueur")] = 2;
+  _lvlUp[std::make_pair(4, "joueur")] = 4;
+  _lvlUp[std::make_pair(5, "joueur")] = 4;
+  _lvlUp[std::make_pair(6, "joueur")] = 6;
+  _lvlUp[std::make_pair(7, "joueur")] = 6;
 
   _lvlUp[std::make_pair(1, "linemate")] = 1;
   _lvlUp[std::make_pair(2, "linemate")] = 1;
@@ -101,6 +101,8 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
+ static std::string	oldCmd;
+
   _cmdRcv = cmdRcv;
   act();
   if (_cmdSnd != "")
@@ -124,6 +126,7 @@ void			AI::act()
       if (!_todo.empty())
 	{
 	  _cmdSnd = _todo.front();
+	  std::cout << "on envois " << _cmdSnd << std::endl;
 	  _todo.pop_front();
 	}
       for (unsigned int i = 0; i < _needResponse.size(); ++i)
@@ -144,10 +147,43 @@ void			AI::setObjective()
       return;
     }
   _update = false;
-  if (_inventory["nourriture"] < 10)
+  if (_inventory["nourriture"] < (10 + (_level * 3)))
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();
+}
+
+void			AI::listenSummon()
+{
+  static std::vector<std::string>	invID;
+  static int			foodBegin = -1;
+  std::string			newID;
+
+  if (foodBegin == -1)
+    foodBegin = _inventory["nourriture"];
+      if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)  //OKINV(uneID, LVL)
+	{
+	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+	    {
+	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+	      invID.push_back(newID);
+	    }
+	}
+  if (foodBegin - _inventory["nourriture"] > 2)
+    {
+      // _waitListen = false;
+      if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+	{
+	  for (unsigned int i = 0; i < invID.size(); ++i)
+	    {
+	      std::string cmd = "broadcast COME(";
+	      cmd += std::to_string(_level);
+	      cmd += ")";
+	      invID[i];
+	    }
+	  //TODO envoyer un msg aux gens du vec pour les inviter à venir.
+	}
+    }
 }
 
 bool			AI::tryIncant()
@@ -164,12 +200,16 @@ bool			AI::tryIncant()
       if (_vision[0][j] == "joueur")
         peopleNbr++;
     }
+  std::cout << "level = " << _level << std::endl;
+  std::cout << "ppl nbr = " << peopleNbr << std::endl << std::endl;
+  std::cout << "ppl needed = " << _lvlUp[std::make_pair(_level, "joueur")] << std::endl << std::endl;
   if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")])
     {
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
-      _todo.push_back("broadcast ");
+      _todo.push_back(msg);
+      //TODO se mettre en position d'ecoute immobile pendant... 2? unité de bouffe. (pour pas qu'il en ramasse plus et fausse le calcul); On ne le lance qu'une fois par niveau. Si ca echoue, on deviendra non plus hote mais guest de la prochaine invoc'
       return false;
     }
   grabAll();
@@ -302,11 +342,13 @@ void			AI::incantation()
   if (_cmdRcv.find("niveau actuel") == std::string::npos)
     {
       _cmdSnd = "";
+      std::cout << "on envois " << _cmdSnd << std::endl;
       return;
     }
   _level++;
   _isWaiting = false;
   _cmdSnd = "inventaire";
+  std::cout << "on envois " << _cmdSnd << std::endl;
   return;
 }
 
@@ -315,6 +357,7 @@ void			AI::vision()
   if (_cmdRcv.find("{ ") == std::string::npos)
     {
       _cmdSnd = "";
+      std::cout << "on envois " << _cmdSnd << std::endl;
       return;
     }
   _vision.clear();
@@ -346,6 +389,7 @@ void			AI::inventory()
   if (_cmdRcv.find("{nourriture") == std::string::npos)
     {
       _cmdSnd = "";
+      std::cout << "on envois " << _cmdSnd << std::endl;
       return;
     }
   std::stringstream		ss(_cmdRcv);
