@@ -18,9 +18,10 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
 
   i = 0;
   check = 0;
-  
-  /* dprintf(client->fd, "x = %i\n", x); */
-  /* dprintf(client->fd, "y = %i\n", y); */
+  tmp_i = 0;
+
+  dprintf(client->fd, "x = %i\n", x);
+  dprintf(client->fd, "y = %i\n", y);
 
   while (i < 7)
     {

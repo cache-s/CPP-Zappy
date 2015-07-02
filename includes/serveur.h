@@ -92,9 +92,10 @@ typedef struct		s_client
 
 typedef struct		s_see
 {
-  int			tmp_x_left;
-  int			tmp_x_right;
-  int			tmp_y;
+  int			tmp_x_plus;
+  int			tmp_x_less;
+  int			tmp_y_plus;
+  int			tmp_y_less;
   int			check;
   int			coma;
   int			end;
