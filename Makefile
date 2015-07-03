@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Wed Jul  1 17:54:41 2015 Jordan Chazottes
+## Last update Fri Jul  3 11:37:45 2015 Martin Porrès
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -49,6 +49,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/welcome_msg.c		\
 			sources/serveur/init_tabs.c		\
 			sources/serveur/cmd_broadcast.c		\
+			sources/serveur/cmd_broadcast_end.c	\
 			sources/serveur/cmd_graphic.c		\
 			sources/serveur/cmd_kick.c		\
 			sources/serveur/cmd_inventory.c		\
@@ -63,7 +64,12 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/read_write.c		\
 			sources/serveur/check_team.c		\
 			sources/serveur/delay.c			\
-			sources/serveur/write_to_gfx.c		\
+			sources/serveur/inc_lvl_1_4.c		\
+			sources/serveur/inc_lvl_5_7.c		\
+			sources/serveur/write_gfx_bct_pin_pgt_pdr.c	\
+			sources/serveur/write_pbc_pnw_pdi_pic.c		\
+			sources/serveur/write_pie_plv_pex_pfk_enw.c	\
+			sources/serveur/write_eht_ok.c		\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
