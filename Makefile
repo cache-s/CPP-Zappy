@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Fri Jul  3 11:37:45 2015 Martin Porrès
+## Last update Fri Jul  3 14:01:43 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -30,7 +30,7 @@ CXXFLAGS	+=	-std=c++11 -W -Wall -Wextra -Werror -I./includes -L./libs -Wl,-rpath
 
 LIBSH		+=	-lAI -lAI_c_connector
 
-GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image -lpthread
+GFXFLAGS	+=	-lSDLmain -lSDL -lSDL_image -lpthread -lSDL_ttf
 
 DYNLIB		+=	-fpic -shared
 

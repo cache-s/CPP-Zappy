@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:50:59 2015 Jordan Chazottes
+** Last update Thu Jul  2 17:41:42 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -88,3 +88,4 @@ int		initCmdTab(t_gfx *s)
   s->cmdTab[24] = NULL;
   return (EXIT_SUCCESS);
 }
+

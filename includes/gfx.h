@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:55:05 2015 Jordan Chazottes
+** Last update Fri Jul  3 14:11:56 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -17,6 +17,7 @@
 /* SDL */
 # include	<SDL/SDL.h>
 # include	<SDL/SDL_image.h>
+# include	<SDL/SDL_ttf.h>
 
 /* /SDL/ */
 
@@ -40,6 +41,7 @@
 # define		SPR_RES		8
 # define		NB_ITEMS	7
 # define		NB_LEVELS	8
+# define		MAX_VIEW	10
 
 typedef			int(*tabFcts)();
 /* STRUCT */
@@ -67,6 +69,15 @@ typedef enum		eOrientation
     SOUTH	= 3,
     WEST	= 4
   }			eOrientation;
+
+typedef enum		eEvent
+  {
+    QUIT	= -1,
+    UP		= 0,
+    RIGHT	= 1,
+    DOWN	= 2,
+    LEFT	= 3,
+  }			eEvent;
 
 typedef enum		eType
   {
@@ -97,6 +108,8 @@ typedef struct		s_block
 
 typedef struct		s_map
 {
+  int			dispX;
+  int			dispY;
   t_block		**blocks;
 }			t_map;
 
@@ -113,7 +126,9 @@ typedef struct		s_gfx
   int			width;
   int			height;
   int			time;
+  int			pSelect;
   SDL_Surface		*screen;
+  TTF_Font		*font;
   t_network		network;
   t_map			*map;
   t_player		*players;
@@ -129,7 +144,7 @@ int		coreGFX(char *ip, int port);
 void		initStruct(t_gfx* s);
 void		initWindow(t_gfx* s);
 int		initNetwork(t_gfx* s, char *ip, int port);
-int		eventHandler();
+int		eventHandler(t_gfx *s);
 char		*client_read();
 char		*client_write();
 
