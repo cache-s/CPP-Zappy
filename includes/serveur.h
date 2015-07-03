@@ -91,6 +91,8 @@ typedef struct		s_client
   int			y;
   char			connected;
   int			items[7];
+  int			cmd_end;
+  double		lifetime;
   struct s_client	*next;
 }			t_client;
 

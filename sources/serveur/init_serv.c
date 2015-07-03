@@ -46,6 +46,7 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
   new->lvl = 1;
+  new->lifetime = 1260;
   serv->nb_client++;
   if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -82,11 +83,14 @@ int			accept_clients(t_serv *serv)
   empty_fds(serv);
   tv.tv_sec = 0;
   tv.tv_usec = 0;
-  time = get_the_shortest_cmd(serv);
-  printf("%f\n", time);
-  tv.tv_usec = time * 1000000;
-  printf("time = %f | usec = %d | sec = %d\n", time, (int)tv.tv_usec, (int)tv.tv_sec);
-  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL,
+  if ((time = get_the_shortest_cmd(serv)) == -42)
+    {
+      tv.tv_usec = 126 * 1000000 / serv->settings->delay;
+      /* time = tv.tv_usec / 1000000; */
+    }
+  else
+    tv.tv_usec = time * 1000000;
+  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL, 
 	      (time == -42) ? NULL : &tv)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
