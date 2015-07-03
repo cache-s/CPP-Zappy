@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Sat Apr 11 19:09:27 2015 Mathieu Bourmaud
-** Last update Fri May  8 11:53:02 2015 Mathieu Bourmaud
+** Last update Wed Jul  1 16:37:52 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -80,5 +80,19 @@ int			init_AI_tabs(t_serv *serv)
   init_AI_cmds(serv);
   init_items(serv);
   init_clients(serv);
+  set_delay_tab(serv);
+  init_inc_tab(serv);
   return (EXIT_SUCCESS);
+}
+
+void			init_inc_tab(t_serv *serv)
+{
+  serv->inc_lvl[0] = NULL;
+  serv->inc_lvl[1] = inc_lvl1;
+  serv->inc_lvl[2] = inc_lvl2;
+  serv->inc_lvl[3] = inc_lvl3;
+  serv->inc_lvl[4] = inc_lvl4;
+  serv->inc_lvl[5] = inc_lvl5;
+  serv->inc_lvl[6] = inc_lvl6;
+  serv->inc_lvl[7] = inc_lvl7;
 }

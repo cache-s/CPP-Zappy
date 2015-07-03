@@ -5,29 +5,25 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Mon Jun 15 16:27:42 2015 Mathieu Bourmaud
+** Last update Thu Jul  2 16:30:31 2015 Martin Porrès
 */
 
 #include		"serveur.h"
 
-int			cmd_fork(t_serv *serv, t_client *client, char *cmd)
+int			cmd_fork(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  (void)serv;
-  (void)cmd;
-  if (my_write(client->fd, "cmd_fork") == EXIT_FAILURE)
+  if (write_pfk_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-
-  /* 
-     Fork 
-     Début du fork :
-     "pfk #n\n" 
-     Fin du fork : 
-     "enw #e #n X Y\n" 
-
-     Send to GFX : 
-     Start : pfk, player nbr
-     end : enw, numéro d'oeuf sur le serveur, player nbr, X & Y pos
-     Send to IA : ok
-   */
+  // wait fork
+  
+  serv->settings->nb_clients++;// à remplacer
+  if (write_enw_gfx(serv->gfx, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (my_write(client->fd, "ok") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  // wait eclosion
+  if (write_eht_gfx(serv->gfx, client->id) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  //set egg to rdy
   return (EXIT_SUCCESS);
 }

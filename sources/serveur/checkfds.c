@@ -35,18 +35,67 @@ void			empty_fds(t_serv *serv)
     }
 }
 
-void			fill_cmd(char *cmd, t_client *tmp)
+int			check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end)
 {
+  char			*cpy;
+
+  cpy = strdup(cmd);
+  cpy = strtok(cpy, "\n");
+  printf(BOLD BLUE "Received message '%s' from %d\n" END, cpy, tmp->fd);
+  if (cmd == NULL || strcmp(cmd, "") == 0 || strlen(cmd) == 1)
+    {
+      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
+      return (EXIT_FAILURE);
+    }
+  if (tmp->is_full == 1)
+    {
+      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
+      if (my_write(tmp->fd, "ko") == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      return (EXIT_FAILURE);
+    }
+  if (count_char(cmd, '\n') >= 1)
+    {
+      cmd = strtok(cmd, "\n");
+      *end = 1;
+    }
+  if (call_cmds(serv, cmd) == 42)
+    {
+      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
+      if (my_write(tmp->fd, "ko") == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      return (EXIT_FAILURE);
+    }
+  return (EXIT_SUCCESS);
+}
+
+int			fill_cmd(char *cmd, t_client *tmp, t_serv *serv)
+{
+  int			end;
+  
+  end = 0;
+  if (check_cmd_before_fill(cmd, tmp, serv, &end) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   if (tmp->cmd == NULL)
-    tmp->cmd = strdup(cmd);
+    {
+      tmp->cmd = strdup(cmd);
+      if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd) + 3)) == NULL)
+	return (my_error(ERR_REALLOC));
+      tmp->cmd = strcat(tmp->cmd, ";");
+    }
   else
     {
       if (strcmp(cmd, "\0") == 0 || strcmp(cmd, "") == 0)
-	return;
-      if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd) + strlen(cmd) + 1)) == NULL)
-	return;
+	return (EXIT_FAILURE);
+      if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd) + strlen(cmd) + 3)) == NULL)
+	return (my_error(ERR_REALLOC));
       tmp->cmd = strcat(tmp->cmd, cmd);
+      if (end == 1)
+	tmp->cmd = strcat(tmp->cmd, ";");
+      if (count_char(tmp->cmd, ';') >= 10)
+	tmp->is_full = 1;
     }
+  return (EXIT_SUCCESS);
 }
 
 void			check_fds_states(t_serv *serv, int type)
@@ -65,22 +114,16 @@ void			check_fds_states(t_serv *serv, int type)
 	  if ((cmd = tmp->fct_read(serv, tmp->fd)) == NULL)
 	    return;
 	  if (tmp->connected == 1)
-	    {
-	      fill_cmd(cmd, tmp);
-	      FD_SET(serv->socket, &serv->writefds);
-	      tmp->need_write = 1;
-	    }
+	    fill_cmd(cmd, tmp, serv);
 	  else
 	    check_team(serv, tmp, cmd);
 	}
-      if (tmp->cmd != NULL && count_char(tmp->cmd, '\n') == 1)
-	if (FD_ISSET(tmp->fd, &(serv->writefds)))
-	  {
-	    tmp->fct_write(serv, tmp, tmp->cmd);
-	    tmp->need_write = 0;
-	    free(tmp->cmd);
-	    tmp->cmd = NULL;
-	  }
+      if (tmp->cmd != NULL && tmp->need_write == 1)
+      	if (FD_ISSET(tmp->fd, &(serv->writefds)))
+      	  {
+      	    tmp->fct_write(serv, tmp, tmp->shortest_cmd);
+	    update_client(tmp, serv);
+      	  }
       tmp = tmp->next;
    }
 }

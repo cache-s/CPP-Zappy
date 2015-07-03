@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Wed Jun 24 18:40:00 2015 Mathieu
-** Last update Fri Jun 26 16:38:40 2015 Jordan Chazottes
+** Last update Thu Jul  2 18:11:28 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -62,4 +62,36 @@ int			jewels_food_generation(t_block *block, int i, int j)
       	block->items[0] += 1;
     }
   return (EXIT_SUCCESS);
+}
+
+int			generate_random_item(t_serv *serv, int item, int nb)
+{
+  int			x;
+  int			y;
+  int			i;
+
+  i = 0;
+  while (i < nb)
+    {
+      x = rand() % serv->settings->width;
+      y = rand() % serv->settings->height;
+      serv->map->blocks[x][y].items[item] += 1;
+      if (write_bct_gfx(serv->gfx, &(serv->map->blocks[x][y])) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      i++;
+    }
+  return (EXIT_SUCCESS);
+}
+
+int			generate_all_item(t_serv *serv, int nb)
+{
+  int			i;
+  int			ret;
+
+  ret = EXIT_SUCCESS;
+  i = 0;
+  while (i < 7)
+    if (generate_random_item(serv, i++, nb) == EXIT_FAILURE)
+      ret = EXIT_FAILURE;
+  return (ret);
 }

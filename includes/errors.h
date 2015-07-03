@@ -46,6 +46,11 @@
 #define		ERR_STRCPY		"strcpy() has failed"
 
 /* ARUGMENTS ERRORS */
+#define		ERR_TEAM		"Error : -n must be followed by a value"
+#define		ERR_NB_CLIENTS		"Error : -c must be followed by a value"
+#define		ERR_WIDTH		"Error : -x must be followed by a value"
+#define		ERR_HEIGHT		"Error : -y must be followed by a value"
+#define		ERR_DELAY		"Error : -t must be followed by a value"
 #define		ERR_NB_TEAMS		"Error : the game can't start with only one team"
 #define		ERR_UNIQUE_TEAM		"Error : each team must be unique"
 #define		ERR_SPEED		"Error : the speed must be between 1 and 1000000"

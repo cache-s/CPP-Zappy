@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Tue Jun 30 20:06:56 2015 Martin Porrès
+** Last update Thu Jul  2 18:01:03 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -36,6 +36,7 @@
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
+typedef			int(*incFct)();
 
 typedef enum		eOrientation
   {
@@ -73,6 +74,7 @@ typedef struct		s_settings
 
 typedef struct		s_client
 {
+  char			is_full;
   int			id;
   fct			fct_read;
   fct			fct_write;
@@ -80,6 +82,8 @@ typedef struct		s_client
   char			*team;
   char			need_write;
   char			*cmd;
+  char			*shortest_cmd;
+  double		time_left;
   eOrientation		orientation;
   char			gfx;
   int			lvl;
@@ -87,6 +91,8 @@ typedef struct		s_client
   int			y;
   char			connected;
   int			items[7];
+  int			cmd_end;
+  double		lifetime;
   struct s_client	*next;
 }			t_client;
 
@@ -141,14 +147,15 @@ typedef struct		s_serv
   t_see			*see;
   int			nb_client;
   char			**items;
+  double		cmd_time[12];
+  incFct		inc_lvl[8];
 }			t_serv;
-
-void		get_elapsed_time(t_serv *serv);
 
 int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
+void		init_inc_tab(t_serv *serv);
 int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
@@ -171,8 +178,8 @@ int		welcome_msg(t_serv *serv, int fd);
 int		count_char(char *str, char c);
 
 int		cmd_move_forward(t_serv *serv, t_client *client, char *cmd);
-void		modify_x(t_client *client, int width);
-void		modify_y(t_client *client, int height);
+void		modify_x(eOrientation orientation, t_client *client, int width);
+void		modify_y(eOrientation orientation, t_client *client, int height);
 
 int		cmd_right(t_serv *serv, t_client *client, char *cmd);
 int		cmd_left(t_serv *serv, t_client *client, char *cmd);
@@ -183,6 +190,7 @@ int		cmd_drop(t_serv *serv, t_client *client, char *cmd);
 int		cmd_kick(t_serv *serv, t_client *client, char *cmd);
 int		cmd_broadcast(t_serv *serv, t_client *client, char *cmd);
 int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
+int		cmd_end_incantation(t_serv *serv, t_client *client);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
@@ -196,6 +204,9 @@ int		find_best_orientation(int x, int y, int base);
 int		set_real_orientation(int o, eOrientation client_o);
 int		see_with_orientation(t_serv *serv, t_client *client);
 int		look_floor(int x, int y, t_serv *serv, t_client *client);
+int		up_players(t_serv *serv, t_client *client);
+void		empty_block(t_block *block);
+int		kick_player(t_serv *serv, t_client *kicker, t_client *kicked, int k);
 
 int		fill_port(t_settings *settings, char *av, int i);
 int		fill_width(t_settings *settings, char *av, int i);
@@ -209,6 +220,8 @@ int		move_to_gfx_list(t_serv *serv, t_client *client);
 int		map_generation(t_serv *serv);
 int		jewels_food_generation(t_block *block, int x, int y);
 void		display_game_configuration(t_serv *serv);
+int		generate_random_item(t_serv *serv, int item, int nb);
+int		generate_all_item(t_serv *serv, int nb);
 
 void		write_tna(t_serv *serv, int fd);
 void		write_bct(t_block *block, int fd);
@@ -221,6 +234,29 @@ int		write_to_gfx(t_client *gfx, char *msg);
 int		write_pbc_gfx(t_client *gfx, t_client *client, char *cmd);
 int		write_pnw_gfx(t_client *gfx, t_client *client);
 int		write_pdi_gfx(t_client *gfx, t_client *client);
+int		write_pic_gfx(t_serv *serv, t_client *client);
+int		write_pic_end(t_serv *serv, t_client *client, char *ids);
+int		write_pie_gfx(t_client *gfx, t_client *client, int r);
+int		write_plv_gfx(t_client *gfx, t_client *client);
+int		write_pex_gfx(t_client *gfx, t_client *client);
+int		write_pfk_gfx(t_client *gfx, t_client *client);
+int		write_enw_gfx(t_client *gfx, t_client *client);
+int		write_eht_gfx(t_client *gfx, int id);
+
 int		write_ok(int fd, int ok);
+
+int		get_the_shortest_cmd(t_serv *serv);
+double		get_delay(t_serv *serv, char *cmd);
+void		set_delay_tab(t_serv *serv);
+int		update_timers(t_serv *serv, struct timeval *tv, double time);
+int		update_client(t_client *client, t_serv *serv);
+
+int		inc_lvl1(t_serv *serv, t_client *client);
+int		inc_lvl2(t_serv *serv, t_client *client);
+int		inc_lvl3(t_serv *serv, t_client *client);
+int		inc_lvl4(t_serv *serv, t_client *client);
+int		inc_lvl5(t_serv *serv, t_client *client);
+int		inc_lvl6(t_serv *serv, t_client *client);
+int		inc_lvl7(t_serv *serv, t_client *client);
 
 #endif
