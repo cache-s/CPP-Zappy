@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Fri Jul  3 11:37:45 2015 Martin Porrès
+## Last update Fri Jul  3 14:44:23 2015 Martin Porrès
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -60,12 +60,12 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/cmd_fork.c		\
 			sources/serveur/cmd_left.c		\
 			sources/serveur/cmd_see.c		\
+			sources/serveur/see_with_orientation.c	\
 			sources/serveur/cmd_take.c		\
 			sources/serveur/read_write.c		\
 			sources/serveur/check_team.c		\
 			sources/serveur/delay.c			\
-			sources/serveur/inc_lvl_1_4.c		\
-			sources/serveur/inc_lvl_5_7.c		\
+			sources/serveur/cmd_incantation_end.c	\
 			sources/serveur/write_gfx_bct_pin_pgt_pdr.c	\
 			sources/serveur/write_pbc_pnw_pdi_pic.c		\
 			sources/serveur/write_pie_plv_pex_pfk_enw.c	\

@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Thu Jul  2 18:01:03 2015 Martin Porrès
+** Last update Fri Jul  3 14:51:18 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -36,7 +36,6 @@
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
-typedef			int(*incFct)();
 
 typedef enum		eOrientation
   {
@@ -96,6 +95,18 @@ typedef struct		s_client
   struct s_client	*next;
 }			t_client;
 
+typedef struct		s_see
+{
+  int			tmp_x_plus;
+  int			tmp_x_less;
+  int			tmp_y_plus;
+  int			tmp_y_less;
+  int			check;
+  int			coma;
+  int			end;
+  int			lvl; // a remove
+}			t_see;
+
 typedef struct		s_block
 {
   int			x;
@@ -132,17 +143,17 @@ typedef struct		s_serv
   t_settings		*settings;
   t_parser		parse;
   t_timer		timer;
+  t_see			*see;
   int			nb_client;
   char			**items;
   double		cmd_time[12];
-  incFct		inc_lvl[8];
+  int			inc_tab[8][7];
 }			t_serv;
 
 int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
-void		init_inc_tab(t_serv *serv);
 int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
@@ -189,6 +200,8 @@ int		find_closest_path(int map_size, int speaker, int listener);
 int		set_path_orientation(int x, int y);
 int		find_best_orientation(int x, int y, int base);
 int		set_real_orientation(int o, eOrientation client_o);
+int		see_with_orientation(t_serv *serv, t_client *client);
+int		look_floor(int x, int y, t_serv *serv, t_client *client);
 int		up_players(t_serv *serv, t_client *client);
 void		empty_block(t_block *block);
 int		kick_player(t_serv *serv, t_client *kicker, t_client *kicked, int k);
@@ -236,12 +249,10 @@ void		set_delay_tab(t_serv *serv);
 int		update_timers(t_serv *serv, struct timeval *tv, double time);
 int		update_client(t_client *client, t_serv *serv);
 
-int		inc_lvl1(t_serv *serv, t_client *client);
-int		inc_lvl2(t_serv *serv, t_client *client);
-int		inc_lvl3(t_serv *serv, t_client *client);
-int		inc_lvl4(t_serv *serv, t_client *client);
-int		inc_lvl5(t_serv *serv, t_client *client);
-int		inc_lvl6(t_serv *serv, t_client *client);
-int		inc_lvl7(t_serv *serv, t_client *client);
+int		inc_lvl(t_serv *serv, t_client *client);
+int		inc_count_player(t_serv *serv, t_client *client);
+void		init_inc_tab(t_serv *serv);
+void		init_inc_tab_2(t_serv *serv);
+void		init_inc_tab_3(t_serv *serv);
 
 #endif
