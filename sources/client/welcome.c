@@ -5,10 +5,11 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Fri Jun 26 11:54:22 2015 Martin Porrès
-** Last update Mon Jun 29 15:00:49 2015 Martin Porrès
+** Last update Fri Jul  3 16:27:23 2015 Martin Porrès
 */
 
 #include	"client.h"
+#include	"AI_c_connector.h"
 
 int		init_connection(t_client *client)
 {
@@ -96,7 +97,7 @@ int		pos_client(t_client *client, char *tmp)
   client->y = atoi(tmp);
   client->init++;
   client->srv_cmd = "";
-  // call ai for settings
-  printf("Num client : %d\nX : %d\n Y : %d\n", client->num_client, client->x, client->y); //TMP
+  srand(time(NULL));
+  AI_setId(rand());
   return (EXIT_SUCCESS);
 }

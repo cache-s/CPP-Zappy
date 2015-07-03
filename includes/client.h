@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Fri Jun 26 17:07:22 2015 Martin Porrès
+** Last update Fri Jul  3 16:25:50 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
@@ -21,6 +21,7 @@
 #include		<arpa/inet.h>
 #include		<netinet/in.h>
 #include		<netdb.h>
+#include		<time.h>
 #include		"errors.h"
 
 typedef			int(*args_fct)();
