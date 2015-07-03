@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Fri Jul  3 14:11:56 2015 Jordan Chazottes
+** Last update Fri Jul  3 15:26:18 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -167,6 +167,7 @@ int		draw(t_gfx *s);
 int		initSprites(t_gfx *s);
 void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
 void		freeStruct(t_gfx *s);
+int		initFonts(t_gfx *s);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Fri Jul  3 14:20:43 2015 Jordan Chazottes
+** Last update Fri Jul  3 16:07:48 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -114,21 +114,39 @@ void		setBgInv(t_gfx *s)
   SDL_BlitSurface(bg, NULL, s->screen, &pos);
 }
 
-int		fillInv(t_gfx *s, t_player *tmp)
+int		writeText(t_gfx *s, char *msg, int x, int y)
 {
-  SDL_Surface	*msg;
   SDL_Color	color;
   SDL_Rect	pos;
-  TTF_Font	*font;
+  SDL_Surface	*txt;
 
-  font = TTF_OpenFont("assets/fonts/pump.ttf", 20);
   color.r = 255;
   color.g = 165;
   color.b = 0;
-  if ((msg = TTF_RenderText_Blended(font, itoa(tmp->items[0]), color)) == NULL)
+  pos.x = x;
+  pos.y = y;
+  if ((txt = TTF_RenderText_Blended(s->font, msg, color)) == NULL)
     return (EXIT_FAILURE);
-  pos.x = pos.y = 0;
-  SDL_BlitSurface(msg, NULL, s->screen, &pos);
+  SDL_BlitSurface(txt, NULL, s->screen, &pos);
+  return (EXIT_SUCCESS);
+}
+
+int		fillInv(t_gfx *s, t_player *p)
+{
+  int		x;
+  int		y;
+
+  x = s->width * 64;
+  y = s->height * 64;
+  writeText(s, p->team, x - 320, y + 40);
+  writeText(s, strcat(strdup("lvl "), itoa(p->level)), x - 320, y + 70);
+  writeText(s, itoa(p->items[0]), x - 210, y + 70);
+  writeText(s, itoa(p->items[1]), x - 270, y + 95);
+  writeText(s, itoa(p->items[2]), x - 210, y + 95);
+  writeText(s, itoa(p->items[3]), x - 140, y + 95);
+  writeText(s, itoa(p->items[4]), x - 270, y + 120);
+  writeText(s, itoa(p->items[5]), x - 210, y + 120);
+
   return (EXIT_SUCCESS);
 }
 
