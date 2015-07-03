@@ -14,40 +14,24 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
 {
   int			i;
   int			tmp_i;
-  int			check;
 
   i = 0;
-  check = 0;
   tmp_i = 0;
-
-  dprintf(client->fd, "x = %i\n", x);
-  dprintf(client->fd, "y = %i\n", y);
-
+  /* dprintf(client->fd, "x = %i\n", x); */
+  /* dprintf(client->fd, "y = %i\n", y); */
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
       if (serv->map->blocks[x][y].items[i] != 0)
 	{
-	  if (tmp_i > 1)
+	  while (tmp_i != 0)
 	    {
-	      while (tmp_i != 0)
-		{
-		  dprintf(client->fd, "%i ", i);
-		  tmp_i--;
-		}
+	      dprintf(client->fd, " %s", serv->items[i]);
+	      tmp_i--;
 	    }
-	  else
-	    {
-	      if (check == 1)
-	      	dprintf(client->fd, "%i ", i);
-	      else
-	      	dprintf(client->fd, "%i", i);
-	    }
-	  check = 1;
 	}
       i++;
     }
-
   if (serv->see->end != 1)
     dprintf(client->fd, ",");
   return (EXIT_SUCCESS);
