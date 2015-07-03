@@ -501,7 +501,7 @@ void			AI::vision()
 void			AI::inventory()
 {
 
-  if (_cmdRcv.find("{ ") != std::string::npos)
+  if (_cmdRcv.find("{n") != std::string::npos)
     {
 
       std::stringstream		ss(_cmdRcv);
