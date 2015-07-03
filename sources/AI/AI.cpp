@@ -96,17 +96,19 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
-  try{
-    _cmdRcv = cmdRcv;
-    act();
-    if (_cmdSnd != "")
-      ret = &_cmdSnd[0u];
-    else
-      ret = NULL;
-    return (ret);
-  }catch (...)
+  try
     {
-      std::cerr << "error catched" << std::endl;
+      _cmdRcv = cmdRcv;
+      act();
+      if (_cmdSnd != "")
+	ret = &_cmdSnd[0u];
+      else
+	ret = NULL;
+      return (ret);
+    }
+  catch (...)
+    {
+      std::cerr << "Exception caught." << std::endl;
     }
   return NULL;
 }
@@ -114,29 +116,27 @@ char*			AI::call(const char* cmdRcv)
 void			AI::setId(int id)
 {
   _ID = std::to_string(id);
-  std::cout << "ID = " << _ID;
 }
 
 void			AI::act()
 {
   if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
     {
-      // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
-      try{
-	communicate();
-	if (_waitSum == true)
-	  {
-	    _cmdSnd = "inventaire";
-	    inventory();
-	    // std::cout << "On attend les reponses...\n";
-	  }
-      }catch (const std::exception &e)
+      try
 	{
-	  std::cerr << "ERROR in communication" << std::endl;;
+	  communicate();
+	  if (_waitSum == true)
+	    {
+	      _cmdSnd = "inventaire";
+	      inventory();
+	    }
+	}
+      catch (const std::exception &e)
+	{
+	  std::cerr << "Exception : Error in communication" << std::endl;
 	}
       return;
     }
-
   if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
   if (!_isWaiting)
@@ -145,9 +145,10 @@ void			AI::act()
 	{
 	  if (_todo.empty())
 	    setObjective();
-	}catch (const std::exception &e)
+	}
+      catch (const std::exception &e)
 	{
-	  std::cerr << "ERROR in setting objectives" << std::endl;;
+	  std::cerr << "Exception : Error in setting objectives" << std::endl;;
 	}
       try
 	{
@@ -156,9 +157,10 @@ void			AI::act()
 	      _cmdSnd = _todo.front();
 	      _todo.pop_front();
 	    }
-	}catch (const std::exception &e)
+	}
+      catch (const std::exception &e)
 	{
-	  std::cerr << "ERROR in popping list of inctruction" << std::endl;;
+	  std::cerr << "Exception : Error in popping list of inctruction" << std::endl;;
 	}
 
     }
@@ -176,11 +178,11 @@ void    AI::move(int direction)
   if (direction != 0)
     {
       if (direction == 8 || direction == 1 || direction == 2)
-        _cmdSnd = "avance";
+        _todo.push_back("avance");
       if (direction == 6 || direction == 7)
-	_cmdSnd = "droite";
+	_todo.push_back("droite");
       if (direction == 4 || direction == 3 || direction == 5)
-        _cmdSnd = "gauche";
+        _todo.push_back("gauche");
     }
 }
 
@@ -188,7 +190,6 @@ void    AI::move(int direction)
 void			AI::communicate()
 {
   std::string answer;
-
 
   listenSummon();
   if (_cmdRcv.find("AliveCheck") != std::string::npos)
@@ -223,7 +224,6 @@ void			AI::communicate()
       std::cout << "on renvoie " << ret << std::endl;
       return;
     }
-  // std::cout << "message recu : " << _cmdRcv << std::endl;
   if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
 {
   _cmdRcv.erase(0, _cmdRcv.find('('));
@@ -259,9 +259,6 @@ void			AI::listenSummon()
   static std::vector<std::string>	invID;
   std::string			newID;
 
-  // std::cout << "foodBegin = " << _foodBegin << std::endl;
-  // std::cout << "food = " << _inventory["nourriture"] << std::endl;
-
   if (_foodBegin != -1)
     {
       if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
@@ -275,7 +272,6 @@ void			AI::listenSummon()
 	      invID.push_back(newID);
 	    }
 	}
-      // std::cout << "food Diff = " << _foodBegin - _inventory["nourriture"] << std::endl;
       if (_foodBegin - _inventory["nourriture"] > 2)
 	{
 	  std::cout << "On call les gens, si assez de reponse!\n";
@@ -503,7 +499,6 @@ void			AI::vision()
 
 void			AI::inventory()
 {
-
   if (_cmdRcv.find("{n") != std::string::npos)
     {
 
