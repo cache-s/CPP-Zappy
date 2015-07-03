@@ -121,14 +121,14 @@ void			AI::act()
 {
   if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
     {
-      std::cout << "MESSAGE = " << _cmdRcv << std::endl;
+      // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
       try{
 	communicate();
 	if (_waitSum == true)
 	  {
 	    _cmdSnd = "inventaire";
 	    inventory();
-	    std::cout << "On attend les reponses...\n";
+	    // std::cout << "On attend les reponses...\n";
 	  }
       }catch (const std::exception &e)
 	{
@@ -259,26 +259,29 @@ void			AI::listenSummon()
   static std::vector<std::string>	invID;
   std::string			newID;
 
-  std::cout << "foodBegin = " << _foodBegin << std::endl;
-  std::cout << "food = " << _inventory["nourriture"] << std::endl;
+  // std::cout << "foodBegin = " << _foodBegin << std::endl;
+  // std::cout << "food = " << _inventory["nourriture"] << std::endl;
 
   if (_foodBegin != -1)
     {
       if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
 	{
 	  std::cout << "ON A RECU UN RDY BORDEL\n";
-	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
 	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+	      std::cout << "new ID = " << newID;
 	      invID.push_back(newID);
 	    }
 	}
-      std::cout << "food Diff = " << _foodBegin - _inventory["nourriture"] << std::endl;
+      // std::cout << "food Diff = " << _foodBegin - _inventory["nourriture"] << std::endl;
       if (_foodBegin - _inventory["nourriture"] > 2)
 	{
 	  std::cout << "On call les gens, si assez de reponse!\n";
-	  if (invID.size() > (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+	  std::cout << "ppl nbr = " << invID.size() << std::endl;
+	  std::cout << "we need " << (unsigned)_lvlUp[std::make_pair(_level, "joueur")] << std::endl;
+	  if (invID.size() >= (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")]; ++i)
 		{
