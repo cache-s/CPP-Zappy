@@ -10,80 +10,76 @@
 
 #include		"serveur.h"
 
-int			east(t_serv *serv, t_client *client)
+void			east(t_serv *serv, t_client *client)
 {
   int			j;
-
-  serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
-  serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
-  serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
+  
+  y_less(serv);
+  y_plus(serv);
+  x_plus(serv);
   j = serv->see->tmp_y_plus;
   while (j != serv->see->tmp_y_less)
     {
       look_floor(serv->see->tmp_x_plus, j, serv, client);
       j--;
     }
-  if (serv->see->coma == serv->see->lvl)
+  if (serv->see->coma == client->lvl)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_plus, serv->see->tmp_y_less, serv, client);
-  return (0);
 }
 
-int			west(t_serv *serv, t_client *client)
+void			west(t_serv *serv, t_client *client)
 {
   int			j;
 
-  serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
-  serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
-  serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
+  y_less(serv);
+  y_plus(serv);
+  x_less(serv);
   j = serv->see->tmp_y_less;
   while (j != serv->see->tmp_y_plus)
     {
       look_floor(serv->see->tmp_x_less, j, serv, client);
       j++;
     }
-  if (serv->see->coma == serv->see->lvl)
+  if (serv->see->coma == client->lvl)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_less, serv->see->tmp_y_plus, serv, client);
-  return (0);
 }
 
-int			south(t_serv *serv, t_client *client)
+void			south(t_serv *serv, t_client *client)
 {
   int			j;
 
-  serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
-  serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
-  serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
+  y_less(serv);
+  x_plus(serv);
+  x_less(serv);
   j = serv->see->tmp_x_plus;
   while (j != serv->see->tmp_x_less)
     {
       look_floor(j, serv->see->tmp_y_less, serv, client);
       j--;
     }
-  if (serv->see->coma == serv->see->lvl)
+  if (serv->see->coma == client->lvl)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_less, serv->see->tmp_y_less, serv, client);
-  return (0);
 }
 
-int			north(t_serv *serv, t_client *client)
+void			north(t_serv *serv, t_client *client)
 {
   int			j;
 
-  serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
-  serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
-  serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
+  y_plus(serv);
+  x_less(serv);
+  x_plus(serv);
   j = serv->see->tmp_x_less;
   while (j != serv->see->tmp_x_plus)
     {
       look_floor(j, serv->see->tmp_y_plus, serv, client);
       j++;
     }
-  if (serv->see->coma == serv->see->lvl)
+  if (serv->see->coma == client->lvl)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_plus, serv->see->tmp_y_plus, serv, client);
-  return (0);
 }
 
 int			see_with_orientation(t_serv *serv, t_client *client)

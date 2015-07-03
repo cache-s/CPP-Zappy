@@ -6,9 +6,11 @@ AI::AI()
   _isWaiting = false;
   _update = false;
   _triedInv = false;
+  _waitSum = false;
   _cmdRcv = "";
   _cmdSnd = "";
   _level = 1;
+  _foodBegin = -1;
 
   srand (time(NULL));
 
@@ -112,15 +114,22 @@ char*			AI::call(const char* cmdRcv)
 void			AI::setId(int id)
 {
   _ID = std::to_string(id);
+  std::cout << "ID = " << _ID;
 }
 
 void			AI::act()
 {
-  if (_cmdRcv.find("message") != std::string::npos)
+  if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
     {
-      std::cout << "MESSAGE = " << _cmdRcv << std::endl;
+      // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
       try{
 	communicate();
+	if (_waitSum == true)
+	  {
+	    _cmdSnd = "inventaire";
+	    inventory();
+	    // std::cout << "On attend les reponses...\n";
+	  }
       }catch (const std::exception &e)
 	{
 	  std::cerr << "ERROR in communication" << std::endl;;
@@ -180,6 +189,8 @@ void			AI::communicate()
 {
   std::string answer;
 
+
+  listenSummon();
   if (_cmdRcv.find("AliveCheck") != std::string::npos)
     _cmdSnd = "broadcast Alive";
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
@@ -202,11 +213,6 @@ void			AI::communicate()
           move(direction);
         }
     }
-  std::cout << "message = " << _cmdRcv << std::endl;
-  if (_cmdRcv.find("INV(") != std::string::npos)
-    std::cout << "demande d'invoc \n";
-  if ( _cmdRcv.find(std::to_string(_level)) != std::string::npos)
-    std::cout << "bon level\n";
   if (_cmdRcv.find("INV(") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
     {
       std::string ret = "broadcast RDY(";
@@ -217,7 +223,8 @@ void			AI::communicate()
       std::cout << "on renvoie " << ret << std::endl;
       return;
     }
-  if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(_level) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
+  // std::cout << "message recu : " << _cmdRcv << std::endl;
+  if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
 {
   _cmdRcv.erase(0, _cmdRcv.find('('));
 
@@ -225,6 +232,7 @@ void			AI::communicate()
   std::string line;
   std::getline(iss, line, ',');
   _targetID = line;
+  std::cout << "TARGET ID = " << _targetID << std::endl;;
 }
   if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
     _targetID.clear();
@@ -232,7 +240,7 @@ void			AI::communicate()
 
 void			AI::setObjective()
 {
-  if (_update == false)
+  if (_update == false || _waitSum == true)
     {
       _update = true;
       _todo.push_back("inventaire");
@@ -249,38 +257,51 @@ void			AI::setObjective()
 void			AI::listenSummon()
 {
   static std::vector<std::string>	invID;
-  static int			foodBegin = -1;
   std::string			newID;
 
-  if (foodBegin == -1)
-    foodBegin = _inventory["nourriture"];
-  if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
+  // std::cout << "foodBegin = " << _foodBegin << std::endl;
+  // std::cout << "food = " << _inventory["nourriture"] << std::endl;
+
+  if (_foodBegin != -1)
+    {
+      if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
 	{
 	  std::cout << "ON A RECU UN RDY BORDEL\n";
-	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
 	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+	      std::cout << "new ID = " << newID;
 	      invID.push_back(newID);
 	    }
 	}
-  if (foodBegin - _inventory["nourriture"] > 2)
-    {
-      if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
+      // std::cout << "food Diff = " << _foodBegin - _inventory["nourriture"] << std::endl;
+      if (_foodBegin - _inventory["nourriture"] > 2)
 	{
-	  for (unsigned int i = 0; i < invID.size(); ++i)
+	  std::cout << "On call les gens, si assez de reponse!\n";
+	  std::cout << "ppl nbr = " << invID.size() << std::endl;
+	  std::cout << "we need " << (unsigned)_lvlUp[std::make_pair(_level, "joueur")] << std::endl;
+	  if (invID.size() >= (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
-	      std::string cmd = "broadcast OKINV(";
-	      cmd += std::to_string(_level);
-	      cmd += ", ";
-	      cmd += _ID;
-	      cmd += ")";
-	      invID[i];
+	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")]; ++i)
+		{
+		  std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
+		  std::string cmd = "broadcast OKINVOC(";
+		  cmd += invID[i];
+		  cmd += ", ";
+		  cmd += _ID;
+		  cmd += ")";
+		}
 	    }
+	  else
+	    {
+	      std::cout << "PAS ASSEZ DE REPONNNNSE\n";
+	      _waitSum = false;
+	    }
+	  _foodBegin = -1;
 	}
     }
 }
-
 bool			AI::tryIncant()
 {
   int			peopleNbr = 0;
@@ -300,6 +321,8 @@ bool			AI::tryIncant()
     {
       std::cout << "ON RAMENE LA MILLEFA" << std::endl;
       _triedInv = true;
+      _waitSum = true;
+      _foodBegin = _inventory["nourriture"];
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
@@ -450,51 +473,60 @@ void			AI::incantation()
 
 void			AI::vision()
 {
-  _vision.clear();
-  _cmdRcv.erase(0, 2);
-  _cmdRcv.erase(_cmdRcv.end() - 2, _cmdRcv.end());
 
-  int			index = 0;
-  std::istringstream	iss1(_cmdRcv);
-  std::string		buf1;
-  std::string		buf2;
-
-  while(std::getline(iss1, buf1, ','))
+  if (_cmdRcv.find("{ ") != std::string::npos)
     {
-      std::istringstream iss2(buf1);
-      while (std::getline(iss2, buf2, ' '))
-        {
-          if (buf2[0] == ' ')
-            buf2.erase(1,1);
-	  if (buf2 != "")
-	    _vision[index].push_back(buf2);
-        }
-      ++index;
+      _vision.clear();
+      _cmdRcv.erase(0, 2);
+      _cmdRcv.erase(_cmdRcv.end() - 2, _cmdRcv.end());
+
+      int			index = 0;
+      std::istringstream	iss1(_cmdRcv);
+      std::string		buf1;
+      std::string		buf2;
+
+      while(std::getline(iss1, buf1, ','))
+	{
+	  std::istringstream iss2(buf1);
+	  while (std::getline(iss2, buf2, ' '))
+	    {
+	      if (buf2[0] == ' ')
+		buf2.erase(1,1);
+	      if (buf2 != "")
+		_vision[index].push_back(buf2);
+	    }
+	  ++index;
+	}
+      _isWaiting = false;
     }
-  _isWaiting = false;
 }
 
 void			AI::inventory()
 {
-  std::stringstream		ss(_cmdRcv);
-  std::vector<std::string>	tmp;
-  std::string			thing;
-  int				number;
 
-  _inventory.clear();
-  while(ss.good())
+  if (_cmdRcv.find("{n") != std::string::npos)
     {
-      std::string		substr;
-      getline(ss, substr, ',');
-      tmp.push_back(substr);
+
+      std::stringstream		ss(_cmdRcv);
+      std::vector<std::string>	tmp;
+      std::string			thing;
+      int				number;
+
+      _inventory.clear();
+      while(ss.good())
+	{
+	  std::string		substr;
+	  getline(ss, substr, ',');
+	  tmp.push_back(substr);
+	}
+      tmp[0].erase(0, 1);
+      tmp[tmp.size() - 1].erase(tmp[tmp.size() - 1].end() - 2, tmp[tmp.size() - 1].end());
+      for (unsigned int i = 0; i < tmp.size(); ++i)
+	{
+	  number = std::stoi(tmp[i].substr(tmp[i].find(" ")));
+	  thing = tmp[i].substr(0, tmp[i].find(" "));
+	  _inventory[thing] = number;
+	}
+      _isWaiting = false;
     }
-  tmp[0].erase(0, 1);
-  tmp[tmp.size() - 1].erase(tmp[tmp.size() - 1].end() - 2, tmp[tmp.size() - 1].end());
-  for (unsigned int i = 0; i < tmp.size(); ++i)
-    {
-      number = std::stoi(tmp[i].substr(tmp[i].find(" ")));
-      thing = tmp[i].substr(0, tmp[i].find(" "));
-      _inventory[thing] = number;
-    }
-  _isWaiting = false;
 }
