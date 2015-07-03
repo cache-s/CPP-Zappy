@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 12:19:33 2015 Pierre Charie
+// Last update Fri Jul  3 12:24:42 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -71,6 +71,7 @@ private:
   std::map<std::string, handleResponse>		_handleResponse;
 
   bool						_waitPong;
+  bool						_triedInv;
 };
 
 #endif				//AI_HPP
