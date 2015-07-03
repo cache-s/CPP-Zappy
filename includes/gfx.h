@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Fri Jul  3 15:26:18 2015 Jordan Chazottes
+** Last update Fri Jul  3 20:53:10 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -34,7 +34,7 @@
 /* /INCLUDE/ */
 
 # define		MAX_FD		1000
-# define                BUFF_SIZE       8
+# define                BUFF_SIZE       50
 # define		WELCOME		"BIENVENUE\n"
 # define		GRAPHIC		"GRAPHIC\n"
 # define		NB_CMDS		25
@@ -42,6 +42,8 @@
 # define		NB_ITEMS	7
 # define		NB_LEVELS	8
 # define		MAX_VIEW	10
+# define		SCR_WIDTH	640
+# define		SCR_HEIGHT	640
 
 typedef			int(*tabFcts)();
 /* STRUCT */
@@ -108,8 +110,6 @@ typedef struct		s_block
 
 typedef struct		s_map
 {
-  int			dispX;
-  int			dispY;
   t_block		**blocks;
 }			t_map;
 
@@ -126,6 +126,8 @@ typedef struct		s_gfx
   int			width;
   int			height;
   int			time;
+  int			xScroll;
+  int			yScroll;
   int			pSelect;
   SDL_Surface		*screen;
   TTF_Font		*font;
@@ -168,6 +170,10 @@ int		initSprites(t_gfx *s);
 void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
 void		freeStruct(t_gfx *s);
 int		initFonts(t_gfx *s);
+int		drawInventory(t_gfx *s);
+int		fillInv(t_gfx *s, t_player *p);
+int		writeText(t_gfx *s, char *msg, int x, int y);
+
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);

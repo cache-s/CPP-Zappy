@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Fri Jul  3 11:26:49 2015 Martin Porrès
+** Last update Fri Jul  3 14:41:26 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -13,7 +13,7 @@
 int			cmd_incantation(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
 
-  if (client->lvl == 8 || serv->inc_lvl[client->lvl](serv, client) == EXIT_FAILURE)
+  if (client->lvl == 8 || inc_lvl(serv, client) == EXIT_FAILURE)
     {
       my_write(client->fd, "ko");
       return (EXIT_FAILURE);
@@ -28,10 +28,9 @@ int			cmd_incantation(t_serv *serv, t_client *client, UNUSED char *cmd)
   return (EXIT_SUCCESS);
 }
 
-
 int			cmd_end_incantation(t_serv *serv, t_client *client)
 {
-  if (client->lvl == 8 || serv->inc_lvl[client->lvl](serv, client) == EXIT_FAILURE)
+  if (client->lvl == 8 || inc_lvl(serv, client) == EXIT_FAILURE)
     {
       if (write_pie_gfx(serv->gfx, client, 0) == EXIT_FAILURE)
 	return (EXIT_FAILURE);

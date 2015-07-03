@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Fri Jul  3 12:29:09 2015 Jordan Chazottes
+** Last update Fri Jul  3 20:58:49 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -40,22 +40,30 @@ eEvent		eventHandler(t_gfx *s)
 	}
       /* if (event.key.keysym.sym == SDLK_UP) */
       /* 	{ */
-      /* 	  s->map->dispY--; */
+      /* 	  s->yScroll--; */
+      /* 	  if (s->yScroll < 0) */
+      /* 	    s->yScroll = 0; */
       /* 	  return (UP); */
       /* 	} */
       /* if (event.key.keysym.sym == SDLK_LEFT) */
       /* 	{ */
-      /* 	  s->map->dispX--; */
+      /* 	  s->xScroll--; */
+      /* 	  if (s->xScroll < 0) */
+      /* 	    s->xScroll = 0; */
       /* 	  return (LEFT); */
       /* 	} */
       /* if (event.key.keysym.sym == SDLK_DOWN) */
       /* 	{ */
-      /* 	  s->map->dispY++; */
+      /* 	  s->yScroll++; */
+      /* 	  if (s->yScroll > s->height) */
+      /* 	    s->yScroll = s->height; */
       /* 	  return (DOWN); */
       /* 	} */
       /* if (event.key.keysym.sym == SDLK_RIGHT) */
       /* 	{ */
-      /* 	  s->map->dispX++; */
+      /* 	  s->xScroll++; */
+      /* 	  if (s->xScroll > s->width) */
+      /* 	    s->xScroll = s->width; */
       /* 	  return (RIGHT); */
       /* 	} */
     }

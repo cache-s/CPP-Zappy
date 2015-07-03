@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Wed Jul  1 17:51:46 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:59:03 2015 Jordan Chazottes
+** Last update Fri Jul  3 17:36:47 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -32,4 +32,6 @@ void		freeStruct(t_gfx *s)
   while (i < NB_CMDS)
     free(s->cmdTab[i++]);
   free(s->cmdTab);
+  TTF_CloseFont(s->font);
+  TTF_Quit();
 }

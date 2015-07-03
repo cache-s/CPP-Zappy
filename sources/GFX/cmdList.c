@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Fri Jul  3 11:24:28 2015 Jordan Chazottes
+** Last update Fri Jul  3 20:46:46 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -173,8 +173,8 @@ int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect[0].y = 0;
   rect[0].w = 16;
   rect[0].h = 16;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64;
+  pos.x = pos.i*64 - (s->xScroll - SCR_WIDTH);
+  pos.y = pos.j*64 - (s->yScroll - SCR_HEIGHT);
   applySurface(pos, s, img, &rect[0]);
   return (EXIT_SUCCESS);
 }
@@ -533,12 +533,13 @@ int		cmd_pdi(t_gfx *s, char *token)
   char		*tok;
   int		id;
 
-  
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
+  if (id == s->pSelect)
+    s->pSelect = -1;
   if ((tmp = getPlayer(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tmp2 = getPrevPlayer(s, id)) == NULL)

@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 09:44:26 2015 Mathieu Bourmaud
-** Last update Thu Jul  2 18:01:03 2015 Martin Porrès
+** Last update Fri Jul  3 14:51:18 2015 Martin Porrès
 */
 
 #ifndef			_SERVEUR_H_
@@ -36,7 +36,6 @@
 typedef			int(*tabFcts)();
 typedef			char *(*fct)();
 typedef			int(*argsFct)();
-typedef			int(*incFct)();
 
 typedef enum		eOrientation
   {
@@ -148,14 +147,13 @@ typedef struct		s_serv
   int			nb_client;
   char			**items;
   double		cmd_time[12];
-  incFct		inc_lvl[8];
+  int			inc_tab[8][7];
 }			t_serv;
 
 int		init_settings(t_settings *settings);
 t_settings	*parse_args(char **av);
 int		init_AI_tabs(t_serv *serv);
 void		init_AI_cmds(t_serv *serv);
-void		init_inc_tab(t_serv *serv);
 int		new_client(t_serv *serv);
 int		create_client(t_serv *serv, int cs);
 int		accept_clients(t_serv *serv);
@@ -251,12 +249,10 @@ void		set_delay_tab(t_serv *serv);
 int		update_timers(t_serv *serv, struct timeval *tv, double time);
 int		update_client(t_client *client, t_serv *serv);
 
-int		inc_lvl1(t_serv *serv, t_client *client);
-int		inc_lvl2(t_serv *serv, t_client *client);
-int		inc_lvl3(t_serv *serv, t_client *client);
-int		inc_lvl4(t_serv *serv, t_client *client);
-int		inc_lvl5(t_serv *serv, t_client *client);
-int		inc_lvl6(t_serv *serv, t_client *client);
-int		inc_lvl7(t_serv *serv, t_client *client);
+int		inc_lvl(t_serv *serv, t_client *client);
+int		inc_count_player(t_serv *serv, t_client *client);
+void		init_inc_tab(t_serv *serv);
+void		init_inc_tab_2(t_serv *serv);
+void		init_inc_tab_3(t_serv *serv);
 
 #endif
