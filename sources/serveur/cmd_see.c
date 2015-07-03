@@ -10,6 +10,20 @@
 
 #include		"serveur.h"
 
+int			check_player(int x, int y, t_serv *serv, t_client *client)
+{
+  t_client		*tmp;
+  
+  tmp = serv->client;
+  while (tmp != NULL)
+    {
+      if (tmp->x == x && tmp->y == y)
+	dprintf(client->fd, " joueur");
+      tmp = tmp->next;
+    }
+  return (EXIT_SUCCESS);
+}
+
 int			look_floor(int x, int y, t_serv *serv, t_client *client)
 {
   int			i;
@@ -17,8 +31,7 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
 
   i = 0;
   tmp_i = 0;
-  /* dprintf(client->fd, "x = %i\n", x); */
-  /* dprintf(client->fd, "y = %i\n", y); */
+  check_player(x, y, serv, client);
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];

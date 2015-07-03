@@ -14,7 +14,6 @@ int			east(t_serv *serv, t_client *client)
 {
   int			j;
 
-  /* dprintf(client->fd, "\nEAST\n"); */
   serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
   serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
   serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
@@ -34,7 +33,6 @@ int			west(t_serv *serv, t_client *client)
 {
   int			j;
 
-  /* dprintf(client->fd, "\nWEST\n"); */
   serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
   serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
   serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
@@ -54,7 +52,6 @@ int			south(t_serv *serv, t_client *client)
 {
   int			j;
 
-  /* dprintf(client->fd, "\nSOUTH\n"); */
   serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
   serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
   serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
@@ -74,7 +71,6 @@ int			north(t_serv *serv, t_client *client)
 {
   int			j;
 
-  /* dprintf(client->fd, "\nNORTH\n"); */
   serv->see->tmp_y_plus = serv->see->tmp_y_plus + 1;
   serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
   serv->see->tmp_x_plus = serv->see->tmp_x_plus + 1;
