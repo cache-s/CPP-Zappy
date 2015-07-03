@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Wed Jul  1 16:51:18 2015 Jordan Chazottes
+** Last update Thu Jul  2 18:59:59 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -20,7 +20,7 @@ int		gfx_loop(t_gfx *s)
   s->network.init = 0;
   FD_ZERO(&s->network.fd_write);
 
-  while (eventHandler() != -1)
+  while (eventHandler(s) != -1)
     {
       FD_ZERO(&s->network.fd_read);
       FD_SET(s->network.socket, &s->network.fd_read);

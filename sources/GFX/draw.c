@@ -5,37 +5,27 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Wed Jul  1 15:35:27 2015 Jordan Chazottes
+** Last update Fri Jul  3 20:59:45 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
-
-void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip)
-{
-  SDL_Rect	offset;
-
-  offset.x = pos.x;
-  offset.y = pos.y;
-  SDL_BlitSurface(src, clip, s->screen, &offset);
-}
 
 int		drawItems(t_gfx *s, SDL_Surface *img)
 {
   t_pos		pos;
   int		i;
 
-  pos.i = 0;
-  while (pos.i < s->width)
+  pos.i = -1;
+  while (++pos.i < s->width)// && pos.i < (s->map->dispX + MAX_VIEW))
     {
-      pos.j = -1;
-      while (++pos.j < s->height)
+      pos.j = - 1;
+      while (++pos.j < s->height)// && pos.j < (s->map->dispY + MAX_VIEW))
 	{
 	  i = -1;
 	  while (++i < NB_ITEMS)
 	    if (s->map->blocks[pos.i][pos.j].items[i] > 0)
 	      s->drawItem[i](s, img, pos);
 	}
-      pos.i++;
     }
   return (EXIT_SUCCESS);
 }
@@ -46,15 +36,16 @@ int		drawFloor(t_gfx *s)
   SDL_Rect	rect[1];
   SDL_Surface	*img;
 
-  pos.i = -1;
+  pos.i = - 1;
   if ((img = SDL_LoadBMP("assets/sprites/grass.bmp")) == NULL)
     return (EXIT_FAILURE);
   rect[0].x = rect[0].y = 0;
   rect[0].w = rect[0].h = 64;
-  while (++pos.i < s->width)
+
+  while (++pos.i < s->width) // && pos.i < (s->map->dispX + MAX_VIEW))
     {
-      pos.j = -1;
-      while (++pos.j < s->height)
+      pos.j = - 1;
+      while (++pos.j < s->height) // && pos.j < (s->map->dispY + MAX_VIEW))
 	{
 	  pos.x = pos.i*64;
 	  pos.y = pos.j*64;
@@ -86,7 +77,8 @@ int		draw(t_gfx *s)
 {
   SDL_Surface	*resImg;
 
-  resImg = SDL_LoadBMP("assets/sprites/resources.bmp");
+  if ((resImg = SDL_LoadBMP("assets/sprites/resources.bmp")) == NULL)
+    return (EXIT_FAILURE);
   if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY, SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   if (drawFloor(s) == EXIT_FAILURE)
@@ -94,6 +86,8 @@ int		draw(t_gfx *s)
   if (drawItems(s, resImg) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawPlayers(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (drawInventory(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   SDL_FreeSurface(resImg);
   SDL_Flip(s->screen);

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:53:09 2015 Jordan Chazottes
+** Last update Fri Jul  3 22:19:38 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -16,12 +16,14 @@ int		coreGFX(char *ip, int port)
   int		ret;
 
   initStruct(&s);
+  TTF_Init();
   initCmdTab(&s);
   initFctTab(&s);
   initDrawTab(&s);
   if (initNetwork(&s, ip, port) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  initWindow(&s);
+  if (initFonts(&s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   ret = gfx_loop(&s);
   close (s.network.socket);
   SDL_FreeSurface(s.screen);

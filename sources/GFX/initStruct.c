@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 14:23:03 2015 Jordan Chazottes
-** Last update Tue Jun 30 16:01:24 2015 Jordan Chazottes
+** Last update Fri Jul  3 20:29:38 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -15,6 +15,9 @@ void		initStruct(t_gfx *s)
   s->width = 0;
   s->height = 0;
   s->screen = NULL;
+  s->pSelect = -1;
+  s->xScroll = SCR_WIDTH;
+  s->yScroll = SCR_HEIGHT;
 
   s->network.socket = 0;
   s->network.entire_cmd = 0;

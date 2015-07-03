@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:55:05 2015 Jordan Chazottes
+** Last update Fri Jul  3 22:34:26 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -17,6 +17,7 @@
 /* SDL */
 # include	<SDL/SDL.h>
 # include	<SDL/SDL_image.h>
+# include	<SDL/SDL_ttf.h>
 
 /* /SDL/ */
 
@@ -33,13 +34,17 @@
 /* /INCLUDE/ */
 
 # define		MAX_FD		1000
-# define                BUFF_SIZE       8
+# define                BUFF_SIZE       50
 # define		WELCOME		"BIENVENUE\n"
 # define		GRAPHIC		"GRAPHIC\n"
 # define		NB_CMDS		25
 # define		SPR_RES		8
 # define		NB_ITEMS	7
 # define		NB_LEVELS	8
+# define		MAX_VIEW	10
+# define		SCR_WIDTH	640
+# define		SCR_HEIGHT	640
+# define		NB_ACTIONS	6
 
 typedef			int(*tabFcts)();
 /* STRUCT */
@@ -68,6 +73,25 @@ typedef enum		eOrientation
     WEST	= 4
   }			eOrientation;
 
+typedef enum		eEvent
+  {
+    QUIT	= -1,
+    UP		= 0,
+    RIGHT	= 1,
+    DOWN	= 2,
+    LEFT	= 3,
+  }			eEvent;
+
+typedef enum		eAction
+  {
+    STAND	= 0,
+    BROADCAST	= 1,
+    INCANTATION = 2,
+    FORK	= 3,
+    CROUCH	= 4,
+    DIE		= 5
+  }			eAction;
+
 typedef enum		eType
   {
     PLAYER	= 0,
@@ -85,6 +109,7 @@ typedef struct		s_player
   eType			type;
   int			eId;
   int			items[8];
+  eAction		act;
   struct s_player	*next;
 }			t_player; 
 
@@ -113,7 +138,11 @@ typedef struct		s_gfx
   int			width;
   int			height;
   int			time;
+  int			xScroll;
+  int			yScroll;
+  int			pSelect;
   SDL_Surface		*screen;
+  TTF_Font		*font;
   t_network		network;
   t_map			*map;
   t_player		*players;
@@ -121,6 +150,7 @@ typedef struct		s_gfx
   tabFcts		cmds[NB_CMDS];
   tabFcts		drawItem[NB_ITEMS];
   tabFcts		drawPlayer[NB_LEVELS];
+  tabFcts		drawAction[NB_ACTIONS];
 }			t_gfx;
 
 int		main(int ac, char** av);
@@ -129,7 +159,7 @@ int		coreGFX(char *ip, int port);
 void		initStruct(t_gfx* s);
 void		initWindow(t_gfx* s);
 int		initNetwork(t_gfx* s, char *ip, int port);
-int		eventHandler();
+int		eventHandler(t_gfx *s);
 char		*client_read();
 char		*client_write();
 
@@ -152,6 +182,11 @@ int		draw(t_gfx *s);
 int		initSprites(t_gfx *s);
 void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
 void		freeStruct(t_gfx *s);
+int		initFonts(t_gfx *s);
+int		drawInventory(t_gfx *s);
+int		fillInv(t_gfx *s, t_player *p);
+int		writeText(t_gfx *s, char *msg, int x, int y);
+
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);
@@ -183,13 +218,16 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos);
-int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori);
-int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori);
+int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+
+int		drawStand(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori);
+int		drawBroadcast(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori);
 #endif
 
