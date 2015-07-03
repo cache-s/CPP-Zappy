@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Thu Jul  2 17:13:18 2015 Pierre Charie
+// Last update Fri Jul  3 12:19:33 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -46,6 +46,8 @@ private:
   void				dropToIncant();
   void				grabAll();
   void				listenSummon();
+  void				communicate();
+  void				move(int direction);
 
   void				printInventory();
 
@@ -61,11 +63,14 @@ private:
   std::map<int, std::vector<std::string>>	_vision;
   std::string					_lastSnd;
   bool						_isWaiting;
-  std::string					_objective;
+  std::string					_ID;
+  std::string					_targetID;
   std::map<std::string, int>			_inventory;
   int						_sightRange;
   std::vector<std::string>			_needResponse;
   std::map<std::string, handleResponse>		_handleResponse;
+
+  bool						_waitPong;
 };
 
 #endif				//AI_HPP

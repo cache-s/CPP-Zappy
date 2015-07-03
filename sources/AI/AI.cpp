@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 11:50:08 2015 Pierre Charie
+// Last update Fri Jul  3 12:20:46 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -16,7 +16,6 @@ AI::AI()
   _update = false;
   _cmdRcv = "";
   _cmdSnd = "";
-  _objective = "";
   _level = 1;
 
   srand (time(NULL));
@@ -114,6 +113,12 @@ char*			AI::call(const char* cmdRcv)
 
 void			AI::act()
 {
+  // if (_cmdRcv.find("message"))
+  //   {
+  //     communicate();
+  //     return;
+  //   }
+
   if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
   if (!_isWaiting)
@@ -133,6 +138,68 @@ void			AI::act()
 	  _isWaiting = true;
       _lastSnd = _cmdSnd;
     }
+}
+
+void    AI::move(int direction)
+{
+  if (direction != 0)
+    {
+      if (direction == 8 || direction == 1 || direction == 2)
+        _cmdSnd = "avance";
+      if (direction == 6 || direction == 7)
+	_cmdSnd = "droite";
+      if (direction == 4 || direction == 3 || direction == 5)
+        _cmdSnd = "gauche";
+    }
+}
+
+
+void			AI::communicate()
+{
+  std::string answer;
+
+  if (_cmdRcv.find("AliveCheck") != std::string::npos)
+    _cmdSnd = "broadcast Alive";
+  if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
+    {
+      std::string ret =  "broadcast PONG " + _ID;
+      _cmdSnd = ret;
+    }
+  if (!_targetID.empty())
+    {
+      if (_waitPong != true)
+        {
+          _waitPong = true;
+	  std::string ret = "broadcast PING " + _targetID;
+          _cmdSnd = ret;
+        }
+      if (_cmdRcv.find("PONG") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+        {
+          _waitPong = false;
+          int direction = _cmdRcv[8] - '0';
+          move(direction);
+        }
+    }
+  if (_cmdRcv.find ("INV(") != std::string::npos && _cmdRcv.find(_level) != std::string::npos)
+    {
+      std::string ret = "broadcast ";
+      _cmdRcv.erase(0, 10);
+      ret += _cmdRcv;
+      _cmdSnd = ret;
+      return;
+    }
+  if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(_level) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
+{
+  _cmdRcv.erase(0, _cmdRcv.find('('));
+
+  std::istringstream iss(_cmdRcv);
+  std::string line;
+  std::getline(iss, line, ',');
+  _targetID = line;
+}
+  if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+    _targetID.clear();
+
 }
 
 void			AI::setObjective()
