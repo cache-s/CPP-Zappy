@@ -1,12 +1,3 @@
-//
-// AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-//
-// Made by Sebastien Cache-Delanos
-// Login   <cache-_s@epitech.net>
-//
-// Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 16:12:02 2015 Pierre Charie
-//
 
 #include		"AI.hpp"
 
@@ -116,6 +107,11 @@ char*			AI::call(const char* cmdRcv)
       std::cerr << "error catched" << std::endl;
     }
   return NULL;
+}
+
+void			AI::setId(int id)
+{
+  _ID = std::to_string(id);
 }
 
 void			AI::act()
