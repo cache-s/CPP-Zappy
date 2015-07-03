@@ -7,6 +7,7 @@ AI::AI()
   _update = false;
   _triedInv = false;
   _waitSum = false;
+  _waitPong = false;
   _waitCome = false;
   _targetID = "";
   _targetDir = -1;
@@ -127,11 +128,20 @@ void			AI::act()
     {
       // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
       try{
+	if (_cmdRcv.find("PONG") != std::string::npos)
+	{
+	  std::cout << "on recois le PONG\n";
+	}
 	communicate();
-	if (_cmdSnd.find("OKINV") != std::string::npos)
-	  return;
+	if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
+	  {
+	    _waitCome = true;
+	    return;
+	  }
 	if (_waitSum == true)
 	  {
+	    if (_cmdSnd.find("PONG") != std::string::npos)
+	      return;
 	    _cmdSnd = "inventaire";
 	    inventory();
 	    // std::cout << "On attend les reponses...\n";
@@ -140,14 +150,6 @@ void			AI::act()
 	{
 	  std::cerr << "Exception : Error in communication" << std::endl;
 	}
-      return;
-    }
-  if (_waitCome == true)
-    tryIncant();
-  if (_targetID != "")
-    {
-      _cmdSnd = "broadcast PING ";
-      _cmdSnd += _targetID;
       return;
     }
 
@@ -206,7 +208,7 @@ void			AI::communicate()
   std::string answer;
 
   listenSummon();
-  if (_cmdSnd.find("OK") != std::string::npos)
+  if (_cmdSnd.find("OKINVOC") != std::string::npos)
     return;
   if (_cmdRcv.find("AliveCheck") != std::string::npos)
     _cmdSnd = "broadcast Alive";
@@ -214,10 +216,12 @@ void			AI::communicate()
     {
       std::string ret =  "broadcast PONG " + _ID;
       _cmdSnd = ret;
+      return;
     }
   if (!_targetID.empty())
     {
-      if (_waitPong != true)
+      std::cout << "ON A uNE TARGET\n";
+      if (_waitPong == false)
         {
           _waitPong = true;
 	  std::string ret = "broadcast PING " + _targetID;
@@ -311,7 +315,6 @@ void			AI::listenSummon()
 	      std::cout << "on send " << cmd << std::endl;
 	      _cmdSnd = cmd;
 	      _foodBegin = -1;
-	      _waitCome = true;
 	      return;
 	    }
 	  else
