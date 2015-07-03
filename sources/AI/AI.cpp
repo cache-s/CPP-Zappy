@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 16:03:34 2015 Pierre Charie
+// Last update Fri Jul  3 16:11:38 2015 Sebastien Cache-Delanos
 //
 
 #include		"AI.hpp"
@@ -118,6 +118,11 @@ char*			AI::call(const char* cmdRcv)
   return NULL;
 }
 
+void			AI::setId(int id)
+{
+  _ID = std::to_string(id);
+}
+
 void			AI::act()
 {
   if (_cmdRcv.find("message") != std::string::npos)
@@ -214,7 +219,7 @@ void			AI::communicate()
   if (_cmdRcv.find("INV(") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
     {
       std::string ret = "broadcast RDY(";
-      ret += to_string(_level);
+      ret += std::to_string(_level);
       ret += ", ";
       ret += _ID;
       _cmdSnd = ret;
