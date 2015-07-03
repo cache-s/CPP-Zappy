@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 16:03:34 2015 Pierre Charie
+// Last update Fri Jul  3 16:12:02 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -214,7 +214,7 @@ void			AI::communicate()
   if (_cmdRcv.find("INV(") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
     {
       std::string ret = "broadcast RDY(";
-      ret += to_string(_level);
+      ret += std::to_string(_level);
       ret += ", ";
       ret += _ID;
       _cmdSnd = ret;
@@ -258,8 +258,9 @@ void			AI::listenSummon()
 
   if (foodBegin == -1)
     foodBegin = _inventory["nourriture"];
-      if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
+  if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
 	{
+	  std::cout << "ON A RECU UN RDY BORDEL\n";
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
