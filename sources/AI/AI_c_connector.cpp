@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 // 
 // Started on  Wed Jun 24 11:39:45 2015 Sebastien Cache-Delanos
-// Last update Fri Jun 26 12:57:59 2015 Sebastien Cache-Delanos
+// Last update Fri Jul  3 16:12:19 2015 Sebastien Cache-Delanos
 //
 
 #include			<cstdlib>
@@ -32,6 +32,13 @@ extern "C" {
     lazyAI();
     return (AI_instance->call(cmdRcv));
   }
+
+  void AI_setId(int id)
+  {
+    lazyAI();
+    return (AI_instance->setId(id));
+  }
+
 
 #ifdef __cplusplus
 }

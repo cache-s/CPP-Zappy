@@ -1,12 +1,3 @@
-//
-// AI.cpp for zappy in /home/cache-_s/rendu/PSU_2014_zappy
-//
-// Made by Sebastien Cache-Delanos
-// Login   <cache-_s@epitech.net>
-//
-// Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 12:20:46 2015 Pierre Charie
-//
 
 #include		"AI.hpp"
 
@@ -14,6 +5,7 @@ AI::AI()
 {
   _isWaiting = false;
   _update = false;
+  _triedInv = false;
   _cmdRcv = "";
   _cmdSnd = "";
   _level = 1;
@@ -102,34 +94,64 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
-  _cmdRcv = cmdRcv;
-  act();
-  if (_cmdSnd != "")
-    ret = &_cmdSnd[0u];
-  else
-    ret = NULL;
-  return (ret);
+  try{
+    _cmdRcv = cmdRcv;
+    act();
+    if (_cmdSnd != "")
+      ret = &_cmdSnd[0u];
+    else
+      ret = NULL;
+    return (ret);
+  }catch (...)
+    {
+      std::cerr << "error catched" << std::endl;
+    }
+  return NULL;
+}
+
+void			AI::setId(int id)
+{
+  _ID = std::to_string(id);
 }
 
 void			AI::act()
 {
-  // if (_cmdRcv.find("message"))
-  //   {
-  //     communicate();
-  //     return;
-  //   }
+  if (_cmdRcv.find("message") != std::string::npos)
+    {
+      std::cout << "MESSAGE = " << _cmdRcv << std::endl;
+      try{
+	communicate();
+      }catch (const std::exception &e)
+	{
+	  std::cerr << "ERROR in communication" << std::endl;;
+	}
+      return;
+    }
 
   if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
   if (!_isWaiting)
     {
-      if (_todo.empty())
-	setObjective();
-      if (!_todo.empty())
+      try
 	{
-	  _cmdSnd = _todo.front();
-	  _todo.pop_front();
+	  if (_todo.empty())
+	    setObjective();
+	}catch (const std::exception &e)
+	{
+	  std::cerr << "ERROR in setting objectives" << std::endl;;
 	}
+      try
+	{
+	  if (!_todo.empty())
+	    {
+	      _cmdSnd = _todo.front();
+	      _todo.pop_front();
+	    }
+	}catch (const std::exception &e)
+	{
+	  std::cerr << "ERROR in popping list of inctruction" << std::endl;;
+	}
+
     }
   if (_cmdSnd != "")
     {
@@ -180,12 +202,19 @@ void			AI::communicate()
           move(direction);
         }
     }
-  if (_cmdRcv.find ("INV(") != std::string::npos && _cmdRcv.find(_level) != std::string::npos)
+  std::cout << "message = " << _cmdRcv << std::endl;
+  if (_cmdRcv.find("INV(") != std::string::npos)
+    std::cout << "demande d'invoc \n";
+  if ( _cmdRcv.find(std::to_string(_level)) != std::string::npos)
+    std::cout << "bon level\n";
+  if (_cmdRcv.find("INV(") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
     {
-      std::string ret = "broadcast ";
-      _cmdRcv.erase(0, 10);
-      ret += _cmdRcv;
+      std::string ret = "broadcast RDY(";
+      ret += std::to_string(_level);
+      ret += ", ";
+      ret += _ID;
       _cmdSnd = ret;
+      std::cout << "on renvoie " << ret << std::endl;
       return;
     }
   if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(_level) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
@@ -199,7 +228,6 @@ void			AI::communicate()
 }
   if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
     _targetID.clear();
-
 }
 
 void			AI::setObjective()
@@ -226,8 +254,9 @@ void			AI::listenSummon()
 
   if (foodBegin == -1)
     foodBegin = _inventory["nourriture"];
-      if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
+  if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
 	{
+	  std::cout << "ON A RECU UN RDY BORDEL\n";
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
@@ -241,8 +270,10 @@ void			AI::listenSummon()
 	{
 	  for (unsigned int i = 0; i < invID.size(); ++i)
 	    {
-	      std::string cmd = "broadcast COME(";
+	      std::string cmd = "broadcast OKINV(";
 	      cmd += std::to_string(_level);
+	      cmd += ", ";
+	      cmd += _ID;
 	      cmd += ")";
 	      invID[i];
 	    }
@@ -264,8 +295,11 @@ bool			AI::tryIncant()
       if (_vision[0][j] == "joueur")
         peopleNbr++;
     }
-  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")])
+  std::cout << "tried inv == " << _triedInv << std::endl;
+  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")] && _triedInv == false)
     {
+      std::cout << "ON RAMENE LA MILLEFA" << std::endl;
+      _triedInv = true;
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
@@ -273,10 +307,14 @@ bool			AI::tryIncant()
       _todo.push_back(msg);
       return false;
     }
-  grabAll();
-  dropToIncant();
-  _todo.push_back("incantation");
-  return (true);
+  if (peopleNbr == _lvlUp[std::make_pair(_level, "joueur")] && _triedInv == false)
+    {
+      grabAll();
+      dropToIncant();
+      _todo.push_back("incantation");
+      return (true);
+    }
+  return false;
 }
 
 void			AI::grabAll()
@@ -406,6 +444,7 @@ void			AI::incantation()
     }
   _level++;
   _isWaiting = false;
+  _triedInv = false;
   return;
 }
 
@@ -453,7 +492,6 @@ void			AI::inventory()
   tmp[tmp.size() - 1].erase(tmp[tmp.size() - 1].end() - 2, tmp[tmp.size() - 1].end());
   for (unsigned int i = 0; i < tmp.size(); ++i)
     {
-      std::cout << "inventaire = " << tmp[i] << std::endl;
       number = std::stoi(tmp[i].substr(tmp[i].find(" ")));
       thing = tmp[i].substr(0, tmp[i].find(" "));
       _inventory[thing] = number;

@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 12:19:33 2015 Pierre Charie
+// Last update Fri Jul  3 16:10:35 2015 Sebastien Cache-Delanos
 //
 
 #ifndef				AI_HPP
@@ -29,6 +29,7 @@ public:
   ~AI();
 
   char*				call(const char* cmdRdv);
+  void				setId(int id);
 
 private:
 
@@ -71,6 +72,7 @@ private:
   std::map<std::string, handleResponse>		_handleResponse;
 
   bool						_waitPong;
+  bool						_triedInv;
 };
 
 #endif				//AI_HPP
