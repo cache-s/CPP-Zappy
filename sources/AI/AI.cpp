@@ -7,6 +7,9 @@ AI::AI()
   _update = false;
   _triedInv = false;
   _waitSum = false;
+  _waitCome = false;
+  _targetID = "";
+  _targetDir = -1;
   _cmdRcv = "";
   _cmdSnd = "";
   _level = 1;
@@ -124,6 +127,8 @@ void			AI::act()
       // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
       try{
 	communicate();
+	if (_cmdSnd.find("OKINV") != std::string::npos)
+	  return;
 	if (_waitSum == true)
 	  {
 	    _cmdSnd = "inventaire";
@@ -134,6 +139,15 @@ void			AI::act()
 	{
 	  std::cerr << "ERROR in communication" << std::endl;;
 	}
+      return;
+    }
+
+  if (_waitCome == true)
+    tryIncant();
+  if (_targetID != "")
+    {
+      _cmdSnd = "broadcast PING ";
+      _cmdSnd += _targetID;
       return;
     }
 
@@ -189,8 +203,9 @@ void			AI::communicate()
 {
   std::string answer;
 
-
   listenSummon();
+  if (_cmdSnd.find("OK") != std::string::npos)
+    return;
   if (_cmdRcv.find("AliveCheck") != std::string::npos)
     _cmdSnd = "broadcast Alive";
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
@@ -223,17 +238,20 @@ void			AI::communicate()
       std::cout << "on renvoie " << ret << std::endl;
       return;
     }
-  // std::cout << "message recu : " << _cmdRcv << std::endl;
-  if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
-{
-  _cmdRcv.erase(0, _cmdRcv.find('('));
+  if (_cmdRcv.find("{") == std::string::npos)
+    std::cout << "on recois : " << _cmdRcv << std::endl;
+  if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
+    {
+      _cmdRcv.erase(0, _cmdRcv.find('('));
 
-  std::istringstream iss(_cmdRcv);
-  std::string line;
-  std::getline(iss, line, ',');
-  _targetID = line;
-  std::cout << "TARGET ID = " << _targetID << std::endl;;
-}
+      std::istringstream iss(_cmdRcv);
+      std::string line;
+      std::getline(iss, line, ',');
+      line.erase(0,1);
+      _targetID = line;
+      std::cout << "TARGET ID = " << _targetID << std::endl;
+      _cmdRcv.clear();
+    }
   if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
     _targetID.clear();
 }
@@ -270,7 +288,9 @@ void			AI::listenSummon()
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
-	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+	      //	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+	      newID = _cmdRcv;
+	      newID.erase(0, 17);
 	      std::cout << "new ID = " << newID;
 	      invID.push_back(newID);
 	    }
@@ -283,15 +303,18 @@ void			AI::listenSummon()
 	  std::cout << "we need " << (unsigned)_lvlUp[std::make_pair(_level, "joueur")] << std::endl;
 	  if (invID.size() >= (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
-	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")]; ++i)
+	      std::string cmd = "broadcast OKINVOC(";
+	      std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
+	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1; ++i)
 		{
-		  std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
-		  std::string cmd = "broadcast OKINVOC(";
 		  cmd += invID[i];
 		  cmd += ", ";
-		  cmd += _ID;
-		  cmd += ")";
 		}
+	      std::cout << "on send " << cmd << std::endl;
+	      _cmdSnd = cmd;
+	      _foodBegin = -1;
+	      _waitCome = true;
+	      return;
 	    }
 	  else
 	    {
@@ -317,7 +340,7 @@ bool			AI::tryIncant()
         peopleNbr++;
     }
   std::cout << "tried inv == " << _triedInv << std::endl;
-  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")] && _triedInv == false)
+  if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")] && _triedInv == false && _waitSum != true)
     {
       std::cout << "ON RAMENE LA MILLEFA" << std::endl;
       _triedInv = true;

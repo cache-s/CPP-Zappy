@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 18:10:40 2015 Pierre Charie
+// Last update Fri Jul  3 23:51:53 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -66,6 +66,7 @@ private:
   bool						_isWaiting;
   std::string					_ID;
   std::string					_targetID;
+  int						_targetDir;
   std::map<std::string, int>			_inventory;
   int						_sightRange;
   std::vector<std::string>			_needResponse;
@@ -74,6 +75,7 @@ private:
   bool						_waitPong;
   bool						_triedInv;
   bool						_waitSum;
+  bool						_waitCome;
 
   int						_foodBegin;
 };
