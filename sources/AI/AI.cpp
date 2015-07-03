@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Thu Jul  2 18:02:03 2015 Pierre Charie
+// Last update Fri Jul  3 11:46:38 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -18,6 +18,8 @@ AI::AI()
   _cmdSnd = "";
   _objective = "";
   _level = 1;
+
+  srand (time(NULL));
 
   _stones.push_back("linemate");
   _stones.push_back("deraumere");
@@ -101,15 +103,12 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
- static std::string	oldCmd;
-
   _cmdRcv = cmdRcv;
   act();
   if (_cmdSnd != "")
     ret = &_cmdSnd[0u];
   else
     ret = NULL;
-  usleep(10000);
   return (ret);
 }
 
@@ -117,24 +116,23 @@ void			AI::act()
 {
   if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
-  else
+  if (!_isWaiting)
     {
       if (_todo.empty())
-	{
-	  setObjective();
-	}
+	setObjective();
       if (!_todo.empty())
 	{
 	  _cmdSnd = _todo.front();
-	  std::cout << "on envois " << _cmdSnd << std::endl;
 	  _todo.pop_front();
 	}
+    }
+  if (_cmdSnd != "")
+    {
       for (unsigned int i = 0; i < _needResponse.size(); ++i)
 	if (_cmdSnd == _needResponse[i])
 	  _isWaiting = true;
+      _lastSnd = _cmdSnd;
     }
-  if (_cmdSnd != "")
-    _lastSnd = _cmdSnd;
 }
 
 void			AI::setObjective()
@@ -147,7 +145,7 @@ void			AI::setObjective()
       return;
     }
   _update = false;
-  if (_inventory["nourriture"] < (10 + (_level * 3)))
+  if (_inventory["nourriture"] < (5 + (_level * 3)))
     lookFor("nourriture");
   else if (tryIncant() == false)
     getMissingStones();
@@ -161,18 +159,21 @@ void			AI::listenSummon()
 
   if (foodBegin == -1)
     foodBegin = _inventory["nourriture"];
-      if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)  //OKINV(uneID, LVL)
+      if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
 	{
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
+<<<<<<< HEAD
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
 	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
+=======
+	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(',')));
+>>>>>>> 24975a7454a6bef8cbf60d07c3603cc148a192b2
 	      invID.push_back(newID);
 	    }
 	}
   if (foodBegin - _inventory["nourriture"] > 2)
     {
-      // _waitListen = false;
       if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	{
 	  for (unsigned int i = 0; i < invID.size(); ++i)
@@ -182,7 +183,6 @@ void			AI::listenSummon()
 	      cmd += ")";
 	      invID[i];
 	    }
-	  //TODO envoyer un msg aux gens du vec pour les inviter à venir.
 	}
     }
 }
@@ -201,16 +201,13 @@ bool			AI::tryIncant()
       if (_vision[0][j] == "joueur")
         peopleNbr++;
     }
-  std::cout << "level = " << _level << std::endl;
-  std::cout << "ppl nbr = " << peopleNbr << std::endl << std::endl;
-  std::cout << "ppl needed = " << _lvlUp[std::make_pair(_level, "joueur")] << std::endl << std::endl;
   if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")])
     {
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
-      // _todo.push_back(msg);
       //TODO se mettre en position d'ecoute immobile pendant... 2? unité de bouffe. (pour pas qu'il en ramasse plus et fausse le calcul); On ne le lance qu'une fois par niveau. Si ca echoue, on deviendra non plus hote mais guest de la prochaine invoc'
+      _todo.push_back(msg);
       return false;
     }
   grabAll();
@@ -279,7 +276,6 @@ void			AI::lookFor(const std::string & toget)
 	  setPath(i, toget);
 	  return;
 	}
-  srand (time(NULL));
   direction = rand() % 10;
   if (direction < 3)
     _todo.push_back("gauche");
@@ -343,24 +339,15 @@ void			AI::incantation()
   if (_cmdRcv.find("niveau actuel") == std::string::npos)
     {
       _cmdSnd = "";
-      std::cout << "on envois " << _cmdSnd << std::endl;
       return;
     }
   _level++;
   _isWaiting = false;
-  _cmdSnd = "inventaire";
-  std::cout << "on envois " << _cmdSnd << std::endl;
   return;
 }
 
 void			AI::vision()
 {
-  if (_cmdRcv.find("{ ") == std::string::npos)
-    {
-      _cmdSnd = "";
-      std::cout << "on envois " << _cmdSnd << std::endl;
-      return;
-    }
   _vision.clear();
   _cmdRcv.erase(0, 2);
   _cmdRcv.erase(_cmdRcv.end() - 2, _cmdRcv.end());
@@ -387,12 +374,6 @@ void			AI::vision()
 
 void			AI::inventory()
 {
-  if (_cmdRcv.find("{nourriture") == std::string::npos)
-    {
-      _cmdSnd = "";
-      std::cout << "on envois " << _cmdSnd << std::endl;
-      return;
-    }
   std::stringstream		ss(_cmdRcv);
   std::vector<std::string>	tmp;
   std::string			thing;

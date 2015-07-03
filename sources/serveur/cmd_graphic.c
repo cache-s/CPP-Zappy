@@ -5,7 +5,7 @@
 ** Login   <mathieu@epitech.net>
 ** 
 ** Started on  Thu Jun 25 16:55:26 2015 Mathieu
-** Last update Sun Jun 28 12:41:04 2015 Martin Porrès
+** Last update Thu Jul  2 18:02:55 2015 Martin Porrès
 */
 
 #include		"serveur.h"
@@ -16,7 +16,7 @@ void			write_bct(t_block *block, int fd)
   
   i = 0;
   if (dprintf(fd, "bct %d %d ", block->x, block->y) == -1)
-    puts("gros fdp");
+    puts("gros *bip*");
   while (i < 7)
     {
       if ((i + 1) >= 7)

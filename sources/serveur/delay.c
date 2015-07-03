@@ -26,6 +26,7 @@ int			get_the_shortest_cmd(t_serv *serv)
 	{
 	  if (tmp->shortest_cmd == NULL)
 	    {
+	      puts("fini");
 	      cmd_save = strdup(tmp->cmd);
 	      token = strtok(cmd_save, ";");
 	      new_value = get_delay(serv, token);
@@ -79,13 +80,19 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
   t_client		*tmp;
   double		elapsed;
 
-  /* printf("tv->tv_usec = %d, tv->sec = %d\n", (int)tv->tv_usec, (int)tv->tv_sec); */
+  // update les forks et la vie des bonhommes. (1260)
   tmp = serv->client;
+  
   elapsed = (time * 1000000) - (tv->tv_usec + (tv->tv_sec * 1000000));
   printf("elapsed = %f\n", elapsed);
   while (tmp != NULL)
     {
-      tmp->time_left -= elapsed;
+      tmp->time_left -= elapsed / 1000000;
+      /* printf("%f\n", tmp->lifetime); */
+      /* tmp->lifetime -= elapsed / 1000000; */
+      /* printf("%f\n", tmp->lifetime);  */
+      if (tmp->lifetime <= 0)
+	puts("DEAD");
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)
@@ -99,11 +106,19 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
   return (EXIT_SUCCESS);
 }
 
-int			update_client(t_client *client, t_serv *serv)
+int			update_client(t_client *client, UNUSED t_serv *serv)
 {
-  (void)serv;
   printf("client->cmd = %s\n", client->cmd);
-  client->cmd = strtok(client->cmd, strcat(client->shortest_cmd, ";"));
+  if (count_char(client->cmd, ';') < 1)
+    client->cmd_end += 1;
+  else
+    client->cmd_end = 0;
+  if (client->cmd_end == 2)
+    {
+      client->cmd = NULL;
+      client->cmd_end = 0;
+    }
+  strtok(client->cmd, ";");  
   printf("client->cmd = %s\n", client->cmd);
   if (client->shortest_cmd != NULL)
     free(client->shortest_cmd);

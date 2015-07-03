@@ -12,8 +12,8 @@
 
 int			cmd_inventory(UNUSED t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  if (dprintf(client->fd, "{nourriture %d, linemate %d, deraumere %d, sibur %d, \
-mendiane %d, phiras %d, thystame %d}\n", client->items[0], client->items[1],
+  if (dprintf(client->fd, "{nourriture %d,linemate %d,deraumere %d,sibur %d,\
+mendiane %d,phiras %d,thystame %d}\n", client->items[0], client->items[1],
 	      client->items[2], client->items[3], client->items[4],
 	      client->items[5], client->items[6]) == -1)
     return (EXIT_FAILURE);
