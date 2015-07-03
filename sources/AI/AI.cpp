@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 11:46:38 2015 Pierre Charie
+// Last update Fri Jul  3 11:50:08 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -163,12 +163,8 @@ void			AI::listenSummon()
 	{
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
-<<<<<<< HEAD
 	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
 	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
-=======
-	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(',')));
->>>>>>> 24975a7454a6bef8cbf60d07c3603cc148a192b2
 	      invID.push_back(newID);
 	    }
 	}
