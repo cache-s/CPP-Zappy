@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Thu Jul  2 17:20:29 2015 Pierre Charie
+// Last update Thu Jul  2 18:02:03 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -165,6 +165,7 @@ void			AI::listenSummon()
 	{
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
+	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
 	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
 	      invID.push_back(newID);
 	    }
@@ -208,7 +209,7 @@ bool			AI::tryIncant()
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
-      _todo.push_back(msg);
+      // _todo.push_back(msg);
       //TODO se mettre en position d'ecoute immobile pendant... 2? unité de bouffe. (pour pas qu'il en ramasse plus et fausse le calcul); On ne le lance qu'une fois par niveau. Si ca echoue, on deviendra non plus hote mais guest de la prochaine invoc'
       return false;
     }
@@ -408,6 +409,7 @@ void			AI::inventory()
   tmp[tmp.size() - 1].erase(tmp[tmp.size() - 1].end() - 2, tmp[tmp.size() - 1].end());
   for (unsigned int i = 0; i < tmp.size(); ++i)
     {
+      std::cout << "inventaire = " << tmp[i] << std::endl;
       number = std::stoi(tmp[i].substr(tmp[i].find(" ")));
       thing = tmp[i].substr(0, tmp[i].find(" "));
       _inventory[thing] = number;
