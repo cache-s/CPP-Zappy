@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Wed Jul  1 17:08:00 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 11:31:30 2015 Sebastien Cache-Delanos
+// Last update Fri Jul  3 12:20:46 2015 Pierre Charie
 //
 
 #include		"AI.hpp"
@@ -16,7 +16,6 @@ AI::AI()
   _update = false;
   _cmdRcv = "";
   _cmdSnd = "";
-  _objective = "";
   _level = 1;
 
   srand (time(NULL));
@@ -114,6 +113,12 @@ char*			AI::call(const char* cmdRcv)
 
 void			AI::act()
 {
+  // if (_cmdRcv.find("message"))
+  //   {
+  //     communicate();
+  //     return;
+  //   }
+
   if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
   if (!_isWaiting)
@@ -133,6 +138,68 @@ void			AI::act()
 	  _isWaiting = true;
       _lastSnd = _cmdSnd;
     }
+}
+
+void    AI::move(int direction)
+{
+  if (direction != 0)
+    {
+      if (direction == 8 || direction == 1 || direction == 2)
+        _cmdSnd = "avance";
+      if (direction == 6 || direction == 7)
+	_cmdSnd = "droite";
+      if (direction == 4 || direction == 3 || direction == 5)
+        _cmdSnd = "gauche";
+    }
+}
+
+
+void			AI::communicate()
+{
+  std::string answer;
+
+  if (_cmdRcv.find("AliveCheck") != std::string::npos)
+    _cmdSnd = "broadcast Alive";
+  if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
+    {
+      std::string ret =  "broadcast PONG " + _ID;
+      _cmdSnd = ret;
+    }
+  if (!_targetID.empty())
+    {
+      if (_waitPong != true)
+        {
+          _waitPong = true;
+	  std::string ret = "broadcast PING " + _targetID;
+          _cmdSnd = ret;
+        }
+      if (_cmdRcv.find("PONG") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+        {
+          _waitPong = false;
+          int direction = _cmdRcv[8] - '0';
+          move(direction);
+        }
+    }
+  if (_cmdRcv.find ("INV(") != std::string::npos && _cmdRcv.find(_level) != std::string::npos)
+    {
+      std::string ret = "broadcast ";
+      _cmdRcv.erase(0, 10);
+      ret += _cmdRcv;
+      _cmdSnd = ret;
+      return;
+    }
+  if (_cmdRcv.find("OKINV") != std::string::npos && _cmdRcv.find(_level) != std::string::npos) //TODO verifier si la syntaxe issue de getline est correcte
+{
+  _cmdRcv.erase(0, _cmdRcv.find('('));
+
+  std::istringstream iss(_cmdRcv);
+  std::string line;
+  std::getline(iss, line, ',');
+  _targetID = line;
+}
+  if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+    _targetID.clear();
+
 }
 
 void			AI::setObjective()
@@ -163,7 +230,8 @@ void			AI::listenSummon()
 	{
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")])
 	    {
-	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(',')));
+	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
+	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
 	      invID.push_back(newID);
 	    }
 	}
@@ -201,6 +269,7 @@ bool			AI::tryIncant()
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
+      //TODO se mettre en position d'ecoute immobile pendant... 2? unité de bouffe. (pour pas qu'il en ramasse plus et fausse le calcul); On ne le lance qu'une fois par niveau. Si ca echoue, on deviendra non plus hote mais guest de la prochaine invoc'
       _todo.push_back(msg);
       return false;
     }
@@ -384,6 +453,7 @@ void			AI::inventory()
   tmp[tmp.size() - 1].erase(tmp[tmp.size() - 1].end() - 2, tmp[tmp.size() - 1].end());
   for (unsigned int i = 0; i < tmp.size(); ++i)
     {
+      std::cout << "inventaire = " << tmp[i] << std::endl;
       number = std::stoi(tmp[i].substr(tmp[i].find(" ")));
       thing = tmp[i].substr(0, tmp[i].find(" "));
       _inventory[thing] = number;
