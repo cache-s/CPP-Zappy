@@ -61,6 +61,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c			\
 			sources/serveur/cmd_left.c		\
 			sources/serveur/cmd_see.c		\
 			sources/serveur/see_with_orientation.c	\
+			sources/serveur/move_see.c		\
 			sources/serveur/cmd_take.c		\
 			sources/serveur/read_write.c		\
 			sources/serveur/check_team.c		\

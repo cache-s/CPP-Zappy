@@ -10,7 +10,7 @@
 
 #include		"serveur.h"
 
-int			check_player(int x, int y, t_serv *serv, t_client *client)
+void			check_player(int x, int y, t_serv *serv, t_client *client)
 {
   t_client		*tmp;
   
@@ -21,7 +21,6 @@ int			check_player(int x, int y, t_serv *serv, t_client *client)
 	dprintf(client->fd, " joueur");
       tmp = tmp->next;
     }
-  return (EXIT_SUCCESS);
 }
 
 int			look_floor(int x, int y, t_serv *serv, t_client *client)
@@ -32,6 +31,9 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   i = 0;
   tmp_i = 0;
   check_player(x, y, serv, client);
+  
+  dprintf(client->fd, "\nx = %i\n", x); 
+  dprintf(client->fd, "y = %i\n", y); 
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
@@ -59,10 +61,9 @@ int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
   serv->see->end = 0;
   serv->see->check = 0;
   dprintf(client->fd, "{");
-  serv->see->lvl = 1;
   i = 1;
   look_floor(client->x, client->y, serv, client);
-  while (i <= serv->see->lvl)
+  while (i <= client->lvl)
     {
       serv->see->coma++;
       see_with_orientation(serv, client);
