@@ -10,7 +10,8 @@
 
 #include		"serveur.h"
 
-int			cmd_incantation(t_serv *serv, t_client *client, UNUSED char *cmd)
+int			cmd_incantation(t_serv *serv, t_client *client,
+					UNUSED char *cmd)
 {
 
   if (client->lvl == 8 || inc_lvl(serv, client) == EXIT_FAILURE)
@@ -38,7 +39,8 @@ int			cmd_end_incantation(t_serv *serv, t_client *client)
       return (EXIT_FAILURE);
     }
   empty_block(&(serv->map->blocks[client->x][client->y]));
-  if (write_bct_gfx(serv->gfx, &(serv->map->blocks[client->x][client->y])) == EXIT_FAILURE)
+  if (write_bct_gfx(serv->gfx, &(serv->map->blocks[client->x][client->y]))
+      == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (generate_all_item(serv, 1) == EXIT_FAILURE)
     return (EXIT_FAILURE);

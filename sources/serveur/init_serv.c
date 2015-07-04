@@ -21,7 +21,8 @@ int			new_client(t_serv *serv)
     return (my_error_close(ERR_ACCEPT, serv->socket));
   if (cs > serv->fds)
     serv->fds = cs;
-  if (my_write(2, CYAN "*** New client connected on the server" END) == EXIT_FAILURE)
+  if (my_write(2, CYAN "*** New client connected on the server" END)
+      == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (create_client(serv, cs) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -79,13 +80,14 @@ int			accept_clients(t_serv *serv)
 {
   struct timeval	tv;
   double		time;
-   
+
   empty_fds(serv);
   tv.tv_sec = 0;
   tv.tv_usec = 0;
   time = get_the_shortest_cmd(serv);
   tv.tv_usec = time * 1000000;
-  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL, &tv)) == -1)
+  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds,
+	      NULL, &tv)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);

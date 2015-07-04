@@ -260,5 +260,8 @@ int		inc_count_player(t_serv *serv, t_client *client);
 void		init_inc_tab(t_serv *serv);
 void		init_inc_tab_2(t_serv *serv);
 void		init_inc_tab_3(t_serv *serv);
+int		init_tab_settings(t_settings *settings);
+int		check_call_cmds(t_serv *serv, char *cmd, t_client *client);
+char		*close_connect_end(t_serv *serv, int fd, t_client *tmp);
 
 #endif

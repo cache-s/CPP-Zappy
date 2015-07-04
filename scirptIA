@@ -2,8 +2,8 @@
 
 sleep 2
 
-for ((i = 0; i < 15; i++))
+for ((i = 0; i < 150; i++))
 do
     sleep 0.01
-    ./zappy_ai -n toto -p 4242 &
+    nc 127.0.0.1 4242
 done

@@ -15,8 +15,8 @@ int			cmd_fork(t_serv *serv, t_client *client, UNUSED char *cmd)
   if (write_pfk_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   // wait fork
-  
-  serv->settings->nb_clients++;// à remplacer
+
+  serv->settings->nb_clients++; // à remplacer
   if (write_enw_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)

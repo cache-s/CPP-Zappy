@@ -14,15 +14,17 @@ int			map_generation(t_serv *serv)
 {
   int			i;
   int			j;
-  
+
   i = 0;
   if ((serv->map = (t_map *)malloc(sizeof(t_map *))) == NULL)
     return (my_error(ERR_MALLOC));
-  if ((serv->map->blocks = malloc(serv->settings->height * sizeof(t_block *))) == NULL)
+  if ((serv->map->blocks = malloc(serv->settings->height *
+				  sizeof(t_block *))) == NULL)
     return (my_error(ERR_MALLOC));
   while (i < serv->settings->height)
     {
-      if ((serv->map->blocks[i] = malloc(serv->settings->width * sizeof(t_block))) == NULL)
+      if ((serv->map->blocks[i] = malloc(serv->settings->width
+					 * sizeof(t_block))) == NULL)
 	return (my_error(ERR_MALLOC));
       i++;
     }

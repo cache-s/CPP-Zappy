@@ -73,7 +73,8 @@ int		write_pic_gfx(t_serv *serv, t_client *client)
     return (my_error(ERR_STRCPY));
   while (tmp != NULL)
     {
-      if (tmp->x == client->x && tmp->y == client->y && tmp->lvl == client->lvl)
+      if (tmp->x == client->x && tmp->y == client->y &&
+	  tmp->lvl == client->lvl)
 	{
 	  if ((ids = strcat(ids, " ")) == NULL)
 	    return (my_error(ERR_STRCAT));

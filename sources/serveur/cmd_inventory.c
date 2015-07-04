@@ -10,7 +10,8 @@
 
 #include		"serveur.h"
 
-int			cmd_inventory(UNUSED t_serv *serv, t_client *client, UNUSED char *cmd)
+int			cmd_inventory(UNUSED t_serv *serv, t_client *client,
+				      UNUSED char *cmd)
 {
   if (dprintf(client->fd, "{nourriture %d,linemate %d,deraumere %d,sibur %d,\
 mendiane %d,phiras %d,thystame %d}\n", client->items[0], client->items[1],

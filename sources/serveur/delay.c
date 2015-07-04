@@ -37,7 +37,7 @@ double			get_the_shortest_cmd(t_serv *serv)
 	  else
 	    new_value = tmp->time_left;
 	  if (last_value > new_value)
-	    last_value = new_value; 
+	    last_value = new_value;
 	}
       tmp = tmp->next;
     }
@@ -93,7 +93,7 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 	    return (EXIT_FAILURE);
 	  close_connect(serv, tmp->fd, 0);
 	  return (EXIT_FAILURE);
-	} 
+	}
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)
@@ -113,7 +113,7 @@ int			update_client(t_client *client, UNUSED t_serv *serv)
   int			len;
   int			len_s;
   char			*save_cmd;
- 
+
   if (client->cmd == NULL)
     return (EXIT_SUCCESS);
   save_cmd = strdup(client->cmd);
