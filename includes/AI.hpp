@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Thu Jul  2 17:13:18 2015 Pierre Charie
+// Last update Fri Jul  3 23:51:53 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -29,6 +29,7 @@ public:
   ~AI();
 
   char*				call(const char* cmdRdv);
+  void				setId(int id);
 
 private:
 
@@ -46,6 +47,8 @@ private:
   void				dropToIncant();
   void				grabAll();
   void				listenSummon();
+  void				communicate();
+  void				move(int direction);
 
   void				printInventory();
 
@@ -61,11 +64,20 @@ private:
   std::map<int, std::vector<std::string>>	_vision;
   std::string					_lastSnd;
   bool						_isWaiting;
-  std::string					_objective;
+  std::string					_ID;
+  std::string					_targetID;
+  int						_targetDir;
   std::map<std::string, int>			_inventory;
   int						_sightRange;
   std::vector<std::string>			_needResponse;
   std::map<std::string, handleResponse>		_handleResponse;
+
+  bool						_waitPong;
+  bool						_triedInv;
+  bool						_waitSum;
+  bool						_waitCome;
+
+  int						_foodBegin;
 };
 
 #endif				//AI_HPP

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Wed Jul  1 17:50:59 2015 Jordan Chazottes
+** Last update Fri Jul  3 22:26:52 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -55,6 +55,8 @@ void		initDrawTab(t_gfx *s)
   s->drawPlayer[5] = &draw_p6;
   s->drawPlayer[6] = &draw_p7;
   s->drawPlayer[7] = &draw_p8;
+  s->drawAction[STAND] = &drawStand;
+  s->drawAction[BROADCAST] = &drawBroadcast;
 }
 
 int		initCmdTab(t_gfx *s)
@@ -88,3 +90,4 @@ int		initCmdTab(t_gfx *s)
   s->cmdTab[24] = NULL;
   return (EXIT_SUCCESS);
 }
+

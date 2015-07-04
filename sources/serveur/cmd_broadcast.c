@@ -5,12 +5,13 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Fri May  8 11:35:41 2015 Mathieu Bourmaud
-** Last update Wed Jul  1 11:21:48 2015 Martin Porrès
+** Last update Fri Jul  3 11:37:03 2015 Martin Porrès
 */
 
 #include		"serveur.h"
 
-int			cmd_broadcast(t_serv *serv, t_client *client, char *cmd)
+int			cmd_broadcast(t_serv *serv, t_client *client,
+				      char *cmd)
 {
   t_client		*tmp;
   int			k;
@@ -35,7 +36,8 @@ int			cmd_broadcast(t_serv *serv, t_client *client, char *cmd)
   return (ret);
 }
 
-int			get_k(t_settings *settings, t_client *speaker, t_client *listener)
+int			get_k(t_settings *settings, t_client *speaker,
+			      t_client *listener)
 {
   int			x;
   int			y;
@@ -48,7 +50,8 @@ int			get_k(t_settings *settings, t_client *speaker, t_client *listener)
   return (set_real_orientation(o, listener->orientation));
 }
 
-int			find_closest_path(int map_size, int speaker, int listener)
+int			find_closest_path(int map_size, int speaker,
+					  int listener)
 {
   int			west_north;
   int			est_south;
@@ -67,59 +70,4 @@ int			find_closest_path(int map_size, int speaker, int listener)
     return (west_north);
   else
     return (est_south * -1);
-}
-
-int			set_path_orientation(int x, int y)
-{
-  int			base;
-  
-  if (x == 0 && y == 0)
-    return (0);
-  if ((x > 0 && y < 0) || (x < 0 && y > 0))
-    {
-      if (x > 0 && y < 0)
-	{
-	  base = 3;
-	  return (find_best_orientation(abs(x), abs(y), base));
-	}
-      base = 7;
-      return (find_best_orientation(abs(x), abs(y), base));
-    }
-  if (x > 0 && y > 0)
-    {
-      base = 1;
-      return (find_best_orientation(abs(y), abs(x), base));
-    }
-  base = 5;
-  return (find_best_orientation(abs(y), abs(x), base));
-}
-
-int		        find_best_orientation(int x, int y, int base)
-{
-  if (x > y)
-    {
-      if (y == 0)
-	return (base);
-      if (x > (y * (4 / 3)))
-	return (base);
-      return (base + 1);
-    }
-  if (y < (x * (4 / 3)))
-    return (base + 1);
-  if (base + 2 > 8)
-    return (1);
-  return (base + 2);
-}
-
-int			set_real_orientation(int o, eOrientation client_o)
-{
-  if (client_o == EST)
-    o += 2;
-  if (client_o == SOUTH)
-    o += 4;
-  if (client_o == WEST)
-    o += 6;
-  if (o > 8)
-    o -= 8;
-  return (o);
 }

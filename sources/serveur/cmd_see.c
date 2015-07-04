@@ -10,69 +10,63 @@
 
 #include		"serveur.h"
 
-void			look_floor(int x, int y, t_serv *serv, t_client *client)
+void			check_player(int x, int y, t_serv *serv, t_client *client)
+{
+  t_client		*tmp;
+  
+  tmp = serv->client;
+  while (tmp != NULL)
+    {
+      if (tmp->x == x && tmp->y == y)
+	dprintf(client->fd, " joueur");
+      tmp = tmp->next;
+    }
+}
+
+int			look_floor(int x, int y, t_serv *serv, t_client *client)
 {
   int			i;
   int			tmp_i;
-  int			check;
-  
+
   i = 0;
-  check = 0;
+  tmp_i = 0;
+  check_player(x, y, serv, client);
+  
+  dprintf(client->fd, "\nx = %i\n", x); 
+  dprintf(client->fd, "y = %i\n", y); 
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
       if (serv->map->blocks[x][y].items[i] != 0)
 	{
-	  if (tmp_i > 1)
+	  while (tmp_i != 0)
 	    {
-	      while (tmp_i != 0)
-		{
-		  dprintf(client->fd, "%i ", i);
-		  tmp_i--;
-		}
+	      dprintf(client->fd, " %s", serv->items[i]);
+	      tmp_i--;
 	    }
-	  else
-	    {
-	      if (check == 1)
-		dprintf(client->fd, "%i ", i);
-	      else
-		dprintf(client->fd, "%i", i);
-	    }
-	  check = 1;
 	}
       i++;
     }
-  dprintf(client->fd, ",");
+  if (serv->see->end != 1)
+    dprintf(client->fd, ",");
+  return (EXIT_SUCCESS);
 }
 
 int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  int			tmp_x_left;
-  int			tmp_x_right;
-  int			tmp_y;
-  int			j;
   int			i;
-  int			lvl;
-  
+
+  if ((serv->see = malloc(sizeof(* serv->see))) == NULL)
+    return (my_error(ERR_MALLOC));
+  serv->see->end = 0;
+  serv->see->check = 0;
   dprintf(client->fd, "{");
-  lvl = 2;
   i = 1;
-  j = 0;
-  tmp_x_left = client->x;
-  tmp_x_right = client->x;
-  tmp_y = client->y;
-  look_floor(tmp_x_left, tmp_y, serv, client);
-  while (i <= lvl)
+  look_floor(client->x, client->y, serv, client);
+  while (i <= client->lvl)
     {
-      tmp_y = tmp_y + 1;
-      tmp_x_left = tmp_x_left - 1;
-      tmp_x_right = tmp_x_right + 1;     
-      j = tmp_x_left;
-      while (j != tmp_x_right)
-	{
-	  look_floor(j, tmp_y, serv, client); 
-	  j++;
-	}
+      serv->see->coma++;
+      see_with_orientation(serv, client);
       i++;
     }
   dprintf(client->fd, "}\n");
