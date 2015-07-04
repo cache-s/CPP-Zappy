@@ -14,7 +14,8 @@ int			init_settings(t_settings *settings)
 {
   if ((settings->parser.occArgs = malloc(sizeof(int) * MAX_ARGS + 1)) == NULL)
     return (my_error(ERR_MALLOC));
-  if ((settings->parser.tabArgs = malloc(sizeof(char *) * MAX_ARGS + 1)) == NULL)
+  if ((settings->parser.tabArgs = malloc(sizeof(char *) * \
+					 MAX_ARGS + 1)) == NULL)
     return (my_error(ERR_MALLOC));
   if ((settings->teams = malloc(sizeof(char *) * 2)) == NULL)
     return (my_error(ERR_MALLOC)); 

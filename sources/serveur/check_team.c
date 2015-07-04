@@ -42,8 +42,8 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       if (generate_all_item(serv, 1) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
-  else  
-    {	  
+  else
+    {
       printf(BOLD RED "Received message '%s' from %d\n" END, "ko", client->fd);
       if (my_write(client->fd, "ko") == EXIT_FAILURE)
 	return (EXIT_FAILURE);

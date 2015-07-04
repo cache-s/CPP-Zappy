@@ -94,7 +94,8 @@ int		write_pic_end(t_serv *serv, t_client *client, char *ids)
   tmp = serv->gfx;
   while (tmp != NULL)
     {
-      if (dprintf(tmp->fd, "pic %d %d %d %s\n", client->x, client->y, client->lvl + 1, ids) == -1)
+      if (dprintf(tmp->fd, "pic %d %d %d %s\n", client->x, \
+		  client->y, client->lvl + 1, ids) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }
