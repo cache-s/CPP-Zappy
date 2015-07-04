@@ -105,9 +105,7 @@ char*			AI::call(const char* cmdRcv)
     {
       _cmdSnd = "";
       _cmdRcv = cmdRcv;
-      std::cout << "on recois " << _cmdRcv << std::endl;
       act();
-      std::cout << "on envois " << _cmdSnd << std::endl;
       if (_cmdSnd != "")
 	ret = &_cmdSnd[0u];
       else
@@ -129,29 +127,19 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
-  if (_targetDir != -1)
-    {
-      std::cout << "ON A UNE TARGET OLOLOLOLOLOLOLOL\n\n\n";
-      exit(3);
-    }
-  if (_cmdRcv.find("PING") != std::string::npos)
-    std::cout << "on recois : " << _cmdRcv << std::endl << "notre ID est " << _ID << std::endl;
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
       std::string ret =  "broadcast PONG " + _ID;
-      std::cout << "ON REPOND PONG\n";
       _cmdSnd = ret;
       return;
     }
   if (!_targetID.empty())
     {
       usleep(10000);
-      std::cout << "ON A uNE TARGET\n";
       if (_targetDir == -1)
 	{
 	  if (_waitPong == false)
 	    {
-	      std::cout << "ON LE PING\n";
 	      _waitPong = true;
 	      std::string ret = "broadcast PING " + _targetID;
 	      _cmdSnd = ret;
@@ -182,12 +170,7 @@ void			AI::act()
     {
       if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
 	{
-	  // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
 	  try{
-	    if (_cmdRcv.find("PONG") != std::string::npos)
-	      {
-		std::cout << "on recois le PONG\n";
-	      }
 	    communicate();
 	    if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
 	      {
@@ -205,8 +188,6 @@ void			AI::act()
 	    {
 	      std::cerr << "Exception : Error in communication" << std::endl;
 	    }
-	  if (!_targetID.empty())
-	std::cout << "ON A UNER TARGET ET ON PASSE ICI\n";
 	  return;
 	}
     }
