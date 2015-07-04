@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Sat Jul  4 21:16:28 2015 Martin Porrès
-** Last update Sat Jul  4 21:28:52 2015 Martin Porrès
+** Last update Sat Jul  4 23:10:48 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -38,14 +38,14 @@ int		server_read(t_client *client)
     return (my_error(ERR_MALLOC));
   bzero(buffer, BUFF_SIZE);
   if ((ret = read(client->fd_socket, buffer, BUFF_SIZE - 1)) <= 0)
-    return (my_error(ERR_READ));
+    return (my_error(ERR_CLOSE));
   if (save_srv_cmd(client, buffer) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  free(buffer);
-  if (ret == BUFF_SIZE - 1)
+  if (ret > 0 && buffer[ret - 1] != '\n')
       client->entire_cmd = 0;
   else
       client->entire_cmd = 1;
+  free(buffer);
   return (EXIT_SUCCESS);
 }
 
