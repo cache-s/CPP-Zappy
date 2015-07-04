@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Fri Jul  3 23:51:53 2015 Pierre Charie
+// Last update Sat Jul  4 22:07:46 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -48,7 +48,7 @@ private:
   void				grabAll();
   void				listenSummon();
   void				communicate();
-  void				move(int direction);
+  void				move();
 
   void				printInventory();
 
