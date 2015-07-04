@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:32:07 2015 Martin Porrès
-** Last update Fri Jul  3 16:25:50 2015 Martin Porrès
+** Last update Sat Jul  4 22:28:28 2015 Martin Porrès
 */
 
 #ifndef			_CLIENT_H_
@@ -29,6 +29,7 @@ typedef			int(*args_fct)();
 #define			MAX_ARGS	3
 #define			MAX_LEN		3
 #define			BUFF_SIZE	4096
+#define			LOCALHOST	"127.0.0.1"
 
 typedef struct		s_parser
 {
@@ -71,5 +72,6 @@ int			init_num_and_pos(t_client *client);
 int			welcome(t_client *client);
 int			num_client(t_client *client, int *is_tok, char *tmp);
 int			pos_client(t_client *client, char *tmp);
+int			print_info(char *str, int mode);
 
 #endif

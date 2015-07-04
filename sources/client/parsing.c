@@ -5,12 +5,12 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Tue Jun 16 11:26:51 2015 Martin Porrès
-** Last update Thu Jun 25 17:37:57 2015 Martin Porrès
+** Last update Sat Jul  4 21:32:22 2015 Martin Porrès
 */
 
 #include	"client.h"
 
-void	init_parsing(t_parser *parser)
+void		init_parsing(t_parser *parser)
 {
   bzero(parser->occArgs, MAX_ARGS * sizeof(int));
   strcpy(parser->tabArgs[0], "-n");
@@ -21,9 +21,9 @@ void	init_parsing(t_parser *parser)
   parser->args[2] = arg_host;
 }
 
-int	get_pos_in_tab(t_parser *parser, char *cmd)
+int		get_pos_in_tab(t_parser *parser, char *cmd)
 {
-  int	i;
+  int		i;
 
   i = 0;
   while (i < MAX_ARGS)
@@ -38,9 +38,9 @@ int	get_pos_in_tab(t_parser *parser, char *cmd)
   return (-1);
 }
 
-int	check_values(t_parser *parser, int ac)
+int		check_values(t_parser *parser, int ac)
 {
-  int	i;
+  int		i;
 
   i = 0;
   while (i < MAX_ARGS - 1)
@@ -51,13 +51,13 @@ int	check_values(t_parser *parser, int ac)
   return (EXIT_SUCCESS);
 }
 
-int	parsing(int ac, char **av)
+int		parsing(int ac, char **av)
 {
-  int	i;
-  int	pos;
+  int		i;
+  int		pos;
   t_parser	parser;
   t_client	client;
-  
+
   if (ac != (MAX_ARGS * 2 - 1) && ac != (MAX_ARGS * 2 + 1))
     {
       printf(ERR_USAGE_CLT);
@@ -75,7 +75,7 @@ int	parsing(int ac, char **av)
       return (EXIT_SUCCESS);
     }
   if (ac == (MAX_ARGS * 2 - 1))
-    if (parser.args[2](&client, "127.0.0.1") == EXIT_FAILURE)
+    if (parser.args[2](&client, LOCALHOST) == EXIT_FAILURE)
       return (EXIT_FAILURE);
   return (connect_to_server(&client));
 }

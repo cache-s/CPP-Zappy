@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 ** 
 ** Started on  Fri Jun 26 11:54:22 2015 Martin Porrès
-** Last update Fri Jul  3 16:27:23 2015 Martin Porrès
+** Last update Sat Jul  4 21:33:11 2015 Martin Porrès
 */
 
 #include	"client.h"
@@ -48,7 +48,7 @@ int		init_num_and_pos(t_client *client)
     }
   else
     if ((tmp = strtok(client->srv_cmd, " ")) == NULL)
-      return (EXIT_SUCCESS);	  
+      return (EXIT_SUCCESS);
   if (pos_client(client, tmp) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);

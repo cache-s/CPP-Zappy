@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:00:38 2015 Mathieu Bourmaud
-** Last update Sat Jul  4 13:30:07 2015 Jordan Chazottes
+** Last update Sat Jul  4 21:08:34 2015 Martin Porrès
 */
 
 #ifndef		_ERRORS_H_
@@ -34,6 +34,7 @@
 #define		ERR_WRITE		"write() has failed"
 #define		ERR_WELCOME		"Error : wrong welcome message"
 #define		ERR_SERVER		"Error : server disconnected"
+#define		ERR_CLOSE		"Connection closed by server"
 
 /* COMMON ERRORS */
 #define		ERR_MEMSET		"memset() has failed"

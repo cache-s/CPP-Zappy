@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Sat Jul  4 19:28:56 2015 Jordan Chazottes
+## Last update Sat Jul  4 21:19:17 2015 Martin Porrès
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -78,6 +78,7 @@ SRCS_CLIENT	=	sources/client/main.c		\
 			sources/client/parsing_fct.c	\
 			sources/client/connect.c	\
 			sources/client/welcome.c	\
+			sources/client/read_write.c	\
 			$(SRCS_COMMONS)
 
 SRCS_GFX	=	sources/GFX/main.c		\

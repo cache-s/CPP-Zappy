@@ -5,11 +5,12 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Fri Jul  3 11:19:43 2015 Sebastien Cache-Delanos
+** Last update Sat Jul  4 22:34:50 2015 Martin Porrès
 */
 
 #include		"client.h"
 #include		"AI_c_connector.h"
+#include		"colors.h"
 
 int			connect_to_server(t_client *client)
 {
@@ -30,6 +31,8 @@ int			connect_to_server(t_client *client)
     }
   ret = client_loop(client);
   close(client->fd_socket);
+  free(client->team_name);
+  free(client->hostname);
   return (ret);
 }
 
@@ -62,69 +65,35 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
     return (my_error(ERR_SERVER));
   if (client->entire_cmd == 1)
     {
+      if (print_info(client->srv_cmd, 0) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
       if (client->init < 3 && init_connection(client) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       if (client->init == 3)
 	client->clt_cmd = AI_call(client->srv_cmd);
+      if (print_info(client->clt_cmd, 1) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
       if (write_cmd(client, fd_write) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }
 
-int			write_cmd(t_client *client, fd_set *fd_write)
+int			print_info(char *str, int mode)
 {
-  if (client->srv_cmd != NULL && strcmp(client->srv_cmd, "") != 0)
-    free(client->srv_cmd);
-  client->srv_cmd = NULL;
-  if (client->clt_cmd == NULL)
-    return (EXIT_SUCCESS);
-  FD_SET(client->fd_socket, fd_write);
-  if (FD_ISSET(client->fd_socket, fd_write))
+  char			*tmp;
+
+  if (str != NULL)
     {
-      if (write(client->fd_socket, client->clt_cmd,
-		strlen(client->clt_cmd)) == -1)
-	return (my_error(ERR_WRITE));
-      if (write(client->fd_socket, "\n", 1) == -1)
-	return (my_error(ERR_WRITE));
-    }
-  return (EXIT_SUCCESS);
-}
-
-int			server_read(t_client *client)
-{
-  char			*buffer;
-  int			ret;
-
-  if ((buffer = malloc(BUFF_SIZE)) == NULL)
-    return (my_error(ERR_MALLOC));
-  bzero(buffer, BUFF_SIZE);
-  if ((ret = read(client->fd_socket, buffer, BUFF_SIZE - 1)) <= 0)
-    return (my_error(ERR_READ));
-  if (save_srv_cmd(client, buffer) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  free(buffer);
-  if (ret == BUFF_SIZE - 1)
-      client->entire_cmd = 0;
-  else
-      client->entire_cmd = 1;
-  return (EXIT_SUCCESS);
-}
-
-int			save_srv_cmd(t_client *client, char *buffer)
-{
-  if (client->srv_cmd == NULL)
-    {
-      if ((client->srv_cmd = strdup(buffer)) == NULL)
+      if ((tmp = strdup(str)) == NULL)
 	return (my_error(ERR_STRDUP));
-    }
-  else
-    {
-      if ((client->srv_cmd = realloc(client->srv_cmd, strlen(client->srv_cmd)
-				     + strlen(buffer) + 1)) == NULL)
-	return (my_error(ERR_REALLOC));
-      if ((client->srv_cmd = strcat(client->srv_cmd, buffer)) == NULL)
-	return (my_error(ERR_STRCAT));
+      if (mode)
+	printf(BOLD RED "Sending message '%s' to server\n" END,
+	       strtok(tmp, "\n"));
+      else
+	printf(BOLD BLUE "Received message '%s' from server\n" END,
+	       strtok(tmp, "\n"));
+      free(tmp);
     }
   return (EXIT_SUCCESS);
 }
