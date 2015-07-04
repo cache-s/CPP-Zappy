@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Fri Jul  3 22:26:52 2015 Jordan Chazottes
+** Last update Sat Jul  4 14:49:16 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -57,6 +57,10 @@ void		initDrawTab(t_gfx *s)
   s->drawPlayer[7] = &draw_p8;
   s->drawAction[STAND] = &drawStand;
   s->drawAction[BROADCAST] = &drawBroadcast;
+  s->drawAction[INCANTATION] = &drawIncant;
+  s->drawAction[FORK] = &drawFork;
+  s->drawAction[CROUCH] = &drawCrouch;
+  s->drawAction[DIE] = &drawDie;
 }
 
 int		initCmdTab(t_gfx *s)

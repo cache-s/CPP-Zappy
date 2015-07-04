@@ -5,22 +5,35 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Fri Jul  3 20:58:49 2015 Jordan Chazottes
+** Last update Sat Jul  4 19:42:09 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		getSelected(t_gfx *s, int x, int y)
+void		getPSelected(t_gfx *s, int x, int y)
 {
   t_player	*tmp;
   
   tmp = s->players;
   while (tmp != NULL)
     {
-      if (x/64 == tmp->x && y/64 == tmp->y)
+      if (x/64 == tmp->x && (y - 50)/64 == tmp->y)
 	s->pSelect = tmp->id;
       tmp = tmp->next;
     }
+}
+
+void		getBSelected(t_gfx *s, int x, int y)
+{
+  s->bSelect.x = x/64;
+  s->bSelect.y = (y - 50)/64;
+}
+
+void		resetSelected(t_gfx *s)
+{
+  s->pSelect = -1;
+  s->bSelect.x = -1;
+  s->bSelect.y = -1;
 }
 
 eEvent		eventHandler(t_gfx *s)
@@ -34,9 +47,11 @@ eEvent		eventHandler(t_gfx *s)
       if(event.type == SDL_MOUSEBUTTONDOWN)
 	{
 	  if (event.button.button == SDL_BUTTON_RIGHT)
-	    s->pSelect = -1;
+	    resetSelected(s);
 	  if (event.button.button == SDL_BUTTON_LEFT)
-	    getSelected(s, event.button.x, event.button.y);
+	    getPSelected(s, event.button.x, event.button.y);
+	  if (event.button.button == SDL_BUTTON_MIDDLE)
+	    getBSelected(s, event.button.x, event.button.y);
 	}
       /* if (event.key.keysym.sym == SDLK_UP) */
       /* 	{ */

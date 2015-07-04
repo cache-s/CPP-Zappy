@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Fri Jul  3 22:34:26 2015 Jordan Chazottes
+** Last update Sat Jul  4 19:37:48 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -105,6 +105,7 @@ typedef struct		s_player
   int			y;
   int			level;
   char			*team;
+  char			isFirst;
   eOrientation		ori;
   eType			type;
   int			eId;
@@ -141,6 +142,7 @@ typedef struct		s_gfx
   int			xScroll;
   int			yScroll;
   int			pSelect;
+  t_pos			bSelect;
   SDL_Surface		*screen;
   TTF_Font		*font;
   t_network		network;
@@ -186,7 +188,7 @@ int		initFonts(t_gfx *s);
 int		drawInventory(t_gfx *s);
 int		fillInv(t_gfx *s, t_player *p);
 int		writeText(t_gfx *s, char *msg, int x, int y);
-
+int		drawInfos(t_gfx *s);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);
@@ -218,16 +220,21 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos);
-int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
-int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori, eAction act);
+int		draw_p1(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p2(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p3(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p4(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p5(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p6(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p7(t_gfx *s, t_pos pos, t_player *p);
+int		draw_p8(t_gfx *s, t_pos pos, t_player *p);
 
-int		drawStand(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori);
-int		drawBroadcast(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori);
+int		drawStand(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		drawBroadcast(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		drawIncant(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		drawFork(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		drawCrouch(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		drawDie(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+
 #endif
 

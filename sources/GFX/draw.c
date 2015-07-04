@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Fri Jul  3 20:59:45 2015 Jordan Chazottes
+** Last update Sat Jul  4 19:31:57 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -48,7 +48,7 @@ int		drawFloor(t_gfx *s)
       while (++pos.j < s->height) // && pos.j < (s->map->dispY + MAX_VIEW))
 	{
 	  pos.x = pos.i*64;
-	  pos.y = pos.j*64;
+	  pos.y = pos.j*64 + 50;
 	  applySurface(pos, s, img, &rect[0]);
 	}
     }
@@ -61,15 +61,18 @@ int		drawPlayers(t_gfx *s)
   t_player	*tmp;
   t_pos		pos;
 
-  tmp = s->players;
-  while (tmp != NULL)
+  if (s->players != NULL)
     {
-      pos.x = tmp->x*64;
-      pos.y = tmp->y*64;
-      s->drawPlayer[tmp->level - 1](s, pos, tmp->ori);
-      tmp = tmp->next;
+      tmp = s->players;
+      while (tmp != NULL)
+	{
+	  pos.x = tmp->x*64;
+	  pos.y = tmp->y*64 + 50;
+	  s->drawPlayer[tmp->level - 1](s, pos, tmp);
+	  tmp = tmp->next;
+	}
+      free(tmp);
     }
-  free(tmp);
   return (EXIT_SUCCESS);
 }
 
@@ -81,13 +84,15 @@ int		draw(t_gfx *s)
     return (EXIT_FAILURE);
   if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY, SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
+  if (drawInfos(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (drawInventory(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   if (drawFloor(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawItems(s, resImg) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawPlayers(s) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (drawInventory(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   SDL_FreeSurface(resImg);
   SDL_Flip(s->screen);
