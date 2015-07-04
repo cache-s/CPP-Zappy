@@ -108,8 +108,9 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 int			update_client(t_client *client, UNUSED t_serv *serv)
 {
   printf("[%s] [%d]\n", client->cmd, count_char(client->cmd, ';'));
-  if (count_char(client->cmd, ';') < 1)
+  if (count_char(client->cmd, ';') <= 1)
     client->cmd = NULL;
+  strtok(client->cmd, ";");
   if (client->shortest_cmd != NULL)
     free(client->shortest_cmd);
   client->shortest_cmd = NULL;
