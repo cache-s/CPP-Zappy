@@ -174,14 +174,14 @@ char			*close_connect_end(t_serv *serv, int fd, t_client *tmp)
     }
   else
     tmp->next = NULL;
-  fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
+  fprintf(stderr, YELLOW "*** Deleting player %d\n" END, fd);
   close(fd);
   return (NULL);
 }
 
 int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 {
-  fprintf(stderr, CYAN "*** Attempting to delete player %d\n" END, fd);
+  fprintf(stderr, YELLOW "*** Attempting to delete player %d\n" END, fd);
   if (tmp == NULL)
     return (EXIT_FAILURE);
   if (tmp->fd == fd)
@@ -196,7 +196,7 @@ int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 	serv->gfx = serv->gfx->next;
       free(tmp);
       close(fd);
-      fprintf(stderr, CYAN "*** Deleting player %d\n" END, fd);
+      fprintf(stderr, YELLOW "*** Deleting player %d\n" END, fd);
       return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);

@@ -33,8 +33,8 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   check_player(x, y, serv, client);
   while (i < 7)
     {
+      printf("blocks[%d][%d].items[%d] = %d\n", x, y, i, serv->map->blocks[x][y].items[i]); 
       tmp_i = serv->map->blocks[x][y].items[i];
-      printf("%d\n", serv->map->blocks[x][y].items[i]);
       if (serv->map->blocks[x][y].items[i] != 0)
 	{
 	  while (tmp_i != 0)
