@@ -34,8 +34,6 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   
   dprintf(client->fd, "\nx = %i\n", x); 
   dprintf(client->fd, "y = %i\n", y);
-  if (x >= serv->settings->width)
-    x = 0;
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
