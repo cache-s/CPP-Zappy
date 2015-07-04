@@ -21,7 +21,10 @@ void			east(t_serv *serv, t_client *client)
   while (j != serv->see->tmp_y_less)
     {
       look_floor(serv->see->tmp_x_plus, j, serv, client);
-      j--;
+      if (j - 1 < 0)
+	j = serv->settings->height;
+      else
+	j--;
     }
   if (serv->see->coma == client->lvl)
     serv->see->end = 1;
@@ -39,7 +42,10 @@ void			west(t_serv *serv, t_client *client)
   while (j != serv->see->tmp_y_plus)
     {
       look_floor(serv->see->tmp_x_less, j, serv, client);
-      j++;
+      if (j + 1 >= serv->settings->height)
+	j = 0;
+      else
+	j++;
     }
   if (serv->see->coma == client->lvl)
     serv->see->end = 1;
@@ -57,12 +63,16 @@ void			south(t_serv *serv, t_client *client)
   while (j != serv->see->tmp_x_less)
     {
       look_floor(j, serv->see->tmp_y_less, serv, client);
-      j--;
+      if (j - 1 < 0)
+	j = serv->settings->width;
+      else
+	j--;
     }
   if (serv->see->coma == client->lvl)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_less, serv->see->tmp_y_less, serv, client);
 }
+
 
 void			north(t_serv *serv, t_client *client)
 {
@@ -75,7 +85,10 @@ void			north(t_serv *serv, t_client *client)
   while (j != serv->see->tmp_x_plus)
     {
       look_floor(j, serv->see->tmp_y_plus, serv, client);
-      j++;
+      if (j + 1 >= serv->settings->width)
+	j = 0;
+      else
+	j++;
     }
   if (serv->see->coma == client->lvl)
     serv->see->end = 1;
