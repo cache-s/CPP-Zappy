@@ -31,9 +31,6 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   i = 0;
   tmp_i = 0;
   check_player(x, y, serv, client);
-  
-  dprintf(client->fd, "\nx = %i\n", x); 
-  dprintf(client->fd, "y = %i\n", y);
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];

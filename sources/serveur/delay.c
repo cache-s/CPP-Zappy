@@ -123,7 +123,6 @@ int			update_client(t_client *client, UNUSED t_serv *serv)
   if ((new_cmd = malloc(len - len_s + 1)) == NULL)
     return (my_error(ERR_MALLOC));
   new_cmd = str_cpy_from(new_cmd, save_cmd, len_s);
-  puts(new_cmd);
   client->cmd = strdup(new_cmd);
   if (count_char(client->cmd, ';') < 1)
     client->cmd = NULL;

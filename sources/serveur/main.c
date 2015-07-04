@@ -10,17 +10,6 @@
 
 #include	"serveur.h"
 
-void			handle_ctrl_c(int sig)
-{
-  char			c;
-
-  signal(sig, SIG_IGN);
-  puts(BOLD RED "Do you want to quit ? [Y/N]" END);
-  c = getchar();
-  if (c == 'Y' || c == 'y')
-    exit(0);
-}
-
 void		display_game_configuration(t_serv *serv)
 {
   char		*str;
