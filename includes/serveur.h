@@ -91,7 +91,7 @@ typedef struct		s_client
   char			connected;
   int			items[7];
   int			cmd_end;
-  double		lifetime;
+  int			heart_perc;
   struct s_client	*next;
 }			t_client;
 
@@ -249,7 +249,7 @@ int		write_eht_gfx(t_client *gfx, int id);
 
 int		write_ok(int fd, int ok);
 
-int		get_the_shortest_cmd(t_serv *serv);
+double		get_the_shortest_cmd(t_serv *serv);
 double		get_delay(t_serv *serv, char *cmd);
 void		set_delay_tab(t_serv *serv);
 int		update_timers(t_serv *serv, struct timeval *tv, double time);

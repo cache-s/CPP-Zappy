@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Fri Jul  3 20:46:46 2015 Jordan Chazottes
+** Last update Fri Jul  3 22:37:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -22,244 +22,238 @@ int		getOri(eOrientation ori)
 
 }
 
-int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori)
+int		getAct(eAction act)
 {
-  SDL_Rect	rect[1];
+  if (act == STAND)
+    return (0);
+  if (act == BROADCAST)
+    return (1);
+  if (act == INCANTATION)
+    return (2);
+  if (act == FORK)
+    return (3);
+  if (act == CROUCH)
+    return (4);
+  if (act == DIE)
+    return (5);
+  return (0);
+}
+
+int		drawStand(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori)
+{
+  SDL_Rect	rect;
+
+  rect.x = 35;
+  rect.y = getOri(ori);
+  rect.w = 34;
+  rect.h = 66;
+  applySurface(pos, s, img, &rect);
+  return (EXIT_SUCCESS);
+}
+
+int		drawBroadcast(t_gfx *s, t_pos pos, SDL_Surface *img, eOrientation ori)
+{
+  SDL_Rect	rect;
+
+  rect.x = 35;
+  rect.y = getOri(ori);
+  rect.w = 34;
+  rect.h = 66;
+  applySurface(pos, s, img, &rect);
+  return (EXIT_SUCCESS);
+}
+
+int		draw_p1(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
+{
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset1.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[getAct(act)](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p2(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset2.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 2");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[getAct(act)](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p3(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset3.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 3");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p4(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset4.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 4");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p5(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset5.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 5");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p6(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset6.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 6");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p7(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset7.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 7");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
-int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori)
+int		draw_p8(t_gfx *s, t_pos pos, eOrientation ori, eAction act)
 {
-  SDL_Rect	rect[1];
   SDL_Surface	*pImg;
 
   pImg = SDL_LoadBMP("assets/sprites/mage_charset8.bmp");
   if (SDL_SetColorKey(pImg, SDL_SRCCOLORKEY, SDL_MapRGB(pImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  printf("Drawing Player lvl 8");
-  rect[0].x = 35;
-  rect[0].y = getOri(ori);
-  rect[0].w = 34;
-  rect[0].h = 66;
-  applySurface(pos, s, pImg, &rect[0]);
+  s->drawAction[act](s, pos, pImg, ori);
   SDL_FreeSurface(pImg);
   return (EXIT_SUCCESS);
 }
 
 int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 0;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 0;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = pos.i*64 - (s->xScroll - SCR_WIDTH);
   pos.y = pos.j*64 - (s->yScroll - SCR_HEIGHT);
-  applySurface(pos, s, img, &rect[0]);
+  applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
 int		draw_linemate(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 16;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 16;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = (pos.i*64) + 16;
   pos.y = pos.j*64;
-  applySurface(pos, s, img, &rect[0]);  
+  applySurface(pos, s, img, &rect);  
   return (EXIT_SUCCESS);
 }
 
 int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 32;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 32;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = (pos.i*64) + 32;
   pos.y = pos.j*64;
-  applySurface(pos, s, img, &rect[0]);  
+  applySurface(pos, s, img, &rect);  
   return (EXIT_SUCCESS);
 }
 
 int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 48;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 48;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = (pos.i*64) + 48;
   pos.y = pos.j*64;
-  applySurface(pos, s, img, &rect[0]);
+  applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
 int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 64;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 64;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = pos.i*64;
   pos.y = (pos.j*64) + 16;
-  applySurface(pos, s, img, &rect[0]);
+  applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
 int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 80;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 80;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = (pos.i*64) + 16;
   pos.y = (pos.j*64) + 16;
-  applySurface(pos, s, img, &rect[0]);
+  applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
 int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
-  SDL_Rect	rect[1];
+  SDL_Rect	rect;
 
-  rect[0].x = 96;
-  rect[0].y = 0;
-  rect[0].w = 16;
-  rect[0].h = 16;
+  rect.x = 96;
+  rect.y = 0;
+  rect.w = 16;
+  rect.h = 16;
   pos.x = (pos.i*64) + 32;
   pos.y = (pos.j*64) + 16;
-  applySurface(pos, s, img, &rect[0]);
+  applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
@@ -386,6 +380,7 @@ int		cmd_ppo(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   tmp->ori = atoi(tok);
+  tmp->act = STAND;
   return (EXIT_SUCCESS);
 }
 

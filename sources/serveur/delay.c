@@ -10,7 +10,7 @@
 
 #include		"serveur.h"
 
-int			get_the_shortest_cmd(t_serv *serv)
+double			get_the_shortest_cmd(t_serv *serv)
 {
   t_client		*tmp;
   char			*cmd_save;
@@ -18,7 +18,7 @@ int			get_the_shortest_cmd(t_serv *serv)
   double		last_value;
   double		new_value;
 
-  last_value = -42;
+  last_value = 126 / (double)serv->settings->delay;
   tmp = serv->client;
   while (tmp != NULL)
     {
@@ -26,23 +26,15 @@ int			get_the_shortest_cmd(t_serv *serv)
 	{
 	  if (tmp->shortest_cmd == NULL)
 	    {
-	      puts("fini");
 	      cmd_save = strdup(tmp->cmd);
 	      token = strtok(cmd_save, ";");
 	      new_value = get_delay(serv, token);
 	      tmp->shortest_cmd = strdup(token);
 	      tmp->time_left = new_value;
-	      printf("client [%d] = CMD NULL\n", tmp->fd);
-	      printf("CLIENT [%d] = time left = %f\n", tmp->fd, tmp->time_left);
 	    }
 	  else
-	    {
-	      printf("CLIENT [%d] = time left = %f\n", tmp->fd, tmp->time_left);
-	      new_value = tmp->time_left;
-	      printf("client [%d] = CMD NON NULL\n", tmp->fd);
-	    }
-	  printf("CLIENT [%d] = time left = %f\n", tmp->fd, tmp->time_left);
-	  if (last_value > new_value || last_value == -42)
+	    new_value = tmp->time_left;
+	  if (last_value > new_value)
 	    last_value = new_value; 
 	}
       tmp = tmp->next;
@@ -55,8 +47,7 @@ double			get_delay(t_serv *serv, char *cmd)
   int			pos;
 
   pos = call_cmds(serv, cmd);
-  printf("GET_DELAY = {%f}\n", serv->cmd_time[pos] / serv->settings->delay); 
-  return (serv->cmd_time[pos] / serv->settings->delay);
+  return ((double)serv->cmd_time[pos] / (double)serv->settings->delay);
 }
 
 void			set_delay_tab(t_serv *serv)
@@ -80,19 +71,27 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
   t_client		*tmp;
   double		elapsed;
 
-  // update les forks et la vie des bonhommes. (1260)
   tmp = serv->client;
-  
   elapsed = (time * 1000000) - (tv->tv_usec + (tv->tv_sec * 1000000));
-  printf("elapsed = %f\n", elapsed);
   while (tmp != NULL)
     {
+      if (elapsed < 0)
+	elapsed = 0;
       tmp->time_left -= elapsed / 1000000;
-      /* printf("%f\n", tmp->lifetime); */
-      /* tmp->lifetime -= elapsed / 1000000; */
-      /* printf("%f\n", tmp->lifetime);  */
-      if (tmp->lifetime <= 0)
-	puts("DEAD");
+      tmp->heart_perc += elapsed;
+      if (tmp->heart_perc > (126 / (double)serv->settings->delay) * 1000000)
+	{
+	  tmp->items[0] -= 1;
+	  tmp->heart_perc -= ((126 / (double)serv->settings->delay) * 1000000);
+	}
+      if (tmp->items[0] <= 0)
+	{
+	  printf(RED BOLD "Sending mort to %d\n" END, tmp->fd);
+	  if (my_write(tmp->fd, "mort") == EXIT_FAILURE)
+	    return (EXIT_FAILURE);
+	  close_connect(serv, tmp->fd, 0);
+	  return (EXIT_FAILURE);
+	} 
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)
@@ -108,18 +107,9 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 
 int			update_client(t_client *client, UNUSED t_serv *serv)
 {
-  printf("client->cmd = %s\n", client->cmd);
+  printf("[%s] [%d]\n", client->cmd, count_char(client->cmd, ';'));
   if (count_char(client->cmd, ';') < 1)
-    client->cmd_end += 1;
-  else
-    client->cmd_end = 0;
-  if (client->cmd_end == 2)
-    {
-      client->cmd = NULL;
-      client->cmd_end = 0;
-    }
-  strtok(client->cmd, ";");  
-  printf("client->cmd = %s\n", client->cmd);
+    client->cmd = NULL;
   if (client->shortest_cmd != NULL)
     free(client->shortest_cmd);
   client->shortest_cmd = NULL;

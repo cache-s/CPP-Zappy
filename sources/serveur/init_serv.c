@@ -43,10 +43,11 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->fct_read = client_read;
   new->fct_write = client_write;
   new->orientation = NORTH;
+  new->heart_perc = 0;
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
   new->lvl = 1;
-  new->lifetime = 1260;
+  new->items[0] = 10;
   serv->nb_client++;
   if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -77,21 +78,13 @@ int			accept_clients(t_serv *serv)
 {
   struct timeval	tv;
   double		time;
-  static int		toto = 0;
-
-  toto += 1;
+   
   empty_fds(serv);
   tv.tv_sec = 0;
   tv.tv_usec = 0;
-  if ((time = get_the_shortest_cmd(serv)) == -42)
-    {
-      tv.tv_usec = 126 * 1000000 / serv->settings->delay;
-      /* time = tv.tv_usec / 1000000; */
-    }
-  else
-    tv.tv_usec = time * 1000000;
-  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL, 
-	      (time == -42) ? NULL : &tv)) == -1)
+  time = get_the_shortest_cmd(serv);
+  tv.tv_usec = time * 1000000;
+  if ((select(serv->fds + 1, &serv->readfds, &serv->writefds, NULL, &tv)) == -1)
     return (my_error_close(ERR_SELECT, serv->socket));
   if (FD_ISSET(serv->socket, &serv->readfds))
     new_client(serv);
