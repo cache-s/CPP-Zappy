@@ -16,5 +16,6 @@
 char			*itoa(int val);
 int			my_regex(const char *val, const char *good);
 void			rm_spaces(char *src);
+char			*str_cpy_from(char *, const char *, size_t);
 
 #endif

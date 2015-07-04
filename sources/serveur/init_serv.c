@@ -33,6 +33,7 @@ int			new_client(t_serv *serv)
 int			set_client_values(t_serv *serv, t_client *new, int fd)
 {
   new->cmd = NULL;
+  new->shortest_cmd = NULL;
   new->need_write = 0;
   new->next = NULL;
   new->fd = fd;
