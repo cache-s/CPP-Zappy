@@ -29,7 +29,7 @@ void                    x_plus(t_serv *serv)
 void                    y_less(t_serv *serv)
 {
   if (serv->see->tmp_y_less - 1 < 0)
-    serv->see->tmp_y_less = serv->settings->height;
+    serv->see->tmp_y_less = serv->settings->height -1;
   else
     serv->see->tmp_y_less = serv->see->tmp_y_less - 1;
 }
@@ -37,7 +37,7 @@ void                    y_less(t_serv *serv)
 void                    x_less(t_serv *serv)
 {
   if (serv->see->tmp_x_less - 1 < 0)
-    serv->see->tmp_x_less = serv->settings->width;
+    serv->see->tmp_x_less = serv->settings->width - 1;
   else
     serv->see->tmp_x_less = serv->see->tmp_x_less - 1;
 }
