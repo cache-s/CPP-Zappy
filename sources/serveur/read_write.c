@@ -29,8 +29,10 @@ char			*client_write(t_serv *serv, int fd, char *line)
   if (pos == 42)
     arg = strdup(final);
   if (pos != 42)
+  {
     if ((serv->cmds[pos](serv, fd, arg)) == EXIT_FAILURE)
       return (NULL);
+  }
   return ("toto");
 }
 

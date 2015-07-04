@@ -65,7 +65,12 @@ int			check_cmd_before_fill(char *cmd, t_client *tmp,
 
 int			check_call_cmds(t_serv *serv, char *cmd, t_client *client)
 {
-  if (call_cmds(serv, cmd) == 42)
+  char			*save;
+
+  save = strdup(cmd);
+  if (count_char(cmd, ' ') == 1)
+    save = strtok(save, " ");
+  if (call_cmds(serv, save) == 42)
     {
       printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", client->fd);
       if (my_write(client->fd, "ko") == EXIT_FAILURE)

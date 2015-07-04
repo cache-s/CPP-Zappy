@@ -67,5 +67,6 @@ int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
       i++;
     }
   dprintf(client->fd, "}\n");
+  printf(BOLD RED "Sending 'Res of voir' to %d\n", client->fd); 
   return (EXIT_SUCCESS);
 }
