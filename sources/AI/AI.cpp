@@ -389,26 +389,10 @@ void			AI::dropToIncant()
 
 void			AI::getMissingStones()
 {
-  for (int i = 0; i < (((_level + 1) * _level) + _level); ++i)
+  for (unsigned int i = 0; i < _stones.size(); ++i)
     {
-      for (unsigned int j = 0; j < _vision[i].size(); ++j)
-        {
-	  std::string item = _vision[i][j];
-          if (item.find("joueur") == std::string::npos && _inventory[item] < _lvlUp[std::make_pair(_level, item)])
-            {
-              if (i == 0)
-                {
-		  std::string inst = "prend " + item;
-		  _todo.push_back(inst);
-		  return;
-                }
-              else
-		{
-		  setPath(i, item);
-		  return;
-		}
-	    }
-        }
+      if (_inventory[_stones[i]] < _lvlUp[std::make_pair(_level, _stones[i])])
+	lookFor(_stones[i]);
     }
 }
 
