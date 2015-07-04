@@ -18,9 +18,11 @@ int			inc_lvl(t_serv *serv, t_client *client)
     return (EXIT_FAILURE);
   item = serv->map->blocks[client->x][client->y].items;
   if (item[0] == 0 && item[1] == serv->inc_tab[client->lvl][1] && item[2] ==
-      serv->inc_tab[client->lvl][2] && item[3] == serv->inc_tab[client->lvl][3]
+      serv->inc_tab[client->lvl][2] && item[3] ==
+      serv->inc_tab[client->lvl][3]
       && item[4] == serv->inc_tab[client->lvl][4] && item[5] ==
-      serv->inc_tab[client->lvl][5] && item[6] == serv->inc_tab[client->lvl][6])
+      serv->inc_tab[client->lvl][5] && item[6] ==
+      serv->inc_tab[client->lvl][6])
     return (inc_count_player(serv, client));
   return (EXIT_FAILURE);
 }

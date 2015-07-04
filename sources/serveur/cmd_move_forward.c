@@ -10,7 +10,8 @@
 
 #include		"serveur.h"
 
-int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
+int			cmd_move_forward(t_serv *serv, t_client *client,
+					 UNUSED char *cmd)
 {
   if (client->orientation == EST || client->orientation == WEST)
     modify_x(client->orientation, client, serv->settings->width);
@@ -20,7 +21,7 @@ int			cmd_move_forward(t_serv *serv, t_client *client, UNUSED char *cmd)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  printf(RED BOLD "Sending 'ok' to %d\n" END, client->fd);
+  printf(RED BOLD "Sending 'ok' to %d" END, client->fd);
   return (EXIT_SUCCESS);
 }
 
@@ -40,7 +41,8 @@ void			modify_x(eOrientation orientation, t_client *client, int width)
     }
 }
 
-void			modify_y(eOrientation orientation, t_client *client, int height)
+void			modify_y(eOrientation orientation, t_client *client,
+				 int height)
 {
   if (orientation == NORTH)
     {

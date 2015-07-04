@@ -100,8 +100,10 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
+
   try
     {
+      usleep(100000);
       _cmdRcv = cmdRcv;
       act();
       if (_cmdSnd != "")
@@ -120,66 +122,106 @@ char*			AI::call(const char* cmdRcv)
 void			AI::setId(int id)
 {
   _ID = std::to_string(id);
+  std::cout << "MY ID IS " << _ID << std::endl;
 }
 
 void			AI::act()
 {
-  if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
+  if (_cmdRcv.find("PING") != std::string::npos)
+    std::cout << "on recois : " << _cmdRcv << std::endl << "notre ID est " << _ID << std::endl;
+  if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
-      // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
-      try{
-	if (_cmdRcv.find("PONG") != std::string::npos)
-	{
-	  std::cout << "on recois le PONG\n";
-	}
-	communicate();
-	if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
-	  {
-	    _waitCome = true;
-	    return;
-	  }
-	if (_waitSum == true)
-	  {
-	    if (_cmdSnd.find("PONG") != std::string::npos)
-	      return;
-	    _cmdSnd = "inventaire";
-	    inventory();
-	    // std::cout << "On attend les reponses...\n";
-	  }
-      }catch (const std::exception &e)
-	{
-	  std::cerr << "Exception : Error in communication" << std::endl;
-	}
+      std::string ret =  "broadcast PONG " + _ID;
+      std::cout << "ON REPOND PONG\n";
+      _cmdSnd = ret;
       return;
     }
-
-  if (_isWaiting)
+  if (!_targetID.empty())
+    {
+      usleep(10000);
+      std::cout << "ON A uNE TARGET\n";
+      if (_waitPong == false)
+        {
+	  std::cout << "ON LE PING\n";
+          _waitPong = true;
+	  std::string ret = "broadcast PING " + _targetID;
+          _cmdSnd = ret;
+	  return;
+        }
+      if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
+        {
+	  if (_cmdRcv != "ok")
+	    {
+	      _waitPong = false;
+	      int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+	      std::cout << "direction = " << direction << std::endl;
+	      move(direction);
+	      _cmdRcv = "";
+	    }
+        }
+    }
+  else
+    {
+      if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
+	{
+	  // std::cout << "MESSAGE = " << _cmdRcv << std::endl;
+	  try{
+	    if (_cmdRcv.find("PONG") != std::string::npos)
+	      {
+		std::cout << "on recois le PONG\n";
+	      }
+	    communicate();
+	    if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
+	      {
+		_waitCome = true;
+		return;
+	      }
+	    if (_waitSum == true)
+	      {
+		if (_cmdSnd.find("PONG") != std::string::npos)
+		  return;
+		_cmdSnd = "inventaire"; //pour eviter les INV en chaine
+		inventory();
+	      }
+	  }catch (const std::exception &e)
+	    {
+	      std::cerr << "Exception : Error in communication" << std::endl;
+	    }
+	  if (!_targetID.empty())
+	std::cout << "ON A UNER TARGET ET ON PASSE ICI\n";
+	  return;
+	}
+    }
+  if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incantation" || _lastSnd == "connect_nbr"))
+  // if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
-  if (!_isWaiting)
+  if (!_isWaiting || (_lastSnd != "voir" && _lastSnd != "inventaire" && _lastSnd != "incantation" && _lastSnd != "connect_nbr"))
     {
       try
 	{
 	  if (_todo.empty())
 	    setObjective();
 	}
-      catch (const std::exception &e)
-	{
-	  std::cerr << "Exception : Error in setting objectives" << std::endl;;
-	}
-      try
-	{
-	  if (!_todo.empty())
+	  catch (const std::exception &e)
 	    {
-	      _cmdSnd = _todo.front();
-	      _todo.pop_front();
+	      std::cerr << "Exception : Error in setting objectives" << std::endl;;
 	    }
-	}
-      catch (const std::exception &e)
-	{
-	  std::cerr << "Exception : Error in popping list of inctruction" << std::endl;;
-	}
+	  try
+	    {
+	      if (!_todo.empty())
+		{
+		  _cmdSnd = _todo.front();
+		  if (!_targetID.empty())
+		    std::cout << "on fait " << _cmdSnd << std::endl;
+		  _todo.pop_front();
+		}
+	    }
+	  catch (const std::exception &e)
+	    {
+	      std::cerr << "Exception : Error in popping list of inctruction" << std::endl;;
+	    }
 
-    }
+	}
   if (_cmdSnd != "")
     {
       for (unsigned int i = 0; i < _needResponse.size(); ++i)
@@ -194,12 +236,15 @@ void    AI::move(int direction)
   if (direction != 0)
     {
       if (direction == 8 || direction == 1 || direction == 2)
-        _todo.push_back("avance");
+        _todo.push_front("avance");
       if (direction == 6 || direction == 7)
-	_todo.push_back("droite");
+	_todo.push_front("droite");
       if (direction == 4 || direction == 3 || direction == 5)
-        _todo.push_back("gauche");
-    }
+        _todo.push_front("gauche");
+ 	// _cmdSnd = "avance";
+	// _cmdSnd = "droite";
+	// _cmdSnd = "gauche";
+   }
 }
 
 
@@ -212,28 +257,6 @@ void			AI::communicate()
     return;
   if (_cmdRcv.find("AliveCheck") != std::string::npos)
     _cmdSnd = "broadcast Alive";
-  if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
-    {
-      std::string ret =  "broadcast PONG " + _ID;
-      _cmdSnd = ret;
-      return;
-    }
-  if (!_targetID.empty())
-    {
-      std::cout << "ON A uNE TARGET\n";
-      if (_waitPong == false)
-        {
-          _waitPong = true;
-	  std::string ret = "broadcast PING " + _targetID;
-          _cmdSnd = ret;
-        }
-      if (_cmdRcv.find("PONG") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
-        {
-          _waitPong = false;
-          int direction = _cmdRcv[8] - '0';
-          move(direction);
-        }
-    }
   if (_cmdRcv.find("INV(") != std::string::npos && _cmdRcv.find(std::to_string(_level)) != std::string::npos)
     {
       std::string ret = "broadcast RDY(";
@@ -244,8 +267,6 @@ void			AI::communicate()
       std::cout << "on renvoie " << ret << std::endl;
       return;
     }
-  if (_cmdRcv.find("{") == std::string::npos)
-    std::cout << "on recois : " << _cmdRcv << std::endl;
   if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
       _cmdRcv.erase(0, _cmdRcv.find('('));
@@ -306,11 +327,13 @@ void			AI::listenSummon()
 	  if (invID.size() >= (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      std::string cmd = "broadcast OKINVOC(";
+	      cmd += _ID;
 	      std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
 	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1; ++i)
 		{
-		  cmd += invID[i];
+
 		  cmd += ", ";
+		  cmd += invID[i];
 		}
 	      std::cout << "on send " << cmd << std::endl;
 	      _cmdSnd = cmd;

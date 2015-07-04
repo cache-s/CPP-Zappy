@@ -35,18 +35,17 @@ void			empty_fds(t_serv *serv)
     }
 }
 
-int			check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end)
+int			check_cmd_before_fill(char *cmd, t_client *tmp,
+					      t_serv *serv, int *end)
 {
   char			*cpy;
 
   cpy = strdup(cmd);
   cpy = strtok(cpy, "\n");
-  printf(BOLD BLUE "Received message '%s' from %d\n" END, cpy, tmp->fd);
+  if (cpy != NULL)
+    printf(BOLD BLUE "Received message '%s' from %d\n" END, cpy, tmp->fd);
   if (cmd == NULL || strcmp(cmd, "") == 0 || strlen(cmd) == 1)
-    {
-      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
-      return (EXIT_FAILURE);
-    }
+    return (EXIT_FAILURE);
   if (tmp->is_full == 1)
     {
       printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
@@ -59,10 +58,22 @@ int			check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end)
       cmd = strtok(cmd, "\n");
       *end = 1;
     }
-  if (call_cmds(serv, cmd) == 42)
+  if (check_call_cmds(serv, cmd, tmp) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
+}
+
+int			check_call_cmds(t_serv *serv, char *cmd, t_client *client)
+{
+  char			*save;
+
+  save = strdup(cmd);
+  if (count_char(cmd, ' ') == 1)
+    save = strtok(save, " ");
+  if (call_cmds(serv, save) == 42)
     {
-      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
-      if (my_write(tmp->fd, "ko") == EXIT_FAILURE)
+      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", client->fd);
+      if (my_write(client->fd, "ko") == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       return (EXIT_FAILURE);
     }
@@ -72,7 +83,7 @@ int			check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end)
 int			fill_cmd(char *cmd, t_client *tmp, t_serv *serv)
 {
   int			end;
-  
+
   end = 0;
   if (check_cmd_before_fill(cmd, tmp, serv, &end) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -87,7 +98,8 @@ int			fill_cmd(char *cmd, t_client *tmp, t_serv *serv)
     {
       if (strcmp(cmd, "\0") == 0 || strcmp(cmd, "") == 0)
 	return (EXIT_FAILURE);
-      if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd) + strlen(cmd) + 3)) == NULL)
+      if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd)
+			      + strlen(cmd) + 3)) == NULL)
 	return (my_error(ERR_REALLOC));
       tmp->cmd = strcat(tmp->cmd, cmd);
       if (end == 1)
@@ -131,8 +143,7 @@ void			check_fds_states(t_serv *serv, int type)
 char			*close_connect(t_serv *serv, int fd, int type)
 {
   t_client		*tmp;
-  t_client		*next;
-
+  
   if (type == 0)
     tmp = serv->client;
   else
@@ -144,6 +155,15 @@ char			*close_connect(t_serv *serv, int fd, int type)
     tmp = tmp->next;
   if (tmp->next != NULL)
     return (NULL);
+  if (close_connect_end(serv, fd, tmp) == NULL)
+    return (NULL);
+  return (NULL);
+}
+
+char			*close_connect_end(t_serv *serv, int fd, t_client *tmp)
+{
+  t_client		*next;
+
   if (tmp->next != NULL)
     {
       if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)

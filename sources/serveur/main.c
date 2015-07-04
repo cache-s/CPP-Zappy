@@ -10,17 +10,6 @@
 
 #include	"serveur.h"
 
-void			handle_ctrl_c(int sig)
-{
-  char			c;
-
-  signal(sig, SIG_IGN);
-  puts(BOLD RED "Do you want to quit ? [Y/N]" END);
-  c = getchar();
-  if (c == 'Y' || c == 'y')
-    exit(0);
-}
-
 void		display_game_configuration(t_serv *serv)
 {
   char		*str;
@@ -28,16 +17,17 @@ void		display_game_configuration(t_serv *serv)
 
   tmp = strdup(serv->settings->teams);
   puts(BOLD BLUE ERR_USAGE_SRV END);
-  printf(BOLD GREEN "\nListening on port %d...\nConfiguration : Max(%d) WorldX(%d)\
- WorldY(%d) T(%d)\nTeams :\n" END,serv->settings->port,
+  printf(BOLD GREEN "\nListening on port %d...\nConfiguration : \
+Max(%d) WorldX(%d) WorldY(%d) T(%d)\nTeams :\n" END,serv->settings->port,
 	 serv->settings->nb_clients,
 	 serv->settings->width, serv->settings->height, serv->settings->delay);
   str = NULL;
   str = strtok(tmp, ";");
   while (str != NULL)
     {
-      printf(BOLD GREEN "\tName(%s) Max(%d)\n" END, str, serv->settings->nb_clients);
-      str = strtok(NULL, ";"); 
+      printf(BOLD GREEN "\tName(%s) Max(%d)\n" END, str,
+	     serv->settings->nb_clients);
+      str = strtok(NULL, ";");
     }
   free(str);
   free(tmp);

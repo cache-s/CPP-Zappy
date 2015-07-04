@@ -13,7 +13,7 @@
 int			set_path_orientation(int x, int y)
 {
   int			base;
-  
+
   if (x == 0 && y == 0)
     return (0);
   if ((x > 0 && y < 0) || (x < 0 && y > 0))

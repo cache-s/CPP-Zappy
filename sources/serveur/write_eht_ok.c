@@ -30,11 +30,15 @@ int		write_ok(int fd, int ok)
 {
   if (ok)
     {
+      printf(BOLD RED "Sending 'ok' to %d\n" END, fd);
       if (my_write(fd, "ok") == EXIT_FAILURE)
         return (EXIT_FAILURE);
     }
   else
-    if (my_write(fd, "ko") == EXIT_FAILURE)
-      return (EXIT_FAILURE);
+    {
+      printf(BOLD RED "Sending 'ko' to %d\n" END, fd);
+      if (my_write(fd, "ko") == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+    }
   return (EXIT_SUCCESS);
 }

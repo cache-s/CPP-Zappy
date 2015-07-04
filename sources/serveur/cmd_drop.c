@@ -27,7 +27,8 @@ int			cmd_drop(t_serv *serv, t_client *client, char *cmd)
     return (EXIT_FAILURE);
   if (write_pin_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (write_bct_gfx(serv->gfx, &(serv->map->blocks[client->x][client->y])) == EXIT_FAILURE)
+  if (write_bct_gfx(serv->gfx, &(serv->map->blocks[client->x][client->y])) \
+      == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (write_ok(client->fd, ok) == EXIT_FAILURE)
     return (EXIT_FAILURE);

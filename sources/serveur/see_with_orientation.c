@@ -13,7 +13,7 @@
 void			east(t_serv *serv, t_client *client)
 {
   int			j;
-  
+
   y_less(serv);
   y_plus(serv);
   x_plus(serv);
@@ -72,7 +72,6 @@ void			south(t_serv *serv, t_client *client)
     serv->see->end = 1;
   look_floor(serv->see->tmp_x_less, serv->see->tmp_y_less, serv, client);
 }
-
 
 void			north(t_serv *serv, t_client *client)
 {

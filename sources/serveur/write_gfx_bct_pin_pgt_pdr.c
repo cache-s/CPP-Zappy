@@ -39,7 +39,6 @@ int		write_bct_gfx(t_client *gfx, t_block *block)
       tmp = tmp->next;
     }
   return (ret);
-  
 }
 
 int		write_pin_gfx(t_client *gfx, t_client *client)

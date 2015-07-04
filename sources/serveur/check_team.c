@@ -34,7 +34,8 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       	    return (EXIT_FAILURE);
       	  serv->settings->clients[pos] = serv->settings->nb_clients;
       	}
-      dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[pos]);
+      dprintf(client->fd, "%d\n", serv->settings->nb_clients -
+	      serv->settings->clients[pos]);
       dprintf(client->fd, "%d %d\n", client->x, client->y);
       client->id = client->fd;
       if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
@@ -42,8 +43,8 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       if (generate_all_item(serv, 1) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
-  else  
-    {	  
+  else
+    {
       printf(BOLD RED "Received message '%s' from %d\n" END, "ko", client->fd);
       if (my_write(client->fd, "ko") == EXIT_FAILURE)
 	return (EXIT_FAILURE);
@@ -68,4 +69,46 @@ int			get_team_pos(t_serv *serv, char *team)
       i++;
     }
   return (i);
+}
+
+int			check_teams(t_settings *settings)
+{
+  int			occ;
+  char			*saveptr;
+  char			*tmp;
+  char			*token;
+  char			*save;
+
+  occ = 0;
+  tmp = strdup(settings->teams);
+  save = strdup(settings->teams);
+  token = strtok_r(tmp, ";", &saveptr);
+  while (token != NULL)
+    {
+      save = strdup(settings->teams);
+      while ((save = strstr(save, token)) != NULL)
+	{
+	  occ++;
+	  save++;
+	}
+      token = strtok_r(NULL, ";", &saveptr);
+    }
+  if (occ > count_char(settings->teams, ';'))
+    return (my_error(BOLD RED ERR_UNIQUE_TEAM END));
+  if (count_char(settings->teams, ';') < 2)
+    return (my_error(BOLD RED ERR_NB_TEAMS END));
+  return (EXIT_SUCCESS);
+}
+
+int			check_values(t_settings *settings)
+{
+  if (settings->delay < 1 || settings->delay > MAX_SPEED)
+    return (my_error(BOLD RED ERR_SPEED END));
+  if (settings->width < MIN_X || settings->width > MAX_X)
+    return (my_error(BOLD RED ERR_SIZE_X END));
+  if (settings->height < MIN_Y || settings->height > MAX_Y)
+    return (my_error(BOLD RED ERR_SIZE_X END));
+  if (check_teams(settings) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
 }

@@ -27,15 +27,17 @@ double			get_the_shortest_cmd(t_serv *serv)
 	  if (tmp->shortest_cmd == NULL)
 	    {
 	      cmd_save = strdup(tmp->cmd);
-	      token = strtok(cmd_save, ";");
-	      new_value = get_delay(serv, token);
-	      tmp->shortest_cmd = strdup(token);
-	      tmp->time_left = new_value;
+	      if ((token = strtok(cmd_save, ";")) != NULL)
+		{
+		  new_value = get_delay(serv, token);
+		  tmp->shortest_cmd = strdup(token);
+		  tmp->time_left = new_value;
+		}
 	    }
 	  else
 	    new_value = tmp->time_left;
 	  if (last_value > new_value)
-	    last_value = new_value; 
+	    last_value = new_value;
 	}
       tmp = tmp->next;
     }
@@ -91,7 +93,7 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 	    return (EXIT_FAILURE);
 	  close_connect(serv, tmp->fd, 0);
 	  return (EXIT_FAILURE);
-	} 
+	}
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)
@@ -107,13 +109,26 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 
 int			update_client(t_client *client, UNUSED t_serv *serv)
 {
-  printf("[%s] [%d]\n", client->cmd, count_char(client->cmd, ';'));
-  if (count_char(client->cmd, ';') <= 1)
-    client->cmd = NULL;
+  char			*new_cmd;
+  int			len;
+  int			len_s;
+  char			*save_cmd;
+
+  if (client->cmd == NULL)
+    return (EXIT_SUCCESS);
+  save_cmd = strdup(client->cmd);
+  len = strlen(client->cmd);
   strtok(client->cmd, ";");
+  len_s = strlen(client->cmd) + 1;
+  if ((new_cmd = malloc(len - len_s + 1)) == NULL)
+    return (my_error(ERR_MALLOC));
+  new_cmd = str_cpy_from(new_cmd, save_cmd, len_s);
+  client->cmd = strdup(new_cmd);
+  if (count_char(client->cmd, ';') < 1)
+    client->cmd = NULL;
   if (client->shortest_cmd != NULL)
     free(client->shortest_cmd);
   client->shortest_cmd = NULL;
   client->need_write = 0;
   return (EXIT_SUCCESS);
-} 
+}

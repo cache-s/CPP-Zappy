@@ -10,7 +10,8 @@
 
 #include		"serveur.h"
 
-int			cmd_connect_nbr(t_serv *serv, t_client *client, UNUSED char *cmd)
+int			cmd_connect_nbr(t_serv *serv, t_client *client,
+					UNUSED char *cmd)
 {
   t_client		*tmp;
   int			i;

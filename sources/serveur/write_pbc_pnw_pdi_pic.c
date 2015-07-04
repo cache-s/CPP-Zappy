@@ -73,7 +73,8 @@ int		write_pic_gfx(t_serv *serv, t_client *client)
     return (my_error(ERR_STRCPY));
   while (tmp != NULL)
     {
-      if (tmp->x == client->x && tmp->y == client->y && tmp->lvl == client->lvl)
+      if (tmp->x == client->x && tmp->y == client->y &&
+	  tmp->lvl == client->lvl)
 	{
 	  if ((ids = strcat(ids, " ")) == NULL)
 	    return (my_error(ERR_STRCAT));
@@ -94,7 +95,8 @@ int		write_pic_end(t_serv *serv, t_client *client, char *ids)
   tmp = serv->gfx;
   while (tmp != NULL)
     {
-      if (dprintf(tmp->fd, "pic %d %d %d %s\n", client->x, client->y, client->lvl + 1, ids) == -1)
+      if (dprintf(tmp->fd, "pic %d %d %d %s\n", client->x, \
+		  client->y, client->lvl + 1, ids) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }
