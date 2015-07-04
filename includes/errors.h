@@ -5,7 +5,7 @@
 ** Login   <bourma_m@epitech.net>
 ** 
 ** Started on  Mon Mar  9 15:00:38 2015 Mathieu Bourmaud
-** Last update Thu Jun 25 18:25:33 2015 Martin Porrès
+** Last update Sat Jul  4 13:30:07 2015 Jordan Chazottes
 */
 
 #ifndef		_ERRORS_H_
@@ -61,6 +61,9 @@
 #define		MIN_Y			1
 #define		MAX_X			10000
 #define		MAX_Y			10000
+
+/* GFX ERROR */
+#define		ERR_LOAD		"Error : sprite not found "
 
 int		my_error(const char *);
 char		*my_error_null(const char *);
