@@ -42,12 +42,10 @@ int			check_cmd_before_fill(char *cmd, t_client *tmp,
 
   cpy = strdup(cmd);
   cpy = strtok(cpy, "\n");
-  printf(BOLD BLUE "Received message '%s' from %d\n" END, cpy, tmp->fd);
+  if (cpy != NULL)
+    printf(BOLD BLUE "Received message '%s' from %d\n" END, cpy, tmp->fd);
   if (cmd == NULL || strcmp(cmd, "") == 0 || strlen(cmd) == 1)
-    {
-      printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
-      return (EXIT_FAILURE);
-    }
+    return (EXIT_FAILURE);
   if (tmp->is_full == 1)
     {
       printf(BOLD RED "Sending message '%s' to %d\n" END, "ko", tmp->fd);
