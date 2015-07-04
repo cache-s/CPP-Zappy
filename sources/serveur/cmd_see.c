@@ -49,16 +49,26 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   return (EXIT_SUCCESS);
 }
 
+void			init_see(t_serv *serv)
+{
+  serv->see->tmp_x_plus = 0;
+  serv->see->tmp_x_less = 0;
+  serv->see->tmp_y_plus = 0;
+  serv->see->tmp_y_less = 0;
+  serv->see->coma = 0;
+  serv->see->end = 0;
+  serv->see->check = 0;
+}
+
 int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
   int			i;
 
+  i = 1;
   if ((serv->see = malloc(sizeof(* serv->see))) == NULL)
     return (my_error(ERR_MALLOC));
-  serv->see->end = 0;
-  serv->see->check = 0;
+  init_see(serv);
   dprintf(client->fd, "{");
-  i = 1;
   look_floor(client->x, client->y, serv, client);
   while (i <= client->lvl)
     {
