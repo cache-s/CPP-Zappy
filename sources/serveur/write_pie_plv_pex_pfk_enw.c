@@ -83,7 +83,8 @@ int		write_enw_gfx(t_client *gfx, t_client *client)
   tmp = gfx;
   while (tmp != NULL)
     {
-      if (dprintf(tmp->fd, "enw %d %d %d %d\n", client->id, client->id, client->x, client->y) == -1)
+      if (dprintf(tmp->fd, "enw %d %d %d %d\n", client->id, \
+		  client->id, client->x, client->y) == -1)
 	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }

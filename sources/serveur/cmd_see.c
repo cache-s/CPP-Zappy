@@ -13,7 +13,7 @@
 void			check_player(int x, int y, t_serv *serv, t_client *client)
 {
   t_client		*tmp;
-  
+
   tmp = serv->client;
   while (tmp != NULL)
     {

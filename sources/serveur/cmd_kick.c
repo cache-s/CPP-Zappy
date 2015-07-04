@@ -22,7 +22,7 @@ int			cmd_kick(t_serv *serv, t_client *client, UNUSED char *cmd)
     k -= 4;
   tmp = serv->client;
   while (tmp != NULL)
-    { 
+    {
       if (once == 0)
 	{
 	  if (write_pex_gfx(serv->gfx, client) == EXIT_FAILURE)
@@ -39,7 +39,8 @@ int			cmd_kick(t_serv *serv, t_client *client, UNUSED char *cmd)
   return (EXIT_SUCCESS);
 }
 
-int			kick_player(t_serv *serv, t_client *kicker, t_client *kicked, int k)
+int			kick_player(t_serv *serv, t_client *kicker, \
+				    t_client *kicked, int k)
 {
   if (kicker->orientation == EST || kicker->orientation == WEST)
     modify_x(kicker->orientation, kicked, serv->settings->width);
