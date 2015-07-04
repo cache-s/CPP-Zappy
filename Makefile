@@ -111,6 +111,7 @@ SRCS_COMMONS	=	sources/misc/errors.c		\
 			sources/misc/count_char.c	\
 			sources/misc/my_write.c		\
 			sources/misc/itoa.c		\
+			sources/misc/str_cpy_from.c	\
 
 OBJS_AI		=	$(SRCS_AI:.cpp=.o)
 
