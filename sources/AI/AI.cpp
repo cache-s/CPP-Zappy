@@ -105,9 +105,7 @@ char*			AI::call(const char* cmdRcv)
     {
       usleep(100000);
       _cmdRcv = cmdRcv;
-      std::cout << "debut act\n";
       act();
-      std::cout << "fin act\n";
       if (_cmdSnd != "")
 	ret = &_cmdSnd[0u];
       else
@@ -150,15 +148,16 @@ void			AI::act()
           _cmdSnd = ret;
 	  return;
         }
-      if (_cmdRcv.find("PONG") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+      if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
         {
-	  std::cout << "ON A LE PONG : " << _cmdRcv << std::endl;
-          _waitPong = false;
-	  std::cout << "valeur = " << _cmdRcv[8] << std::endl;
-          int direction = _cmdRcv[8] - '0';
-	  std::cout << "direction = " << direction << std::endl;
-          move(direction);
-	  _cmdRcv = "";
+	  if (_cmdRcv != "ok")
+	    {
+	      _waitPong = false;
+	      int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+	      std::cout << "direction = " << direction << std::endl;
+	      move(direction);
+	      _cmdRcv = "";
+	    }
         }
     }
   else
@@ -180,10 +179,7 @@ void			AI::act()
 	    if (_waitSum == true)
 	      {
 		if (_cmdSnd.find("PONG") != std::string::npos)
-		  {
-		    std::cout << "ON RENVOIE LE POOOONG\n";
-		    return;
-		  }
+		  return;
 		_cmdSnd = "inventaire"; //pour eviter les INV en chaine
 		inventory();
 	      }
@@ -196,24 +192,20 @@ void			AI::act()
 	  return;
 	}
     }
-  std::cout << "millieu act : wait == " << _isWaiting << "func = " << _lastSnd <<  std::endl;
-  //    if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incancation" || _lastSnd == "connect_nbr"))
-  if (_isWaiting)
+  if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incantation" || _lastSnd == "connect_nbr"))
+  // if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
-  if (!_isWaiting)
+  if (!_isWaiting || (_lastSnd != "voir" && _lastSnd != "inventaire" && _lastSnd != "incantation" && _lastSnd != "connect_nbr"))
     {
       try
 	{
-	  std::cout << "pre obj\n";
 	  if (_todo.empty())
 	    setObjective();
-	  std::cout << "post obj\n";
 	}
 	  catch (const std::exception &e)
 	    {
 	      std::cerr << "Exception : Error in setting objectives" << std::endl;;
 	    }
-	  std::cout << "M1\n";
 	  try
 	    {
 	      if (!_todo.empty())
@@ -222,7 +214,6 @@ void			AI::act()
 		  if (!_targetID.empty())
 		    std::cout << "on fait " << _cmdSnd << std::endl;
 		  _todo.pop_front();
-		  std::cout << "M2\n";
 		}
 	    }
 	  catch (const std::exception &e)
@@ -231,7 +222,6 @@ void			AI::act()
 	    }
 
 	}
-      std::cout << "M3\n";
   if (_cmdSnd != "")
     {
       for (unsigned int i = 0; i < _needResponse.size(); ++i)
@@ -239,7 +229,6 @@ void			AI::act()
 	  _isWaiting = true;
       _lastSnd = _cmdSnd;
     }
-  std::cout << "fin act\n";
 }
 
 void    AI::move(int direction)
@@ -252,8 +241,10 @@ void    AI::move(int direction)
 	_todo.push_front("droite");
       if (direction == 4 || direction == 3 || direction == 5)
         _todo.push_front("gauche");
-    }
-  std::cout << "fin direction\n";
+ 	// _cmdSnd = "avance";
+	// _cmdSnd = "droite";
+	// _cmdSnd = "gauche";
+   }
 }
 
 
