@@ -103,6 +103,7 @@ char*			AI::call(const char* cmdRcv)
 
   try
     {
+      _cmdSnd = "";
       _cmdRcv = cmdRcv;
       std::cout << "on recois " << _cmdRcv << std::endl;
       act();
@@ -128,6 +129,11 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
+  if (_targetDir != -1)
+    {
+      std::cout << "ON A UNE TARGET OLOLOLOLOLOLOLOL\n\n\n";
+      exit(3);
+    }
   if (_cmdRcv.find("PING") != std::string::npos)
     std::cout << "on recois : " << _cmdRcv << std::endl << "notre ID est " << _ID << std::endl;
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
