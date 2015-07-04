@@ -103,9 +103,10 @@ char*			AI::call(const char* cmdRcv)
 
   try
     {
-      usleep(100000);
       _cmdRcv = cmdRcv;
+      std::cout << "on recois " << _cmdRcv << std::endl;
       act();
+      std::cout << "on envois " << _cmdSnd << std::endl;
       if (_cmdSnd != "")
 	ret = &_cmdSnd[0u];
       else
@@ -140,25 +141,36 @@ void			AI::act()
     {
       usleep(10000);
       std::cout << "ON A uNE TARGET\n";
-      if (_waitPong == false)
-        {
-	  std::cout << "ON LE PING\n";
-          _waitPong = true;
-	  std::string ret = "broadcast PING " + _targetID;
-          _cmdSnd = ret;
-	  return;
-        }
-      if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
-        {
-	  if (_cmdRcv != "ok")
+      if (_targetDir == -1)
+	{
+	  if (_waitPong == false)
 	    {
-	      _waitPong = false;
-	      int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
-	      std::cout << "direction = " << direction << std::endl;
-	      move(direction);
-	      _cmdRcv = "";
+	      std::cout << "ON LE PING\n";
+	      _waitPong = true;
+	      std::string ret = "broadcast PING " + _targetID;
+	      _cmdSnd = ret;
+	      return;
 	    }
-        }
+	  if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
+	    {
+	      if (_cmdRcv != "ok")
+		{
+		  _waitPong = false;
+		  int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+		  std::cout << "direction = " << direction << std::endl;
+		  _targetDir = direction;
+		  move();
+		  _cmdRcv = "";
+		  return;
+		}
+	    }
+	}
+      else
+	{
+	  move();
+	  return;
+	}
+      return;
     }
   else
     {
@@ -231,20 +243,25 @@ void			AI::act()
     }
 }
 
-void    AI::move(int direction)
+void    AI::move()
 {
-  if (direction != 0)
+  _todo.clear();
+  if (_targetDir != 0)
     {
-      if (direction == 8 || direction == 1 || direction == 2)
-        _todo.push_front("avance");
-      if (direction == 6 || direction == 7)
-	_todo.push_front("droite");
-      if (direction == 4 || direction == 3 || direction == 5)
-        _todo.push_front("gauche");
- 	// _cmdSnd = "avance";
-	// _cmdSnd = "droite";
-	// _cmdSnd = "gauche";
+      if (_targetDir == 8 || _targetDir == 1 || _targetDir == 2)
+ 	_cmdSnd = "avance";
+      // _todo.push_front("avance");
+      if (_targetDir == 6 || _targetDir == 7)
+	_cmdSnd = "droite";
+      // _todo.push_front("droite");
+      if (_targetDir == 4 || _targetDir == 3 || _targetDir == 5)
+	_cmdSnd = "gauche";
+      // _todo.push_front("gauche");
+      usleep(800000);
    }
+  else
+    std::cout << "ON EST ARRIVEJENZFJIZEHFUOZEHFUZEIOFHZEIUFZEHFUHZEUI\n\n\n";
+  _targetDir = -1;
 }
 
 
