@@ -130,9 +130,12 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
+  std::cout << "my level is " << _level;
 
   if (_cmdRcv.find("niveau actuel") != std::string::npos || (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos))
     {
+      if (_cmdRcv.find("niveau actuel") != std::string::npos)
+	_level = _cmdRcv[16] - '0';
       _targetID = "";
       _targetDir = -1;
       _triedInv = false;
@@ -318,7 +321,7 @@ void			AI::act()
 	  catch (const std::exception &e)
 	    {
 	      std::cerr << "Exception : Error in popping list of inctruction" << std::endl;;
-	    }
+	   }
 
 	}
   if (_cmdSnd != "")
@@ -455,6 +458,7 @@ void			AI::listenSummon()
 	    }
 	  else
 	    {
+	      _cmdSnd = "inventaire";
 	      std::cout << "PAS ASSEZ DE REPONNNNSE\n";
 	      _waitSum = false;
 	    }
@@ -519,7 +523,10 @@ void			AI::dropToIncant()
     {
       std::string inst = "pose " + _stones[i];
       for (int j = 0; j < _lvlUp[std::make_pair(_level, _stones[i])]; ++j)
-	_todo.push_back(inst);
+	{
+	  std::cout << "il faut drop " << _lvlUp[std::make_pair(_level, _stones[i])] << _stones[i] << " pour level " << _level << std::endl;
+	  _todo.push_back(inst);
+	}
     }
 }
 
@@ -609,7 +616,8 @@ void			AI::incantation()
       _cmdSnd = "";
       return;
     }
-  _level++;
+  if (_cmdRcv.find("niveau actuel") != std::string::npos)
+    _level = _cmdRcv[16] - '0';
   _isWaiting = false;
   _triedInv = false;
   return;
