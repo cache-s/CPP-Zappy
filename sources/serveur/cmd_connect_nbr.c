@@ -12,9 +12,11 @@
 
 int			cmd_connect_nbr(t_serv *serv, t_client *client,
 					UNUSED char *cmd)
-{ 
-  printf(RED BOLD "Sending '%d' to %d\n" END, serv->settings->nb_clients - serv->settings->clients[client->team_pos], client->fd);
-  if (dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[client->team_pos]) == -1)
+{
+  printf(RED BOLD "Sending '%d' to %d\n" END, serv->settings->nb_clients -
+	 serv->settings->clients[client->team_pos], client->fd);
+  if (dprintf(client->fd, "%d\n", serv->settings->nb_clients -
+	      serv->settings->clients[client->team_pos]) == -1)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

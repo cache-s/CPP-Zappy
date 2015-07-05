@@ -101,6 +101,11 @@ void			init_inc_tab_2(t_serv *serv)
   serv->inc_tab[5][4] = 3;
   serv->inc_tab[5][5] = 0;
   serv->inc_tab[5][6] = 0;
+  init_inc_tab_3(serv);
+}
+
+void			init_inc_tab_3(t_serv *serv)
+{
   serv->inc_tab[6][0] = 6;
   serv->inc_tab[6][1] = 1;
   serv->inc_tab[6][2] = 2;
@@ -108,11 +113,6 @@ void			init_inc_tab_2(t_serv *serv)
   serv->inc_tab[6][4] = 0;
   serv->inc_tab[6][5] = 1;
   serv->inc_tab[6][6] = 0;
-  init_inc_tab_3(serv);
-}
-
-void			init_inc_tab_3(t_serv *serv)
-{
   serv->inc_tab[7][0] = 6;
   serv->inc_tab[7][1] = 2;
   serv->inc_tab[7][2] = 2;

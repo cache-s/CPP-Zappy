@@ -19,7 +19,8 @@ int				set_items(t_serv *serv, t_client *new)
   while (i++ < 7)
     new->items[i] = 0;
   serv->nb_client++;
-  if (my_write(2, YELLOW "*** Client settings initialized" END) == EXIT_FAILURE)
+  if (my_write(2, YELLOW "*** Client settings initialized" END)
+      == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

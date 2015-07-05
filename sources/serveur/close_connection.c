@@ -13,7 +13,7 @@
 char			*close_connect(t_serv *serv, int fd, int type)
 {
   t_client		*tmp;
-  
+
   if (type == 0)
     tmp = serv->client;
   else

@@ -38,14 +38,11 @@ int			fill_height(t_settings *settings, char *arg, int i)
 
 int			fill_teams(t_settings *settings, char **args, int i)
 {
-  int			j;
-
-  j = 0;
   i += 1;
   if (args[i] == NULL)
     return (my_error(BOLD RED ERR_TEAM END));
   settings->teams = strdup(args[i]);
-  if ((settings->teams = realloc(settings->teams, strlen(settings->teams) \
+  if ((settings->teams = realloc(settings->teams, strlen(settings->teams)
 				 + strlen(";") + 1)) == NULL)
     return (my_error(ERR_REALLOC));
   settings->teams = strcat(settings->teams, ";");
@@ -54,13 +51,12 @@ int			fill_teams(t_settings *settings, char **args, int i)
     {
       if (args[i][0] == '-')
 	return (i - 1);
-      if ((settings->teams = realloc(settings->teams, strlen(settings->teams) \
+      if ((settings->teams = realloc(settings->teams, strlen(settings->teams)
 			    + strlen(args[i]) + strlen(";") + 1)) == NULL)
   	return (my_error(ERR_REALLOC));
       settings->teams = strcat(settings->teams, args[i]);
       settings->teams = strcat(settings->teams, ";");
       i++;
-      j++;
     }
   if (fill_teams_tabs(settings) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -82,20 +78,3 @@ int			fill_teams_tabs(t_settings *settings)
     }
   return (EXIT_SUCCESS);
 }
-
-int			fill_nb_clients(t_settings *settings, char *arg, int i)
-{
-  if (arg == NULL)
-    return (my_error(BOLD RED ERR_NB_CLIENTS END));
-  settings->nb_clients = atoi(arg);
-  return (i + 1);
-}
-
-int			fill_delay(t_settings *settings, char *arg, int i)
-{
-  if (arg == NULL)
-    return (my_error(BOLD RED ERR_DELAY END));
-  settings->delay = atof(arg);
-  return (i + 1);
-}
-

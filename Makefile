@@ -41,6 +41,7 @@ SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 SRCS_SERVEUR	=	sources/serveur/main.c				\
 			sources/serveur/parsing.c			\
 			sources/serveur/fill_settings.c			\
+			sources/serveur/fill_settings2.c		\
 			sources/serveur/map_generation.c		\
 			sources/serveur/init_serv.c			\
 			sources/serveur/call_cmds.c			\
@@ -74,6 +75,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c				\
 			sources/serveur/write_eht_ok.c			\
 			sources/serveur/close_connection.c		\
 			sources/serveur/init_client.c			\
+			sources/serveur/updates.c			\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
