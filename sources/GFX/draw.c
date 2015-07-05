@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 11:44:09 2015 Jordan Chazottes
+** Last update Sun Jul  5 12:35:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -83,13 +83,13 @@ int		draw(t_gfx *s)
     return (EXIT_FAILURE);
   if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY, SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  if (drawInfos(s) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  if (drawInventory(s) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
   if (drawFloor(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawItems(s, resImg) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (drawInfos(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (drawInventory(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawPlayers(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);

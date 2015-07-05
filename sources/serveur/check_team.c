@@ -37,7 +37,6 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       dprintf(client->fd, "%d\n", serv->settings->nb_clients -
 	      serv->settings->clients[pos]);
       dprintf(client->fd, "%d %d\n", client->x, client->y);
-      client->id = client->fd;
       if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       if (generate_all_item(serv, 1) == EXIT_FAILURE)

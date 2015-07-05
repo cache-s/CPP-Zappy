@@ -92,6 +92,8 @@ typedef struct		s_client
   int			items[7];
   int			cmd_end;
   int			heart_perc;
+  int			incant_time;
+  char			incanting;
   struct s_client	*next;
 }			t_client;
 
@@ -228,7 +230,7 @@ int		generate_random_item(t_serv *serv, int item, int nb);
 int		generate_all_item(t_serv *serv, int nb);
 
 void		write_tna(t_serv *serv, int fd);
-void		write_bct(t_block *block, int fd);
+int		write_bct(t_block *block, int fd);
 int		write_bct_gfx(t_client *gfx, t_block *block);
 int		write_pin_gfx(t_client *gfx, t_client *client);
 int		write_ppo_gfx(t_client *gfx, t_client *client);

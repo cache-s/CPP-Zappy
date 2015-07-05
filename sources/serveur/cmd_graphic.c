@@ -10,21 +10,15 @@
 
 #include		"serveur.h"
 
-void			write_bct(t_block *block, int fd)
+int			write_bct(t_block *block, int fd)
 {
-  int			i;
-
-  i = 0;
-  if (dprintf(fd, "bct %d %d ", block->x, block->y) == -1)
-    puts("gros *bip*");
-  while (i < 7)
-    {
-      if ((i + 1) >= 7)
-	dprintf(fd, "%d\n", block->items[i]);
-      else
-	dprintf(fd, "%d ", block->items[i]);
-      i++;
-    }
+  if (dprintf(fd, "bct %d %d %d %d %d %d %d %d %d\n", block->x, block->y,
+	      block->items[0], block->items[1],
+	      block->items[2], block->items[3],
+	      block->items[4], block->items[5],
+	      block->items[6]) == -1)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
 }
 
 int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)

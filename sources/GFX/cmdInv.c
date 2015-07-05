@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 17:20:25 2015 Jordan Chazottes
-** Last update Sat Jul  4 20:11:31 2015 Jordan Chazottes
+** Last update Sun Jul  5 12:41:42 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -19,8 +19,8 @@ int		setGuiInv(t_gfx *s)
   rect.x = rect.y = 0;
   rect.w = 334;
   rect.h = 166;
-  pos.x = pos.i = s->width * 64 - 334;
-  pos.y = pos.j = s->height * 64 - 20 + 50;
+  pos.x = pos.i = MAX_VIEW * 64 - 334;
+  pos.y = pos.j = MAX_VIEW * 64 - 20 + 50;
   if ((img = SDL_LoadBMP("assets/sprites/player_infos.bmp")) == NULL)
     return (EXIT_FAILURE);
   if (SDL_SetColorKey(img, SDL_SRCCOLORKEY, SDL_MapRGB(img->format, 0, 0, 255)) != 0)
@@ -34,9 +34,9 @@ void		setBgInv(t_gfx *s)
   SDL_Surface	*bg;
   SDL_Rect	 pos;
 
-  bg = SDL_CreateRGBSurface(SDL_HWSURFACE, s->width*64, 150, 32, 0, 0, 0, 0);
+  bg = SDL_CreateRGBSurface(SDL_HWSURFACE, MAX_VIEW * 64, 150, 32, 0, 0, 0, 0);
   pos.x = 0;
-  pos.y = s->height * 64 + 1 + 50;
+  pos.y = MAX_VIEW * 64 + 1 + 50;
   SDL_FillRect(bg, NULL, SDL_MapRGB(s->screen->format, 127, 127, 127));
   SDL_BlitSurface(bg, NULL, s->screen, &pos);
 }
@@ -46,8 +46,8 @@ int		fillInv(t_gfx *s, t_player *p)
   int		x;
   int		y;
 
-  x = s->width * 64;
-  y = s->height * 64 - 50;
+  x = MAX_VIEW * 64;
+  y = MAX_VIEW * 64 - 50;
   if (writeText(s, p->team, x - 320, y + 140) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (writeText(s, strcat(strdup("lvl "), itoa(p->level)),
