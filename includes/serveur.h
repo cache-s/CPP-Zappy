@@ -190,7 +190,7 @@ int		cmd_left(t_serv *serv, t_client *client, char *cmd);
 int		cmd_see(t_serv *serv, t_client *client, char *cmd);
 int		see_with_orientation(t_serv *serv, t_client *client);
 int		look_floor(int x, int y, t_serv *serv, t_client *client);
-void		check_player(int x, int y, t_serv *serv, t_client *client);
+int		check_player(int x, int y, t_serv *serv, t_client *client);
 void		y_plus(t_serv *serv);
 void		y_less(t_serv *serv);
 void		x_plus(t_serv *serv);

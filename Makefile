@@ -73,6 +73,7 @@ SRCS_SERVEUR	=	sources/serveur/main.c				\
 			sources/serveur/fill_cmd.c			\
 			sources/serveur/write_eht_ok.c			\
 			sources/serveur/close_connection.c		\
+			sources/serveur/init_client.c			\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\
