@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:05:02 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:08:00 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:53:39 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -22,7 +22,7 @@ int		cmd_msz(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   s->height = atoi(tok);
-  if (allocMap(s) == EXIT_FAILURE)
+  if (alloc_map(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
@@ -71,7 +71,7 @@ int		cmd_pnw(t_gfx *s, char *token)
   new->eId = -1;
   new->act = STAND;
   new->next = NULL;
-  setPlayerParam(new, token);
+  set_player_param(new, token);
   if (s->players == NULL)
     {
       new->isFirst = 1;
@@ -98,7 +98,7 @@ int		cmd_ppo(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);

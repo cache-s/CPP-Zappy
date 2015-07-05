@@ -1,16 +1,16 @@
 /*
-** allocMap.c for zappy in /home/chazot_a/rendu/PSU_2014_zappy
+** alloc_map.c for zappy in /home/chazot_a/rendu/PSU_2014_zappy
 ** 
 ** Made by Jordan Chazottes
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 10:46:14 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:38:05 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:41:53 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		allocMap(t_gfx *s)
+int		alloc_map(t_gfx *s)
 {
   int		i;
 
@@ -25,7 +25,7 @@ int		allocMap(t_gfx *s)
 	return (my_error(ERR_MALLOC));
       ++i;
     }
-  if (initWindow(s) == EXIT_FAILURE)
+  if (init_window(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   s->network.init = 2;
   return (EXIT_SUCCESS);

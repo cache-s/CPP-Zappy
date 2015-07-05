@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 19:52:04 2015 Jordan Chazottes
-** Last update Tue Jun 30 17:49:19 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:50:46 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-t_player	*getPrevPlayer(t_gfx *s, int id)
+t_player	*get_prev_player(t_gfx *s, int id)
 {
   t_player	*tmp;
 
@@ -22,7 +22,7 @@ t_player	*getPrevPlayer(t_gfx *s, int id)
   return (tmp);
 }
 
-t_player	*getPlayer(t_gfx *s, int id)
+t_player	*get_player(t_gfx *s, int id)
 {
   t_player	*tmp;
 

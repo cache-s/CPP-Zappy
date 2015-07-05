@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 17:16:36 2015 Jordan Chazottes
-** Last update Fri Jul  3 17:17:24 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:55:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		 writeText(t_gfx *s, char *msg, int x, int y)
+int		 write_text(t_gfx *s, char *msg, int x, int y)
 {
   SDL_Color	color;
   SDL_Rect	pos;

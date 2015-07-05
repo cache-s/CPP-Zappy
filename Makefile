@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Sun Jul  5 19:33:34 2015 Jordan Chazottes
+## Last update Sun Jul  5 23:01:27 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -16,7 +16,7 @@ NAME_SERVEUR	=	zappy_server
 
 NAME_CLIENT	=	zappy_ai
 
-NAME_GFX	=	gfx
+NAME_GFX	=	zappy_gfx
 
 CC		=	gcc
 
@@ -86,27 +86,27 @@ SRCS_CLIENT	=	sources/client/main.c		\
 
 SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/usage.c		\
-			sources/GFX/coreGFX.c		\
+			sources/GFX/core_GFX.c		\
 			sources/GFX/gfx_loop.c		\
-			sources/GFX/initStruct.c	\
-			sources/GFX/initWindow.c	\
+			sources/GFX/init_struct.c	\
+			sources/GFX/init_window.c	\
 			sources/GFX/server_read.c	\
-			sources/GFX/initNetwork.c	\
+			sources/GFX/init_network.c	\
 			sources/GFX/save_srv_cmd.c	\
-			sources/GFX/eventHandler.c	\
-			sources/GFX/handleCmd.c		\
-			sources/GFX/getCmd.c		\
-			sources/GFX/initCmdTab.c	\
-			sources/GFX/welcomeServ.c	\
-			sources/GFX/allocMap.c		\
-			sources/GFX/getPlayer.c		\
+			sources/GFX/event_handler.c	\
+			sources/GFX/handle_cmd.c	\
+			sources/GFX/get_cmd.c		\
+			sources/GFX/init_cmd_tab.c	\
+			sources/GFX/welcome_serv.c	\
+			sources/GFX/alloc_map.c		\
+			sources/GFX/get_player.c	\
 			sources/GFX/draw.c		\
-			sources/GFX/freeStruct.c	\
-			sources/GFX/initFonts.c		\
-			sources/GFX/writeText.c		\
-			sources/GFX/applySurface.c	\
-			sources/GFX/cmdInv.c		\
-			sources/GFX/cmdInfos.c		\
+			sources/GFX/free_struct.c	\
+			sources/GFX/init_fonts.c	\
+			sources/GFX/write_text.c	\
+			sources/GFX/apply_surface.c	\
+			sources/GFX/cmd_inv.c		\
+			sources/GFX/cmd_infos.c		\
 			sources/GFX/drawFct/draw_broadcast.c	\
 			sources/GFX/drawFct/draw_stand.c	\
 			sources/GFX/drawFct/draw_incant.c	\

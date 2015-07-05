@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 18:25:04 2015 Jordan Chazottes
-** Last update Sun Jul  5 18:49:20 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:37:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -18,6 +18,6 @@ int		draw_stand(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p)
   rect.y = get_ori(p->ori);
   rect.w = 34;
   rect.h = 66;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }

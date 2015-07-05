@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:25:22 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:25:51 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:54:10 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		setPlayerParam(t_player *new, char *token)
+int		set_player_param(t_player *new, char *token)
 {
   char		*tok;
 
@@ -37,7 +37,7 @@ int		setPlayerParam(t_player *new, char *token)
   return (EXIT_SUCCESS);
 }
 
-int		setEggParam(t_player *new, char *token)
+int		set_egg_param(t_player *new, char *token)
 {
   char		*tok;
 

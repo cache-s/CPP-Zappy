@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 18:55:47 2015 Jordan Chazottes
-** Last update Sun Jul  5 18:57:22 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:37:43 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -20,7 +20,7 @@ int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.h = 16;
   pos.x = ((pos.i - s->xScroll)*64) + 32;
   pos.y = ((pos.j - s->yScroll)*64) + 50;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
@@ -34,7 +34,7 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.h = 16;
   pos.x = ((pos.i - s->xScroll)*64) + 48;
   pos.y = ((pos.j - s->yScroll)*64) + 50;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
@@ -48,7 +48,7 @@ int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.h = 16;
   pos.x = (pos.i - s->xScroll)*64;
   pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
@@ -62,7 +62,7 @@ int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.h = 16;
   pos.x = ((pos.i - s->xScroll)*64) + 16;
   pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
@@ -76,6 +76,6 @@ int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.h = 16;
   pos.x = ((pos.i - s->xScroll)*64) + 32;
   pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }

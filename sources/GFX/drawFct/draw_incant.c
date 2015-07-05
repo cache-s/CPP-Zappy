@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 18:26:17 2015 Jordan Chazottes
-** Last update Sun Jul  5 18:49:30 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:38:32 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -24,12 +24,12 @@ int		draw_incant(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p)
   rect.y = get_ori(p->ori);
   rect.w = 34;
   rect.h = 66;
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   rect.x = 53 * (p->level - 1);
   rect.y = 0;
   rect.w = 53;
   rect.h = 87;
   pos.y -= 30;
-  applySurface(pos, s, iImg, &rect);
+  apply_surface(pos, s, iImg, &rect);
   return (EXIT_SUCCESS);
 }

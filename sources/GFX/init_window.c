@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 18 12:30:42 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:52:14 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:42:04 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		initWindow(t_gfx *s)
+int		init_window(t_gfx *s)
 {
   if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
     {

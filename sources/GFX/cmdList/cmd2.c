@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:08:24 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:10:27 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:51:51 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -21,7 +21,7 @@ int		cmd_plv(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
@@ -40,7 +40,7 @@ int		cmd_pin(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
@@ -76,7 +76,7 @@ int		cmd_pbc(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   tmp->act = BROADCAST;
   return (EXIT_SUCCESS);
@@ -99,7 +99,7 @@ int		cmd_pic(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   tmp->act = INCANTATION;
   return (EXIT_SUCCESS);

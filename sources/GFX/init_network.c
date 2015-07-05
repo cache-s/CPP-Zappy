@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 23 13:04:16 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:52:27 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:42:37 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		initNetwork(t_gfx *s, char *ip, int port)
+int		init_network(t_gfx *s, char *ip, int port)
 {
   struct sockaddr_in    sin;
 

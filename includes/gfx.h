@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sun Jul  5 21:25:00 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:58:46 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -155,11 +155,11 @@ typedef struct		s_gfx
 
 int		main(int ac, char** av);
 int		usage(void);
-int		coreGFX(char *ip, int port);
-void		initStruct(t_gfx* s);
-int		initWindow(t_gfx* s);
-int		initNetwork(t_gfx* s, char *ip, int port);
-int		eventHandler(t_gfx *s);
+int		core_GFX(char *ip, int port);
+void		init_struct(t_gfx* s);
+int		init_window(t_gfx* s);
+int		init_network(t_gfx* s, char *ip, int port);
+int		event_handler(t_gfx *s);
 char		*client_read();
 char		*client_write();
 
@@ -167,27 +167,25 @@ int             my_write(int fd, char *str);
 int		server_read(t_gfx *s);
 int		gfx_loop(t_gfx *s);
 int		save_srv_cmd(t_gfx *s, char *buffer);
-int		handleCmd(t_gfx *s);
-int		initMap(t_gfx *s, char *str, char *token, char *end_str);
-void		initFctTab(t_gfx *s);
-int		initCmdTab(t_gfx *s);
-int		initCmdTab2(t_gfx *s);
-void		initDrawTab(t_gfx *s);
-int		allocMap(t_gfx *s);
-int		getCmd(t_gfx *s, char *token);
-int		welcomeServ(t_gfx *s);
-int		setPlayerParam(t_player *new, char *token);
-t_player	*getPlayer(t_gfx *s, int id);
-t_player	*getPrevPlayer(t_gfx *s, int id);
+int		handle_cmd(t_gfx *s);
+void		init_fct_tab(t_gfx *s);
+int		init_cmd_tab(t_gfx *s);
+int		init_cmd_tab2(t_gfx *s);
+void		init_draw_tab(t_gfx *s);
+int		alloc_map(t_gfx *s);
+int		get_cmd(t_gfx *s, char *token);
+int		welcome_serv(t_gfx *s);
+int		set_player_param(t_player *new, char *token);
+t_player	*get_player(t_gfx *s, int id);
+t_player	*get_prev_player(t_gfx *s, int id);
 int		draw(t_gfx *s);
-int		initSprites(t_gfx *s);
-void		applySurface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
-void		freeStruct(t_gfx *s);
-int		initFonts(t_gfx *s);
-int		drawInventory(t_gfx *s);
-int		fillInv(t_gfx *s, t_player *p);
-int		writeText(t_gfx *s, char *msg, int x, int y);
-int		drawInfos(t_gfx *s);
+void		apply_surface(t_pos pos, t_gfx *s, SDL_Surface *src, SDL_Rect *clip);
+void		free_struct(t_gfx *s);
+int		init_fonts(t_gfx *s);
+int		draw_inventory(t_gfx *s);
+int		fill_inv(t_gfx *s, t_player *p);
+int		write_text(t_gfx *s, char *msg, int x, int y);
+int		draw_infos(t_gfx *s);
 int		cmd_msz(t_gfx *s, char *token);
 int		cmd_bct(t_gfx *s, char *token);
 int		cmd_tna(t_gfx *s, char *token);

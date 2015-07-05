@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 15:11:07 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:41:08 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:39:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		getCmd(t_gfx *s, char *token)
+int		get_cmd(t_gfx *s, char *token)
 {
   char		*tok;
   char		*str;

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 18:22:49 2015 Jordan Chazottes
-** Last update Sun Jul  5 18:48:05 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:37:03 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -24,10 +24,10 @@ int		draw_broadcast(t_gfx *s, t_pos pos, SDL_Surface *i, t_player *p)
   rect.y = get_ori(p->ori);
   rect.w = 34;
   rect.h = 66;
-  applySurface(pos, s, i, &rect);
+  apply_surface(pos, s, i, &rect);
   rect.x = rect.y = 0;
   rect.w = rect.h = 48;
   pos.y -= 20;
-  applySurface(pos, s, bImg, &rect);
+  apply_surface(pos, s, bImg, &rect);
   return (EXIT_SUCCESS);
 }

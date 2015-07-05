@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Sun Jul  5 21:31:11 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:45:36 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -17,7 +17,7 @@ int		gfx_loop(t_gfx *s)
   s->network.cmd = NULL;
   s->network.init = 0;
   FD_ZERO(&s->network.fd_write);
-  while (eventHandler(s) != -1)
+  while (event_handler(s) != -1)
     {
       tv.tv_usec = 500;
       tv.tv_sec = 0;
@@ -28,7 +28,7 @@ int		gfx_loop(t_gfx *s)
 	return (my_error(ERR_SELECT));
       FD_ZERO(&s->network.fd_write);
       if (FD_ISSET(s->network.socket, &s->network.fd_read))
-	if (handleCmd(s) == EXIT_FAILURE)
+	if (handle_cmd(s) == EXIT_FAILURE)
 	  return (EXIT_FAILURE);
       if ((s->network.entire_cmd == 1 && s->network.init == 2)
 	  || (s->camChange == 1 && s->network.init))

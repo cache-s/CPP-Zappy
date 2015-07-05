@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:13:42 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:50:07 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:52:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -46,7 +46,7 @@ int		cmd_pfk(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   tmp->act = FORK;
   return (EXIT_SUCCESS);
@@ -63,7 +63,7 @@ int		cmd_pdr(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
@@ -87,7 +87,7 @@ int		cmd_pgt(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
@@ -111,7 +111,7 @@ int		cmd_pdi(t_gfx *s, char *token)
   tok = strtok(token, " ");
   tok = strtok(NULL, " ");
   id = atoi(tok);
-  tmp = getPlayer(s, id);
+  tmp = get_player(s, id);
   if (tmp->isFirst == 1)
     {
       if (tmp->next == NULL)
@@ -125,7 +125,7 @@ int		cmd_pdi(t_gfx *s, char *token)
     }
   if (tmp->next == NULL)
     return (cmd_pdi2(s, id));
-  tmp2 = getPrevPlayer(s, id);
+  tmp2 = get_prev_player(s, id);
   tmp2->next = tmp->next;
   return (EXIT_SUCCESS);
 }

@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 15:21:27 2015 Jordan Chazottes
-** Last update Fri Jul  3 15:24:09 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:44:01 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		initFonts(t_gfx *s)
+int		init_fonts(t_gfx *s)
 {
   if ((s->font = TTF_OpenFont("assets/fonts/pump.ttf", 20)) == NULL)
     return (EXIT_FAILURE);

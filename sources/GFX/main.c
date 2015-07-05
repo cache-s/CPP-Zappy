@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:19:44 2015 Jordan Chazottes
-** Last update Thu Jun 25 13:46:27 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:34:12 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -14,5 +14,5 @@ int		main(int ac, char **av)
 {
   if (ac != 3)
     return (usage());
-  return (coreGFX(av[1], atoi(av[2])));
+  return (core_GFX(av[1], atoi(av[2])));
 }

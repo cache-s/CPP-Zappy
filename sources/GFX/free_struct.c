@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Wed Jul  1 17:51:46 2015 Jordan Chazottes
-** Last update Sat Jul  4 17:51:18 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:44:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		freeStruct(t_gfx *s)
+void		free_struct(t_gfx *s)
 {
   int		i;
   t_player	*tmp;

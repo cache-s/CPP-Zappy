@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:58:05 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:48:40 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		initFctTab(t_gfx *s)
+void		init_fct_tab(t_gfx *s)
 {
   s->cmds[0] = &cmd_msz;
   s->cmds[1] = &cmd_bct;
@@ -38,7 +38,7 @@ void		initFctTab(t_gfx *s)
   s->cmds[23] = &cmd_sbp;
 }
 
-void		initDrawTab(t_gfx *s)
+void		init_draw_tab(t_gfx *s)
 {
   s->drawItem[0] = &draw_food;
   s->drawItem[1] = &draw_linemate;
@@ -63,7 +63,7 @@ void		initDrawTab(t_gfx *s)
   s->drawAction[DIE] = &draw_die;
 }
 
-int		initCmdTab(t_gfx *s)
+int		init_cmd_tab(t_gfx *s)
 {
   if ((s->cmdTab = malloc(sizeof(char *) * NB_CMDS)) == NULL)
     return (my_error(ERR_MALLOC));
@@ -77,10 +77,10 @@ int		initCmdTab(t_gfx *s)
   s->cmdTab[7] = strdup("pex");
   s->cmdTab[8] = strdup("pbc");
   s->cmdTab[9] = strdup("pic");
-  return (initCmdTab2(s));
+  return (init_cmd_tab2(s));
 }
 
-int		initCmdTab2(t_gfx *s)
+int		init_cmd_tab2(t_gfx *s)
 {
   s->cmdTab[10] = strdup("pie");
   s->cmdTab[11] = strdup("pfk");

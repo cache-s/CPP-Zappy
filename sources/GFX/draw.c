@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 21:33:54 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:35:04 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -50,7 +50,7 @@ int		drawFloor(t_gfx *s)
 	{
 	  pos.x = (pos.i - s->xScroll)*64;
 	  pos.y = (pos.j - s->yScroll)*64 + 50;
-	  applySurface(pos, s, img, &rect);
+	  apply_surface(pos, s, img, &rect);
 	}
     }
   SDL_FreeSurface(img);
@@ -91,9 +91,9 @@ int		draw(t_gfx *s)
     return (EXIT_FAILURE);
   if (drawItems(s, resImg) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (drawInfos(s) == EXIT_FAILURE)
+  if (draw_infos(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (drawInventory(s) == EXIT_FAILURE)
+  if (draw_inventory(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (drawPlayers(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);

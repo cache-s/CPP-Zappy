@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jul  4 19:10:39 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:56:22 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:56:57 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		setGuiInfos(t_gfx *s)
+int		set_gui_infos(t_gfx *s)
 {
   SDL_Surface	*img;
   SDL_Rect	rect;
@@ -27,11 +27,11 @@ int		setGuiInfos(t_gfx *s)
   if (SDL_SetColorKey(img, SDL_SRCCOLORKEY,
 		      SDL_MapRGB(img->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
-void		setInfosBg(t_gfx *s)
+void		set_infos_bg(t_gfx *s)
 {
   SDL_Surface	*bg;
   SDL_Rect	pos;
@@ -43,7 +43,7 @@ void		setInfosBg(t_gfx *s)
   SDL_BlitSurface(bg, NULL, s->screen, &pos);
 }
 
-int		fillInfos(t_gfx *s)
+int		fill_infos(t_gfx *s)
 {
   int		i;
   int		x;
@@ -52,7 +52,7 @@ int		fillInfos(t_gfx *s)
   x = 110;
   while (i < NB_ITEMS)
     {
-      if (writeText(s, itoa(
+      if (write_text(s, itoa(
 			    s->map->blocks[s->bSelect.x][s->bSelect.y].items[i++]),
 		    x, 10) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
@@ -61,14 +61,14 @@ int		fillInfos(t_gfx *s)
   return (EXIT_SUCCESS);
 }
 
-int		drawInfos(t_gfx *s)
+int		draw_infos(t_gfx *s)
 {
-  setInfosBg(s);
+  set_infos_bg(s);
   if (s->bSelect.x != -1)
     {
-      if (setGuiInfos(s) == EXIT_FAILURE)
-  	return (EXIT_FAILURE);
-      if (fillInfos(s) == EXIT_FAILURE)
+      if (set_gui_infos(s) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      if (fill_infos(s) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);

@@ -5,29 +5,29 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:42:48 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:47:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		coreGFX(char *ip, int port)
+int		core_GFX(char *ip, int port)
 {
   t_gfx		s;
   int		ret;
 
-  initStruct(&s);
+  init_struct(&s);
   TTF_Init();
-  initCmdTab(&s);
-  initFctTab(&s);
-  initDrawTab(&s);
-  if (initNetwork(&s, ip, port) == EXIT_FAILURE)
+  init_cmd_tab(&s);
+  init_fct_tab(&s);
+  init_draw_tab(&s);
+  if (init_network(&s, ip, port) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (initFonts(&s) == EXIT_FAILURE)
+  if (init_fonts(&s) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   ret = gfx_loop(&s);
   close (s.network.socket);
   SDL_FreeSurface(s.screen);
-  freeStruct(&s);
+  free_struct(&s);
   SDL_Quit();
   return (ret);
 }

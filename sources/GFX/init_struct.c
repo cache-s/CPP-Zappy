@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 14:23:03 2015 Jordan Chazottes
-** Last update Sun Jul  5 21:25:20 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:40:50 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		initStruct(t_gfx *s)
+void		init_struct(t_gfx *s)
 {
   s->width = 0;
   s->height = 0;

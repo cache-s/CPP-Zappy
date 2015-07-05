@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:22:25 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:50:55 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:52:43 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -42,7 +42,7 @@ int		cmd_pdi2(t_gfx *s, int id)
 {
   t_player	*tmp;
 
-  tmp = getPlayer(s, id);
+  tmp = get_player(s, id);
   if (tmp->next == NULL)
     tmp = NULL;
   return (EXIT_SUCCESS);

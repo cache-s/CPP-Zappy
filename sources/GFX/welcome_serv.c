@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 13:29:44 2015 Jordan Chazottes
-** Last update Fri Jul  3 11:39:55 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:49:01 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		welcomeServ(t_gfx *s)
+int		welcome_serv(t_gfx *s)
 {
   if (strcmp(WELCOME, s->network.cmd) != 0)
     return (my_error(ERR_WELCOME));

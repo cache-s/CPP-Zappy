@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 17:20:25 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:42:22 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:57:09 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-int		setGuiInv(t_gfx *s)
+int		set_gui_inv(t_gfx *s)
 {
   SDL_Surface	*img;
   SDL_Rect	rect;
@@ -26,11 +26,11 @@ int		setGuiInv(t_gfx *s)
   if (SDL_SetColorKey(img, SDL_SRCCOLORKEY,
 		      SDL_MapRGB(img->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
-  applySurface(pos, s, img, &rect);
+  apply_surface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
 
-void		setBgInv(t_gfx *s)
+void		set_bg_inv(t_gfx *s)
 {
   SDL_Surface	*bg;
   SDL_Rect	 pos;
@@ -42,47 +42,47 @@ void		setBgInv(t_gfx *s)
   SDL_BlitSurface(bg, NULL, s->screen, &pos);
 }
 
-int		fillInv(t_gfx *s, t_player *p)
+int		fill_inv(t_gfx *s, t_player *p)
 {
   int		x;
   int		y;
 
   x = MAX_VIEW * 64;
   y = MAX_VIEW * 64 - 50;
-  if (writeText(s, p->team, x - 320, y + 140) == EXIT_FAILURE)
+  if (write_text(s, p->team, x - 320, y + 140) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, strcat(strdup("lvl "), itoa(p->level)),
+  if (write_text(s, strcat(strdup("lvl "), itoa(p->level)),
 		x - 320, y + 170) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[0]), x - 210, y + 170) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[0]), x - 210, y + 170) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[1]), x - 270, y + 195) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[1]), x - 270, y + 195) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[2]), x - 210, y + 195) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[2]), x - 210, y + 195) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[3]), x - 140, y + 195) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[3]), x - 140, y + 195) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[4]), x - 270, y + 220) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[4]), x - 270, y + 220) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (writeText(s, itoa(p->items[5]), x - 210, y + 220) == EXIT_FAILURE)
+  if (write_text(s, itoa(p->items[5]), x - 210, y + 220) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
-int		drawInventory(t_gfx *s)
+int		draw_inventory(t_gfx *s)
 {
   t_player	*tmp;
 
-  setBgInv(s);
+  set_bg_inv(s);
   if (s->pSelect != -1)
     {
-      if (setGuiInv(s) == EXIT_FAILURE)
+      if (set_gui_inv(s) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       tmp = s->players;
       while (tmp != NULL && tmp->id != s->pSelect)
 	tmp = tmp->next;
       if (tmp != NULL)
-	if (fillInv(s, tmp) == EXIT_FAILURE)
+	if (fill_inv(s, tmp) == EXIT_FAILURE)
 	  return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:20:14 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:21:52 2015 Jordan Chazottes
+** Last update Sun Jul  5 22:52:33 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -23,7 +23,7 @@ int		cmd_enw(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   id = atoi(tok);
-  if ((tmp = getPlayer(s, id)) == NULL)
+  if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   tmp->act = STAND;
   return (EXIT_SUCCESS);
