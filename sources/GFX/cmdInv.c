@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 17:20:25 2015 Jordan Chazottes
-** Last update Sun Jul  5 12:41:42 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:42:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -23,7 +23,8 @@ int		setGuiInv(t_gfx *s)
   pos.y = pos.j = MAX_VIEW * 64 - 20 + 50;
   if ((img = SDL_LoadBMP("assets/sprites/player_infos.bmp")) == NULL)
     return (EXIT_FAILURE);
-  if (SDL_SetColorKey(img, SDL_SRCCOLORKEY, SDL_MapRGB(img->format, 0, 0, 255)) != 0)
+  if (SDL_SetColorKey(img, SDL_SRCCOLORKEY,
+		      SDL_MapRGB(img->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);

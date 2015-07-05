@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sun Jul  5 17:19:02 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:58:36 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -156,7 +156,7 @@ int		main(int ac, char** av);
 int		usage(void);
 int		coreGFX(char *ip, int port);
 void		initStruct(t_gfx* s);
-void		initWindow(t_gfx* s);
+int		initWindow(t_gfx* s);
 int		initNetwork(t_gfx* s, char *ip, int port);
 int		eventHandler(t_gfx *s);
 char		*client_read();
@@ -170,6 +170,7 @@ int		handleCmd(t_gfx *s);
 int		initMap(t_gfx *s, char *str, char *token, char *end_str);
 void		initFctTab(t_gfx *s);
 int		initCmdTab(t_gfx *s);
+int		initCmdTab2(t_gfx *s);
 void		initDrawTab(t_gfx *s);
 int		allocMap(t_gfx *s);
 int		getCmd(t_gfx *s, char *token);
@@ -210,6 +211,7 @@ int		cmd_seg(t_gfx *s, char *token);
 int		cmd_smg(t_gfx *s, char *token);
 int		cmd_suc(t_gfx *s, char *token);
 int		cmd_sbp(t_gfx *s, char *token);
+int		cmd_pdi2(t_gfx *s, int id);
 int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_linemate(t_gfx *s, SDL_Surface *img, t_pos pos);
 int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos);
@@ -225,13 +227,14 @@ int		draw_p5(t_gfx *s, t_pos pos, t_player *p);
 int		draw_p6(t_gfx *s, t_pos pos, t_player *p);
 int		draw_p7(t_gfx *s, t_pos pos, t_player *p);
 int		draw_p8(t_gfx *s, t_pos pos, t_player *p);
-
-int		drawStand(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
-int		drawBroadcast(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
-int		drawIncant(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
-int		drawFork(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
-int		drawCrouch(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
-int		drawDie(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_stand(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_broadcast(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_incant(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_fork(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_crouch(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		draw_die(t_gfx *s, t_pos pos, SDL_Surface *img, t_player *p);
+int		get_ori(eOrientation ori);
+int		get_act(eAction act);
 
 #endif
 

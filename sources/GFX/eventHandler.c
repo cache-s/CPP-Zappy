@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Sun Jul  5 17:21:16 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:41:49 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -13,7 +13,7 @@
 eEvent		getPSelected(t_gfx *s, int x, int y)
 {
   t_player	*tmp;
-  
+
   tmp = s->players;
   while (tmp != NULL)
     {
@@ -62,7 +62,7 @@ eEvent		eventHandler(t_gfx *s)
     {
       if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
 	return (QUIT);
-      if(event.type == SDL_MOUSEBUTTONDOWN)
+      if (event.type == SDL_MOUSEBUTTONDOWN)
 	{
 	  if (event.button.button == SDL_BUTTON_RIGHT)
 	    return (resetSelected(s));

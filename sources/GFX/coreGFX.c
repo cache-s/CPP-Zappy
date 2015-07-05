@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:52:33 2015 Jordan Chazottes
-** Last update Fri Jul  3 22:19:38 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:42:48 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -29,5 +29,5 @@ int		coreGFX(char *ip, int port)
   SDL_FreeSurface(s.screen);
   freeStruct(&s);
   SDL_Quit();
-  return (ret);  
+  return (ret);
 }

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 10:46:14 2015 Jordan Chazottes
-** Last update Sun Jul  5 14:16:47 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:38:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -25,7 +25,8 @@ int		allocMap(t_gfx *s)
 	return (my_error(ERR_MALLOC));
       ++i;
     }
-  initWindow(s);
+  if (initWindow(s) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   s->network.init = 2;
   return (EXIT_SUCCESS);
 }

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jun 27 19:07:21 2015 Jordan Chazottes
-** Last update Sat Jul  4 14:49:16 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:58:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -55,12 +55,12 @@ void		initDrawTab(t_gfx *s)
   s->drawPlayer[5] = &draw_p6;
   s->drawPlayer[6] = &draw_p7;
   s->drawPlayer[7] = &draw_p8;
-  s->drawAction[STAND] = &drawStand;
-  s->drawAction[BROADCAST] = &drawBroadcast;
-  s->drawAction[INCANTATION] = &drawIncant;
-  s->drawAction[FORK] = &drawFork;
-  s->drawAction[CROUCH] = &drawCrouch;
-  s->drawAction[DIE] = &drawDie;
+  s->drawAction[STAND] = &draw_stand;
+  s->drawAction[BROADCAST] = &draw_broadcast;
+  s->drawAction[INCANTATION] = &draw_incant;
+  s->drawAction[FORK] = &draw_fork;
+  s->drawAction[CROUCH] = &draw_crouch;
+  s->drawAction[DIE] = &draw_die;
 }
 
 int		initCmdTab(t_gfx *s)
@@ -77,6 +77,11 @@ int		initCmdTab(t_gfx *s)
   s->cmdTab[7] = strdup("pex");
   s->cmdTab[8] = strdup("pbc");
   s->cmdTab[9] = strdup("pic");
+  return (initCmdTab2(s));
+}
+
+int		initCmdTab2(t_gfx *s)
+{
   s->cmdTab[10] = strdup("pie");
   s->cmdTab[11] = strdup("pfk");
   s->cmdTab[12] = strdup("pdr");
@@ -94,4 +99,3 @@ int		initCmdTab(t_gfx *s)
   s->cmdTab[24] = NULL;
   return (EXIT_SUCCESS);
 }
-

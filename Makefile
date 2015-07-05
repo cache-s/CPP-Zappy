@@ -5,7 +5,7 @@
 ## Login   <bourma_m@epitech.net>
 ## 
 ## Started on  Thu May  7 14:17:43 2015 Mathieu Bourmaud
-## Last update Sat Jul  4 21:19:17 2015 Martin Porrès
+## Last update Sun Jul  5 19:33:34 2015 Jordan Chazottes
 ##
 
 NAME_AI		=	./libs/libAI.so
@@ -97,7 +97,6 @@ SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/getCmd.c		\
 			sources/GFX/initCmdTab.c	\
 			sources/GFX/welcomeServ.c	\
-			sources/GFX/cmdList.c		\
 			sources/GFX/allocMap.c		\
 			sources/GFX/getPlayer.c		\
 			sources/GFX/draw.c		\
@@ -107,6 +106,24 @@ SRCS_GFX	=	sources/GFX/main.c		\
 			sources/GFX/applySurface.c	\
 			sources/GFX/cmdInv.c		\
 			sources/GFX/cmdInfos.c		\
+			sources/GFX/drawFct/draw_broadcast.c	\
+			sources/GFX/drawFct/draw_stand.c	\
+			sources/GFX/drawFct/draw_incant.c	\
+			sources/GFX/drawFct/draw_die.c		\
+			sources/GFX/drawFct/draw_crouch.c	\
+			sources/GFX/drawFct/draw_fork.c		\
+			sources/GFX/drawFct/draw_players.c	\
+			sources/GFX/drawFct/draw_players2.c	\
+			sources/GFX/get_ori.c		\
+			sources/GFX/get_act.c		\
+			sources/GFX/drawFct/draw_others_stones.c	\
+			sources/GFX/drawFct/draw_food_linemate.c	\
+			sources/GFX/cmdList/cmd.c	\
+			sources/GFX/cmdList/cmd2.c	\
+			sources/GFX/cmdList/cmd3.c	\
+			sources/GFX/cmdList/cmd4.c	\
+			sources/GFX/cmdList/cmd5.c	\
+			sources/GFX/set_param.c		\
 			$(SRCS_COMMONS)
 
 SRCS_COMMONS	=	sources/misc/errors.c		\

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 16:57:44 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:44:15 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -65,7 +65,9 @@ int		drawPlayers(t_gfx *s)
   if (s->players != NULL)
     {
       tmp = s->players;
-      while (tmp != NULL && tmp->x < s->width && tmp->y < s->height && tmp->x < (s->xScroll + MAX_VIEW) && tmp->y < (s->yScroll + MAX_VIEW))
+      while (tmp != NULL && tmp->x < s->width &&
+	     tmp->y < s->height && tmp->x < (s->xScroll + MAX_VIEW)
+	     && tmp->y < (s->yScroll + MAX_VIEW))
 	{
 	  pos.x = (tmp->x - s->xScroll)*64;
 	  pos.y = ((tmp->y - s->yScroll)*64) + 50;
@@ -82,7 +84,8 @@ int		draw(t_gfx *s)
 
   if ((resImg = SDL_LoadBMP("assets/sprites/resources.bmp")) == NULL)
     return (EXIT_FAILURE);
-  if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY, SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
+  if (SDL_SetColorKey(resImg, SDL_SRCCOLORKEY,
+		      SDL_MapRGB(resImg->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   if (drawFloor(s) == EXIT_FAILURE)
     return (EXIT_FAILURE);

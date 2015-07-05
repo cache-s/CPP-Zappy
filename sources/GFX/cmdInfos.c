@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jul  4 19:10:39 2015 Jordan Chazottes
-** Last update Sun Jul  5 13:13:40 2015 Jordan Chazottes
+** Last update Sun Jul  5 19:56:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -24,7 +24,8 @@ int		setGuiInfos(t_gfx *s)
   pos.y = pos.j = 0;
   if ((img = SDL_LoadBMP("assets/sprites/block_infos.bmp")) == NULL)
     return (EXIT_FAILURE);
-  if (SDL_SetColorKey(img, SDL_SRCCOLORKEY, SDL_MapRGB(img->format, 0, 0, 255)) != 0)
+  if (SDL_SetColorKey(img, SDL_SRCCOLORKEY,
+		      SDL_MapRGB(img->format, 0, 0, 255)) != 0)
     return (EXIT_FAILURE);
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
@@ -51,7 +52,9 @@ int		fillInfos(t_gfx *s)
   x = 110;
   while (i < NB_ITEMS)
     {
-      if (writeText(s, itoa(s->map->blocks[s->bSelect.x][s->bSelect.y].items[i++]), x, 10) == EXIT_FAILURE)
+      if (writeText(s, itoa(
+			    s->map->blocks[s->bSelect.x][s->bSelect.y].items[i++]),
+		    x, 10) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       x += 75;
     }
