@@ -95,15 +95,15 @@ int		write_pic_end(t_serv *serv, t_client *client, char *ids)
   tmp = serv->gfx;
   while (tmp != NULL)
     {
-      if (strcmp(ids, "") == 0) 
+      if (strcmp(ids, "") == 0)
 	{
-	  if (dprintf(tmp->fd, "pic %d %d %d\n", client->x,	\
+	  if (dprintf(tmp->fd, "pic %d %d %d\n", client->x,
 		      client->y, client->lvl + 1) == -1)
 	    ret = EXIT_FAILURE;
 	}
       else
 	{
-	  if (dprintf(tmp->fd, "pic %d %d %d%s\n", client->x,	\
+	  if (dprintf(tmp->fd, "pic %d %d %d%s\n", client->x,
 		      client->y, client->lvl + 1, ids) == -1)
 	    ret = EXIT_FAILURE;
 	}

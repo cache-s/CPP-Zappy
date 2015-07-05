@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:30:36 2015 Jordan Chazottes
+** Last update Sun Jul  5 23:11:57 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -71,6 +71,7 @@ eEvent		event_handler(t_gfx *s)
 	    return (get_P_selected(s, event.button.x, event.button.y));
 	  if (event.button.button == SDL_BUTTON_MIDDLE)
 	    return (get_B_selected(s, event.button.x, event.button.y));
+	  s->camChange = 1;
 	}
       if (event.key.keysym.sym == SDLK_UP)
 	return (move_scroll(s, 0, -1));

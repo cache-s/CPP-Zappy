@@ -71,8 +71,6 @@ int			fill_cmd(char *cmd, t_client *tmp, t_serv *serv)
     }
   else
     {
-      if (strcmp(cmd, "\0") == 0 || strcmp(cmd, "") == 0)
-	return (EXIT_FAILURE);
       if ((tmp->cmd = realloc(tmp->cmd, strlen(tmp->cmd)
 			      + strlen(cmd) + 3)) == NULL)
 	return (my_error(ERR_REALLOC));

@@ -31,19 +31,16 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
     return (EXIT_SUCCESS);
   if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  if (dprintf(client->fd, "msz %d %d\n", serv->settings->width,	\
+  if (dprintf(client->fd, "msz %d %d\n", serv->settings->width,
 	      serv->settings->height) == -1)
     return (EXIT_FAILURE);
   if (dprintf(client->fd, "sgt %d\n", serv->settings->delay) == -1)
     return (EXIT_FAILURE);
   while (i < serv->settings->width)
     {
-      j = 0;
-      while (j < serv->settings->height)
-	{
-	  write_bct(&(serv->map->blocks[i][j]), client->fd);
-	  j++;
-	}
+      j = -1;
+      while (++j < serv->settings->height)
+	write_bct(&(serv->map->blocks[i][j]), client->fd);
       i++;
     }
   if (write_tna(serv, client->fd) == EXIT_FAILURE)

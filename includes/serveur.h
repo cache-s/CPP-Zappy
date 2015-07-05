@@ -274,6 +274,6 @@ int		init_tab_settings(t_settings *settings);
 int		check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end);
 int		check_call_cmds(t_serv *serv, char *cmd, t_client *client);
 char		*close_connect_end(t_serv *serv, int fd, t_client *tmp);
-
+int		check_death(t_serv *serv, t_client *tmp);
 
 #endif

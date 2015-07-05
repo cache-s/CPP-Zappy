@@ -40,10 +40,7 @@ void			check_fds_states(t_serv *serv, int type)
   char			*cmd;
   t_client		*tmp;
 
-  if (type == 0)
-    tmp = serv->client;
-  else
-    tmp = serv->gfx;
+  tmp = (type == 0) ? serv->client : serv->gfx;
   while (tmp != NULL)
     {
       if (FD_ISSET(tmp->fd, &(serv->readfds)))

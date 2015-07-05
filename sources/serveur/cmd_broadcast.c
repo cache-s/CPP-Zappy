@@ -26,8 +26,8 @@ int			cmd_broadcast(t_serv *serv, t_client *client,
       if (tmp != client)
 	{
 	  k = get_k(serv->settings, client, tmp);
-	  printf(BOLD RED "Sending '%d, %s' to %d\n" END, k, cmd, tmp->fd);
-	  if (dprintf(tmp->fd, "message %d, %s\n", k, cmd) == -1)
+	  printf(BOLD RED "Sending '%d,%s' to %d\n" END, k, cmd, tmp->fd);
+	  if (dprintf(tmp->fd, "message %d,%s\n", k, cmd) == -1)
 	    ret = EXIT_FAILURE;
 	}
       tmp = tmp->next;

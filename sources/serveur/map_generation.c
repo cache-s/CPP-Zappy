@@ -31,12 +31,9 @@ int			map_generation(t_serv *serv)
   j = 0;
   while (j < serv->settings->width)
     {
-      i = 0;
-      while (i < serv->settings->height)
-	{
-	  jewels_food_generation(&(serv->map->blocks[i][j]), i, j);
-	  i++;
-	}
+      i = -1;
+      while (++i < serv->settings->height)
+	jewels_food_generation(&(serv->map->blocks[i][j]), i, j);
       j++;
     }
   return (EXIT_SUCCESS);

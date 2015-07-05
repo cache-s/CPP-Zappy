@@ -10,6 +10,31 @@
 
 #include		"serveur.h"
 
+int			display_map(t_serv *serv, t_client *client, int pos)
+{
+  client->team_pos = pos;
+  serv->settings->clients[pos] += 1;
+  if (dprintf(client->fd, "%d\n", serv->settings->nb_clients -
+	      serv->settings->clients[pos]) == -1)
+    return (EXIT_FAILURE);
+  if (dprintf(client->fd, "%d %d\n", client->x, client->y) == -1)
+    return (EXIT_FAILURE);
+  if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (generate_all_item(serv, 1) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (generate_random_item(serv, 0, 4) ==  EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  if (serv->settings->clients[pos] > serv->settings->nb_clients)
+    {
+      printf(BOLD RED "Received message '%s' from %d\n" END, "ko", client->fd);
+      if (my_write(client->fd, "ko") == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      serv->settings->clients[pos] = serv->settings->nb_clients;
+    }
+  return (EXIT_SUCCESS);
+}
+
 int			check_team(t_serv *serv, t_client *client, char *cmd)
 {
   int			pos;
@@ -26,25 +51,7 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       client->team = strdup(cmd);
       client->connected = 1;
       pos = get_team_pos(serv, cmd);
-      client->team_pos = pos;
-      serv->settings->clients[pos] += 1;
-      if (serv->settings->clients[pos] > serv->settings->nb_clients)
-      	{
-	  printf(BOLD RED "Received message '%s' from %d\n" END, "ko", client->fd);
-      	  if (my_write(client->fd, "ko") == EXIT_FAILURE)
-      	    return (EXIT_FAILURE);
-      	  serv->settings->clients[pos] = serv->settings->nb_clients;
-      	}
-      if (dprintf(client->fd, "%d\n", serv->settings->nb_clients -
-		  serv->settings->clients[pos]) == -1)
-	return (EXIT_FAILURE);
-      if (dprintf(client->fd, "%d %d\n", client->x, client->y) == -1)
-	return (EXIT_FAILURE);
-      if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
-	return (EXIT_FAILURE);
-      if (generate_all_item(serv, 1) == EXIT_FAILURE)
-	return (EXIT_FAILURE);
-      if (generate_random_item(serv, 0, 4) ==  EXIT_FAILURE)
+      if (display_map(serv, client, pos) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
   else

@@ -19,7 +19,8 @@ mendiane %d,phiras %d,thystame %d}\n", client->items[0], client->items[1],
 	      client->items[5], client->items[6]) == -1)
     return (EXIT_FAILURE);
   printf(BOLD RED"Sending '{nourriture %d,linemate %d,deraumere %d,sibur %d,\
-mendiane %d,phiras %d,thystame %d}' to %d\n" END, client->items[0], client->items[1],
+mendiane %d,phiras %d,thystame %d}' to %d\n" END,
+	 client->items[0], client->items[1],
 	 client->items[2], client->items[3], client->items[4],
 	 client->items[5], client->items[6], client->fd);
   return (EXIT_SUCCESS);
