@@ -93,6 +93,7 @@ typedef struct		s_client
   int			cmd_end;
   int			heart_perc;
   int			incant_time;
+  char			incanting;
   struct s_client	*next;
 }			t_client;
 

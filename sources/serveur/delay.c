@@ -81,10 +81,13 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
 	elapsed = 0;
       tmp->time_left -= elapsed / 1000000;
       tmp->heart_perc += elapsed;
-      tmp->incant_time -= elapsed / 1000000;
-      /* if (tmp->incant_time <= 0) */
-      /* 	if (cmd_end_incantation(serv, tmp) == EXIT_FAILURE) */
-      /* 	  return (EXIT_FAILURE); */
+      if (tmp->incanting)
+	{
+	  tmp->incant_time -= elapsed / 1000000;
+	  if (tmp->incant_time <= 0)
+	    if (cmd_end_incantation(serv, tmp) == EXIT_FAILURE)
+	      return (EXIT_FAILURE);
+	}
       if (tmp->heart_perc > (126 / (double)serv->settings->delay) * 1000000)
 	{
 	  tmp->items[0] -= 1;

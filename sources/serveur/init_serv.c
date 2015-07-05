@@ -41,6 +41,7 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->need_write = 0;
   new->next = NULL;
   new->fd = fd;
+  new->incanting = 0;
   new->id = fd;
   new->gfx = 0;
   new->time_left = 0;

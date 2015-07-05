@@ -81,21 +81,19 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
 
 int			print_info(char *str, int mode)
 {
-  (void)str;
-  (void)mode;
-  /* char			*tmp; */
+  char			*tmp;
 
-  /* if (str != NULL) */
-  /*   { */
-  /*     if ((tmp = strdup(str)) == NULL) */
-  /* 	return (my_error(ERR_STRDUP)); */
-  /*     if (mode) */
-  /* 	printf(BOLD RED "Sending message '%s' to server\n" END, */
-  /* 	       strtok(tmp, "\n")); */
-  /*     else */
-  /* 	printf(BOLD BLUE "Received message '%s' from server\n" END, */
-  /* 	       strtok(tmp, "\n")); */
-  /*     free(tmp); */
-  /*   } */
+  if (str != NULL)
+    {
+      if ((tmp = strdup(str)) == NULL)
+  	return (my_error(ERR_STRDUP));
+      if (mode)
+  	printf(BOLD RED "Sending message '%s' to server\n" END,
+  	       strtok(tmp, "\n"));
+      else
+  	printf(BOLD BLUE "Received message '%s' from server\n" END,
+  	       strtok(tmp, "\n"));
+      free(tmp);
+    }
   return (EXIT_SUCCESS);
 }

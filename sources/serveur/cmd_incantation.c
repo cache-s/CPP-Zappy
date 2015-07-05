@@ -17,16 +17,16 @@ int			cmd_incantation(t_serv *serv, t_client *client,
   if (client->lvl == 8 || inc_lvl(serv, client) == EXIT_FAILURE)
     {
       my_write(client->fd, "ko");
+      printf(BOLD RED "Sending 'ko' to %d\n" END, client->fd); 
       return (EXIT_FAILURE);
     }
   if (my_write(client->fd, "elevation en cours") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  printf(BOLD RED "Sending 'elevation en cours' to %d\n" END, client->fd); 
   if (write_pic_gfx(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  client->incant_time = 300;
-  //temps d'incation
-  /* if (cmd_end_incantation(serv, client) == EXIT_FAILURE) */
-  /*   return (EXIT_FAILURE); */
+  client->incanting = 1;
+  client->incant_time = 300 / serv->settings->delay;
   return (EXIT_SUCCESS);
 }
 
@@ -49,6 +49,7 @@ int			cmd_end_incantation(t_serv *serv, t_client *client)
     return (EXIT_FAILURE);
   if (up_players(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  client->incanting = 0;
   return (EXIT_SUCCESS);
 }
 
@@ -64,6 +65,7 @@ int			up_players(t_serv *serv, t_client *client)
 	  tmp->lvl += 1;
 	  if (dprintf(client->fd, "niveau actuel : %d\n", tmp->lvl) == -1)
 	    return (EXIT_FAILURE);
+	  printf(BOLD RED "Sending 'niveau actuel : %d' to %d\n" END, tmp->lvl, tmp->fd);
 	  if (write_plv_gfx(serv->gfx, tmp) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	}
