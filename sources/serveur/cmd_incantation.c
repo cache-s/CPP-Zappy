@@ -23,9 +23,10 @@ int			cmd_incantation(t_serv *serv, t_client *client,
     return (EXIT_FAILURE);
   if (write_pic_gfx(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  client->incant_time = 300;
   //temps d'incation
-  if (cmd_end_incantation(serv, client) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
+  /* if (cmd_end_incantation(serv, client) == EXIT_FAILURE) */
+  /*   return (EXIT_FAILURE); */
   return (EXIT_SUCCESS);
 }
 

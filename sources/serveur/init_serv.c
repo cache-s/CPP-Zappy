@@ -41,6 +41,7 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->need_write = 0;
   new->next = NULL;
   new->fd = fd;
+  new->id = fd;
   new->gfx = 0;
   new->time_left = 0;
   new->is_full = 0;
@@ -52,6 +53,7 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->x = random() % serv->settings->width;
   new->y = random() % serv->settings->height;
   new->lvl = 1;
+  new->incant_time = 30000;
   new->items[0] = 10;
   while (i++ < 7)
     new->items[i] = 0;
@@ -120,9 +122,7 @@ int			init_server(t_serv *serv)
   init_AI_tabs(serv);
   display_game_configuration(serv);
   serv->gfx = NULL;
-  while (42)
-    if (accept_clients(serv) == EXIT_FAILURE)
-      return (my_error(ERR_ACCEPT));
+  while (accept_clients(serv) == EXIT_SUCCESS);
   close(serv->socket);
   return (EXIT_SUCCESS);
 }
