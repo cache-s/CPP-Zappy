@@ -12,30 +12,8 @@
 
 int			cmd_connect_nbr(t_serv *serv, t_client *client,
 					UNUSED char *cmd)
-{
-  t_client		*tmp;
-  int			i;
-  char			*value;
-
-  i = 0;
-  tmp = serv->client;
-  if (client->team == NULL)
-    { // A VIRER QUAND MT AURA SET LES TEAMS
-      puts("CACA");
-      return (EXIT_FAILURE);
-    }
-  while (tmp != NULL)
-    {
-      if (tmp->team != NULL && strcmp(tmp->team, client->team) == 0)
-	i++;
-      tmp = tmp->next;
-    }
-  if ((value = itoa(serv->settings->nb_clients - i)) == NULL)
-    return (EXIT_FAILURE);
-  i = EXIT_SUCCESS;
-  if (my_write(client->fd, value) == EXIT_FAILURE)
-    i = EXIT_FAILURE;
-  printf(RED BOLD "Sending '%s' to %d\n" END, value, client->fd);
-  free(value);
-  return (i);
+{ 
+  printf(RED BOLD "Sending '%d' to %d\n" END, serv->settings->nb_clients - serv->settings->clients[client->team_pos], client->fd);
+  dprintf(client->fd, "%d\n", serv->settings->nb_clients - serv->settings->clients[client->team_pos]);
+  return (EXIT_SUCCESS);
 }

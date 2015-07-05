@@ -48,7 +48,7 @@ int			fork_step1(t_serv *serv, t_client *client, int *fork)
 
 int			fork_step2(t_serv *serv, t_client *client, int *fork)
 {
-  serv->settings->nb_clients++;
+  serv->settings->clients[client->team_pos] -= 1;
   if (write_eht_gfx(serv->gfx, client->id) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   client->forking = 0;

@@ -31,8 +31,6 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   i = 0;
   tmp_i = 0;
   check_player(x, y, serv, client);
-  printf("x = %i\n", x);
-  printf("y = %i\n", y);
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
@@ -40,6 +38,7 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
 	{
 	  while (tmp_i != 0)
 	    {
+	      printf("FIND %s\n", serv->items[i]);
 	      dprintf(client->fd, " %s", serv->items[i]);
 	      tmp_i--;
 	    }
