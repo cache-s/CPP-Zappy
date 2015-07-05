@@ -88,12 +88,12 @@ int			print_info(char *str, int mode)
     {
       if ((tmp = strdup(str)) == NULL)
   	return (my_error(ERR_STRDUP));
-      /* if (mode) */
-      /* 	printf(BOLD RED "Sending message '%s' to server\n" END, */
-      /* 	       strtok(tmp, "\n")); */
-      /* else */
-      /* 	printf(BOLD BLUE "Received message '%s' from server\n" END, */
-      /* 	       strtok(tmp, "\n")); */
+      if (mode)
+      	printf(BOLD RED "Sending message '%s' to server\n" END,
+      	       strtok(tmp, "\n"));
+      else
+      	printf(BOLD BLUE "Received message '%s' from server\n" END,
+      	       strtok(tmp, "\n"));
       free(tmp);
     }
   return (EXIT_SUCCESS);
