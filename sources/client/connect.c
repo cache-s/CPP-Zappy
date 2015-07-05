@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Sat Jul  4 22:34:50 2015 Martin Porrès
+** Last update Sun Jul  5 00:06:29 2015 Pierre Charie
 */
 
 #include		"client.h"
@@ -81,19 +81,21 @@ int			handle_cmd(t_client *client, fd_set *fd_write)
 
 int			print_info(char *str, int mode)
 {
-  char			*tmp;
+  (void)str;
+  (void)mode;
+  /* char			*tmp; */
 
-  if (str != NULL)
-    {
-      if ((tmp = strdup(str)) == NULL)
-	return (my_error(ERR_STRDUP));
-      if (mode)
-	printf(BOLD RED "Sending message '%s' to server\n" END,
-	       strtok(tmp, "\n"));
-      else
-	printf(BOLD BLUE "Received message '%s' from server\n" END,
-	       strtok(tmp, "\n"));
-      free(tmp);
-    }
+  /* if (str != NULL) */
+  /*   { */
+  /*     if ((tmp = strdup(str)) == NULL) */
+  /* 	return (my_error(ERR_STRDUP)); */
+  /*     if (mode) */
+  /* 	printf(BOLD RED "Sending message '%s' to server\n" END, */
+  /* 	       strtok(tmp, "\n")); */
+  /*     else */
+  /* 	printf(BOLD BLUE "Received message '%s' from server\n" END, */
+  /* 	       strtok(tmp, "\n")); */
+  /*     free(tmp); */
+  /*   } */
   return (EXIT_SUCCESS);
 }
