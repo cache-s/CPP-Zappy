@@ -131,13 +131,35 @@ void			AI::setId(int id)
 void			AI::act()
 {
 
-
-  if (_inventory["nourriture"] < 3)
+  if (_cmdRcv.find("niveau actuel") != std::string::npos || (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos))
     {
+      _targetID = "";
+      _targetDir = -1;
+      _triedInv = false;
+      _waitSum = false;
+      _waitCome = false;
+      _startInc = false;
+      _foodBegin = -1;
+      _waitPong = false;
+
+    }
+  inventory();
+  vision();
+  std::cout << "on a " << _inventory["nourriture"] << std::endl;
+  if (_inventory["nourriture"] < 3 && _inventory["nourriture"] != 0)
+    {
+      if (_waitSum == true || _waitCome == true || _startInc == true)
+      	{
+	  std::cout << "ON ARRETE l'INCANT\n";
+      	  std::string msg = "broadcast STOPINV " + _ID;
+      	  _todo.push_front(msg);
+      	}
+      std::cout << "PLUS DE BOUFFE\n";
       _waitSum = false;
       _waitCome = false;
       _startInc = false;
       _triedInv = false;
+      _targetID = "";
     }
 
   if (_startInc == true)
@@ -157,6 +179,7 @@ void			AI::act()
       _triedInv = false;
       tryIncant();
       _startInc = false;
+
     }
 
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
@@ -187,10 +210,25 @@ void			AI::act()
     }
   if (!_targetID.empty())
     {
+      if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+	{
+	  return;
+	  _targetID.clear();
+	}
+
       if (_targetDir == -1)
 	{
 	  if (_waitPong == false)
 	    {
+	      static bool once = false;
+
+	      if (once == true)
+		{
+		  _cmdSnd = "inventaire";
+		  once = !once;
+		  return;
+		}
+	      once = !once;
 	      _waitPong = true;
 	      std::string ret = "broadcast PING " + _targetID;
 	      _cmdSnd = ret;
@@ -358,10 +396,21 @@ void			AI::setObjective()
       return;
     }
   _update = false;
-  if (_inventory["nourriture"] < (5 + (_level * 3)))
+  if (_inventory["nourriture"] < (10 + (_level * 3)))
     lookFor("nourriture");
-  else if (tryIncant() == false)
-    getMissingStones();
+  else
+    {
+      if (tryIncant() == false)
+	getMissingStones();
+      else
+	{
+	  std::cout << "ON ARRETE l'INCANT apres tryincant;\n";
+      	  std::string msg = "broadcast STOPINV " + _ID;
+	  _todo.push_back(msg);
+	}
+    }
+
+
 }
 
 void			AI::listenSummon()
@@ -384,7 +433,7 @@ void			AI::listenSummon()
 	      invID.push_back(newID);
 	    }
 	}
-      if (_foodBegin - _inventory["nourriture"] > 2)
+      if (_foodBegin - _inventory["nourriture"] > 1)
 	{
 	  std::cout << "On call les gens, si assez de reponse!\n";
 	  std::cout << "ppl nbr = " << invID.size() << std::endl;

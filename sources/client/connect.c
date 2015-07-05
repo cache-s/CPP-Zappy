@@ -5,7 +5,7 @@
 ** Login   <porres_m@epitech.net>
 **
 ** Started on  Wed Jun 17 17:53:24 2015 Martin Porrès
-** Last update Sun Jul  5 00:06:29 2015 Pierre Charie
+** Last update Sun Jul  5 13:50:57 2015 Pierre Charie
 */
 
 #include		"client.h"
@@ -83,16 +83,17 @@ int			print_info(char *str, int mode)
 {
   char			*tmp;
 
+  (void) mode;
   if (str != NULL)
     {
       if ((tmp = strdup(str)) == NULL)
   	return (my_error(ERR_STRDUP));
-      if (mode)
-  	printf(BOLD RED "Sending message '%s' to server\n" END,
-  	       strtok(tmp, "\n"));
-      else
-  	printf(BOLD BLUE "Received message '%s' from server\n" END,
-  	       strtok(tmp, "\n"));
+      /* if (mode) */
+      /* 	printf(BOLD RED "Sending message '%s' to server\n" END, */
+      /* 	       strtok(tmp, "\n")); */
+      /* else */
+      /* 	printf(BOLD BLUE "Received message '%s' from server\n" END, */
+      /* 	       strtok(tmp, "\n")); */
       free(tmp);
     }
   return (EXIT_SUCCESS);
