@@ -21,7 +21,7 @@ int			new_client(t_serv *serv)
     return (my_error_close(ERR_ACCEPT, serv->socket));
   if (cs > serv->fds)
     serv->fds = cs;
-  if (my_write(2, CYAN "*** New client connected on the server" END)
+  if (my_write(2, YELLOW "*** New client connected on the server" END)
       == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (create_client(serv, cs) == EXIT_FAILURE)
@@ -33,6 +33,9 @@ int			new_client(t_serv *serv)
 
 int			set_client_values(t_serv *serv, t_client *new, int fd)
 {
+  int			i;
+
+  i = 0;
   new->cmd = NULL;
   new->shortest_cmd = NULL;
   new->need_write = 0;
@@ -50,8 +53,10 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->y = random() % serv->settings->height;
   new->lvl = 1;
   new->items[0] = 10;
+  while (i++ < 7)
+    new->items[i] = 0;
   serv->nb_client++;
-  if (my_write(2, CYAN "*** Client settings initialized" END) == EXIT_FAILURE)
+  if (my_write(2, YELLOW "*** Client settings initialized" END) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }

@@ -22,7 +22,7 @@ void			east(t_serv *serv, t_client *client)
     {
       look_floor(serv->see->tmp_x_plus, j, serv, client);
       if (j - 1 < 0)
-	j = serv->settings->height;
+	j = serv->settings->height - 1;
       else
 	j--;
     }
@@ -64,7 +64,7 @@ void			south(t_serv *serv, t_client *client)
     {
       look_floor(j, serv->see->tmp_y_less, serv, client);
       if (j - 1 < 0)
-	j = serv->settings->width;
+	j = serv->settings->width - 1;
       else
 	j--;
     }

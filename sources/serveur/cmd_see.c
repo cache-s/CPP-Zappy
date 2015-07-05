@@ -31,10 +31,11 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
   i = 0;
   tmp_i = 0;
   check_player(x, y, serv, client);
+  printf("x = %i\n", x);
+  printf("y = %i\n", y);
   while (i < 7)
     {
       tmp_i = serv->map->blocks[x][y].items[i];
-      printf("%d\n", serv->map->blocks[x][y].items[i]);
       if (serv->map->blocks[x][y].items[i] != 0)
 	{
 	  while (tmp_i != 0)
