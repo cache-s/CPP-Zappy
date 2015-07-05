@@ -12,18 +12,47 @@
 
 int			cmd_fork(t_serv *serv, t_client *client, UNUSED char *cmd)
 {
-  if (write_pfk_gfx(serv->gfx, client) == EXIT_FAILURE)
-    return (EXIT_FAILURE);
-  // wait fork
+  int			fork;
 
-  serv->settings->nb_clients++; // à remplacer
+  fork = 0;
+  if (client->fork_step == 0 && fork != 1)
+    {
+      if (write_pfk_gfx(serv->gfx, client) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      client->forking = 1;
+      client->fork_time = 42 / serv->settings->delay;
+      client->fork_step = 1;
+      fork++;
+    }
+  if (client->fork_step == 1 && fork != 1)
+    if (fork_step1(serv, client, &fork) == EXIT_FAILURE)
+      return (EXIT_FAILURE);
+  if (client->fork_step == 2 && fork != 1)
+    if (fork_step2(serv, client, &fork) == EXIT_FAILURE)
+      return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
+}
+
+int			fork_step1(t_serv *serv, t_client *client, int *fork)
+{
   if (write_enw_gfx(serv->gfx, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  // wait eclosion
+  client->forking = 1;
+  client->fork_time = 600 / serv->settings->delay;
+  client->fork_step = 2;
+  *fork += 1;
+  return (EXIT_SUCCESS);
+}
+
+int			fork_step2(t_serv *serv, t_client *client, int *fork)
+{
+  serv->settings->nb_clients++;
   if (write_eht_gfx(serv->gfx, client->id) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  //set egg to rdy
+  client->forking = 0;
+  client->fork_step = 0;
+  *fork += 1;
   return (EXIT_SUCCESS);
 }

@@ -94,6 +94,9 @@ typedef struct		s_client
   int			heart_perc;
   int			incant_time;
   char			incanting;
+  char			forking;
+  int			fork_step;
+  int			fork_time;
   struct s_client	*next;
 }			t_client;
 
@@ -200,6 +203,8 @@ int		cmd_broadcast(t_serv *serv, t_client *client, char *cmd);
 int		cmd_incantation(t_serv *serv, t_client *client, char *cmd);
 int		cmd_end_incantation(t_serv *serv, t_client *client);
 int		cmd_fork(t_serv *serv, t_client *client, char *cmd);
+int		fork_step1(t_serv *serv, t_client *client, int *fork);
+int		fork_step2(t_serv *serv, t_client *client, int *fork);
 int		cmd_connect_nbr(t_serv *serv, t_client *client, char *cmd);
 int		cmd_graphic(t_serv *serv, t_client *client, char *cmd);
 int		check_team(t_serv *serv, t_client *client, char *cmd);

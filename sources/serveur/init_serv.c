@@ -55,6 +55,9 @@ int			set_client_values(t_serv *serv, t_client *new, int fd)
   new->y = random() % serv->settings->height;
   new->lvl = 1;
   new->incant_time = 30000;
+  new->forking = 0;
+  new->fork_time = 42000;
+  new->fork_step = 0;
   new->items[0] = 10;
   while (i++ < 7)
     new->items[i] = 0;
