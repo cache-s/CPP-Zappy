@@ -16,7 +16,7 @@ int			init_items(t_serv *serv)
     return (my_error(ERR_MALLOC));
   serv->items[0] = strdup("nourriture");
   serv->items[1] = strdup("linemate");
-  serv->items[2] = strdup("deraumêre");
+  serv->items[2] = strdup("deraumere");
   serv->items[3] = strdup("sibur");
   serv->items[4] = strdup("mendiane");
   serv->items[5] = strdup("phiras");

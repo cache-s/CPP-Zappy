@@ -17,6 +17,7 @@ int			cmd_broadcast(t_serv *serv, t_client *client,
   int			k;
   int			ret;
 
+  printf("CMD={%s}\n", cmd);
   ret = EXIT_SUCCESS;
   if (write_pbc_gfx(serv->gfx, client, cmd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
@@ -26,6 +27,7 @@ int			cmd_broadcast(t_serv *serv, t_client *client,
       if (tmp != client)
 	{
 	  k = get_k(serv->settings, client, tmp);
+	  printf("Sending '%d, %s' to %d\n", k, cmd, tmp->fd);
 	  if (dprintf(tmp->fd, "message %d, %s\n", k, cmd) == -1)
 	    ret = EXIT_FAILURE;
 	}
