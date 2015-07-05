@@ -130,8 +130,6 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
-  std::cout << "my level is " << _level;
-
   if (_cmdRcv.find("niveau actuel") != std::string::npos || (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos))
     {
       if (_cmdRcv.find("niveau actuel") != std::string::npos)
@@ -148,7 +146,7 @@ void			AI::act()
     }
   inventory();
   vision();
-  std::cout << "on a " << _inventory["nourriture"] << std::endl;
+  // std::cout << "on a " << _inventory["nourriture"] << std::endl;
   if (_inventory["nourriture"] < 3 && _inventory["nourriture"] != 0)
     {
       if (_waitSum == true || _waitCome == true || _startInc == true)
@@ -227,7 +225,12 @@ void			AI::act()
 
 	      if (once == true)
 		{
-		  _cmdSnd = "inventaire";
+		  static bool twice = false;
+		  if (twice == true)
+		    _cmdSnd = "inventaire";
+		  else
+		    _cmdSnd = "voir";
+		  twice = !twice;
 		  once = !once;
 		  return;
 		}
