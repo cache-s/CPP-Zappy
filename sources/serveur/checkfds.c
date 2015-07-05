@@ -175,6 +175,7 @@ char			*close_connect_end(t_serv *serv, int fd, t_client *tmp)
     }
   else
     tmp->next = NULL;
+  serv->settings->clients[tmp->team_pos] -= 1;
   fprintf(stderr, YELLOW "*** Deleting player %d\n" END, fd);
   close(fd);
   return (NULL);
@@ -197,6 +198,7 @@ int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
       else
 	serv->gfx = serv->gfx->next;
       free(tmp);
+      serv->settings->clients[tmp->team_pos] -= 1;
       close(fd);
       fprintf(stderr, YELLOW "*** Deleting player %d\n" END, fd);
       return (EXIT_FAILURE);

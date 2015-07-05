@@ -26,6 +26,7 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       client->team = strdup(cmd);
       client->connected = 1;
       pos = get_team_pos(serv, cmd);
+      client->team_pos = pos;
       serv->settings->clients[pos] += 1;
       if (serv->settings->clients[pos] > serv->settings->nb_clients)
       	{
@@ -40,6 +41,8 @@ int			check_team(t_serv *serv, t_client *client, char *cmd)
       if (write_pnw_gfx(serv->gfx, client) == EXIT_FAILURE)
 	return (EXIT_FAILURE);
       if (generate_all_item(serv, 1) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      if (generate_random_item(serv, 0, 4) ==  EXIT_FAILURE)
 	return (EXIT_FAILURE);
     }
   else

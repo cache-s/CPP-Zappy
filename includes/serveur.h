@@ -77,6 +77,7 @@ typedef struct		s_client
   int			id;
   fct			fct_read;
   fct			fct_write;
+  int			team_pos;
   int			fd;
   char			*team;
   char			need_write;
