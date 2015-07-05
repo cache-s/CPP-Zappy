@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:41:49 2015 Jordan Chazottes
+** Last update Sun Jul  5 21:25:34 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -51,6 +51,7 @@ eEvent		moveScroll(t_gfx *s, int x, int y)
     s->yScroll = 0;
   if (s->yScroll > (s->height - MAX_VIEW))
     s->yScroll = (s->height - MAX_VIEW);
+  s->camChange = 1;
   return (DEFAULT);
 }
 

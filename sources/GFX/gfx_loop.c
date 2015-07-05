@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:51:28 2015 Jordan Chazottes
+** Last update Sun Jul  5 21:31:11 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -30,9 +30,10 @@ int		gfx_loop(t_gfx *s)
       if (FD_ISSET(s->network.socket, &s->network.fd_read))
 	if (handleCmd(s) == EXIT_FAILURE)
 	  return (EXIT_FAILURE);
-      if (s->network.entire_cmd == 1 && s->network.init == 2)
-      	if (draw(s) == EXIT_FAILURE)
-      	  return (EXIT_FAILURE);
+      if ((s->network.entire_cmd == 1 && s->network.init == 2)
+	  || (s->camChange == 1 && s->network.init))
+	if (draw(s) == EXIT_FAILURE)
+	  return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }

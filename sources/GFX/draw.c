@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:44:15 2015 Jordan Chazottes
+** Last update Sun Jul  5 21:33:54 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -99,5 +99,7 @@ int		draw(t_gfx *s)
     return (EXIT_FAILURE);
   SDL_FreeSurface(resImg);
   SDL_Flip(s->screen);
+  s->network.entire_cmd = 0;
+  s->camChange = 0;
   return (EXIT_SUCCESS);
 }

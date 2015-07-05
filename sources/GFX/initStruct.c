@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 14:23:03 2015 Jordan Chazottes
-** Last update Sun Jul  5 11:12:47 2015 Jordan Chazottes
+** Last update Sun Jul  5 21:25:20 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -20,7 +20,7 @@ void		initStruct(t_gfx *s)
   s->yScroll = 0;
   s->bSelect.x = -1;
   s->bSelect.y = -1;
-
+  s->camChange = 0;
   s->network.socket = 0;
   s->network.entire_cmd = 0;
   s->network.cmd = NULL;
