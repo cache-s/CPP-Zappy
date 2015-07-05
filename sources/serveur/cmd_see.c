@@ -83,6 +83,6 @@ int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
     }
   if (dprintf(client->fd, "}\n") == -1)
     return (EXIT_FAILURE);
-  printf(BOLD RED "Sending 'Res of voir' to %d\n", client->fd); 
+  printf(BOLD RED "Sending 'Res of voir' to %d\n", client->fd);
   return (EXIT_SUCCESS);
 }
