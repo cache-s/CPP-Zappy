@@ -10,7 +10,7 @@
 
 #include		"serveur.h"
 
-void			check_player(int x, int y, t_serv *serv, t_client *client)
+int			check_player(int x, int y, t_serv *serv, t_client *client)
 {
   t_client		*tmp;
 
@@ -18,9 +18,11 @@ void			check_player(int x, int y, t_serv *serv, t_client *client)
   while (tmp != NULL)
     {
       if (tmp->x == x && tmp->y == y)
-	dprintf(client->fd, " joueur");
+	if (dprintf(client->fd, " joueur") == -1)
+	  return (EXIT_FAILURE);
       tmp = tmp->next;
     }
+  return (EXIT_SUCCESS);
 }
 
 int			look_floor(int x, int y, t_serv *serv, t_client *client)
@@ -38,15 +40,16 @@ int			look_floor(int x, int y, t_serv *serv, t_client *client)
 	{
 	  while (tmp_i != 0)
 	    {
-	      printf("FIND %s\n", serv->items[i]);
-	      dprintf(client->fd, " %s", serv->items[i]);
+	      if (dprintf(client->fd, " %s", serv->items[i]) == -1)
+		return (EXIT_FAILURE);
 	      tmp_i--;
 	    }
 	}
       i++;
     }
   if (serv->see->end != 1)
-    dprintf(client->fd, ",");
+    if (dprintf(client->fd, ",") == -1)
+      return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
@@ -69,7 +72,8 @@ int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
   if ((serv->see = malloc(sizeof(* serv->see))) == NULL)
     return (my_error(ERR_MALLOC));
   init_see(serv);
-  dprintf(client->fd, "{");
+  if (dprintf(client->fd, "{") == -1)
+    return (EXIT_FAILURE);
   look_floor(client->x, client->y, serv, client);
   while (i <= client->lvl)
     {
@@ -77,7 +81,8 @@ int			cmd_see(t_serv *serv, t_client *client, UNUSED char *cmd)
       see_with_orientation(serv, client);
       i++;
     }
-  dprintf(client->fd, "}\n");
+  if (dprintf(client->fd, "}\n") == -1)
+    return (EXIT_FAILURE);
   printf(BOLD RED "Sending 'Res of voir' to %d\n", client->fd); 
   return (EXIT_SUCCESS);
 }
