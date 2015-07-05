@@ -21,7 +21,7 @@ int			cmd_move_forward(t_serv *serv, t_client *client,
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  printf(RED BOLD "Sending 'ok' to %d" END, client->fd);
+  printf(RED BOLD "Sending 'ok' to %d\n" END, client->fd);
   return (EXIT_SUCCESS);
 }
 

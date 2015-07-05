@@ -19,5 +19,6 @@ int			cmd_right(t_serv *serv, t_client *client, UNUSED char *cmd)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  printf(BOLD RED "Sending 'ok' to %d\n" END, client->fd);
   return (EXIT_SUCCESS);
 }

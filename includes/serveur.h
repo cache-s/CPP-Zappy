@@ -254,6 +254,7 @@ int		write_pex_gfx(t_client *gfx, t_client *client);
 int		write_pfk_gfx(t_client *gfx, t_client *client);
 int		write_enw_gfx(t_client *gfx, t_client *client);
 int		write_eht_gfx(t_client *gfx, int id);
+int		write_players(t_serv *serv, t_client *client);
 
 int		write_ok(int fd, int ok);
 
