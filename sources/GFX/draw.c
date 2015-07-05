@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:35:04 2015 Jordan Chazottes
+** Last update Sun Jul  5 23:22:59 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -16,7 +16,7 @@ int		drawItems(t_gfx *s, SDL_Surface *img)
   int		i;
 
   pos.i = s->xScroll - 1;
-  while (++pos.i < s->width && pos.i < (s->yScroll + MAX_VIEW))
+  while (++pos.i < s->width && pos.i < (s->xScroll + MAX_VIEW))
     {
       pos.j = s->yScroll - 1;
       while (++pos.j < s->height && pos.j < (s->yScroll + MAX_VIEW))
