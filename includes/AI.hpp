@@ -5,7 +5,7 @@
 // Login   <cache-_s@epitech.net>
 //
 // Started on  Thu Jun 25 11:01:29 2015 Sebastien Cache-Delanos
-// Last update Sat Jul  4 22:07:46 2015 Pierre Charie
+// Last update Sun Jul  5 03:13:03 2015 Pierre Charie
 //
 
 #ifndef				AI_HPP
@@ -76,6 +76,8 @@ private:
   bool						_triedInv;
   bool						_waitSum;
   bool						_waitCome;
+
+  bool						_startInc;
 
   int						_foodBegin;
 };

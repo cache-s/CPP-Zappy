@@ -9,6 +9,7 @@ AI::AI()
   _waitSum = false;
   _waitPong = false;
   _waitCome = false;
+  _startInc = false;
   _targetID = "";
   _targetDir = -1;
   _cmdRcv = "";
@@ -100,7 +101,6 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
-
   try
     {
       _cmdSnd = "";
@@ -127,15 +127,53 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
+  if (_startInc == true)
+    {
+      static bool tmp = true;
+      if (tmp == true)
+	{
+	  _cmdSnd = "voir";
+	  tmp = false;
+	  return;
+	}
+      tmp = true;
+      vision();
+      std::cout << "on est pret à incanter\n";
+      _cmdRcv = "";
+      _waitSum = false;
+      _triedInv = false;
+      tryIncant();
+      _startInc = false;
+    }
+
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
-      std::string ret =  "broadcast PONG " + _ID;
-      _cmdSnd = ret;
+      int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+      std::cout << "DIRECTION QUI VIENT = " << direction << std::endl;
+      if (direction == 0)
+	{
+	  int       peopleNbr = 0;
+	  for (unsigned int j = 0; j < _vision[0].size(); ++j)
+	    {
+	      peopleNbr++;
+	    }
+	  // if (peopleNbr == _lvlUp[std::make_pair(_level, "joueur")])
+	  //   {
+	      std::cout << "GOGOINCANT\n";
+	      _startInc = true;
+	      tryIncant();
+	      return;
+	    // }
+	}
+      else
+	{
+	  std::string ret =  "broadcast PONG " + _ID;
+	  _cmdSnd = ret;
+	}
       return;
     }
   if (!_targetID.empty())
     {
-      usleep(10000);
       if (_targetDir == -1)
 	{
 	  if (_waitPong == false)
@@ -179,10 +217,21 @@ void			AI::act()
 	      }
 	    if (_waitSum == true)
 	      {
+		static bool once = true;
+
 		if (_cmdSnd.find("PONG") != std::string::npos)
 		  return;
-		_cmdSnd = "inventaire"; //pour eviter les INV en chaine
-		inventory();
+		if (once == true)
+		  {
+		    _cmdSnd = "inventaire"; //pour eviter les INV en chaine
+		    vision();
+		  }
+		else
+		  {
+		    _cmdSnd = "voir";
+		    inventory();
+		  }
+		once = !once;
 	      }
 	  }catch (const std::exception &e)
 	    {
@@ -244,10 +293,7 @@ void    AI::move()
       if (_targetDir == 4 || _targetDir == 3 || _targetDir == 5)
 	_cmdSnd = "gauche";
       // _todo.push_front("gauche");
-      usleep(800000);
    }
-  else
-    std::cout << "ON EST ARRIVEJENZFJIZEHFUOZEHFUZEIOFHZEIUFZEHFUHZEUI\n\n\n";
   _targetDir = -1;
 }
 
@@ -335,7 +381,6 @@ void			AI::listenSummon()
 	      std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
 	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1; ++i)
 		{
-
 		  cmd += ", ";
 		  cmd += invID[i];
 		}
