@@ -166,8 +166,9 @@ char			*close_connect_end(t_serv *serv, int fd, t_client *tmp)
 
   if (tmp->next != NULL)
     {
-      if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
-	return (NULL);
+      if (tmp->connected)
+	if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
+	  return (NULL);
       next = tmp->next->next;
       free(tmp->next);
       tmp->next = next;
@@ -189,8 +190,9 @@ int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
       if (type == 0)
 	{
 	  serv->client = serv->client->next;
-	  if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
-	    return (EXIT_FAILURE);
+	  if (tmp->connected)
+	    if (write_pdi_gfx(serv->gfx, tmp) == EXIT_FAILURE)
+	      return (EXIT_FAILURE);
 	}
       else
 	serv->gfx = serv->gfx->next;

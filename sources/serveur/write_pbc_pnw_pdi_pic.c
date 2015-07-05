@@ -53,9 +53,8 @@ int		write_pdi_gfx(t_client *gfx, t_client *client)
   tmp = gfx;
   while (tmp != NULL)
     {
-      if (tmp->connected == 1)
-	if (dprintf(tmp->fd, "pdi %d\n", client->id) == -1)
-	  ret = EXIT_FAILURE;
+      if (dprintf(tmp->fd, "pdi %d\n", client->id) == -1)
+	ret = EXIT_FAILURE;
       tmp = tmp->next;
     }
   return (ret);
