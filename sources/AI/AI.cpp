@@ -183,6 +183,9 @@ void			AI::act()
 
     }
 
+  if (_triedInv == true)
+    _cmdSnd = "inventaire";
+
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
       int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
@@ -462,13 +465,19 @@ void			AI::listenSummon()
 	  else
 	    {
 	      _cmdSnd = "inventaire";
-	      std::cout << "PAS ASSEZ DE REPONNNNSE\n";
 	      _waitSum = false;
+	      _waitPong = false;
+	      _waitCome = false;
+	      _startInc = false;
+	      _targetID.clear();
+	      _isWaiting = false;
+	      std::cout << "PAS ASSEZ DE REPONNNNSE\n";
 	    }
 	  _foodBegin = -1;
 	}
     }
 }
+
 bool			AI::tryIncant()
 {
   int			peopleNbr = 0;

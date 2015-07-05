@@ -26,6 +26,9 @@ int		server_read(t_gfx *s)
   if (ret == BUFF_SIZE - 1)
     s->network.entire_cmd = 0;
   else
-    s->network.entire_cmd = 1;
+    {
+      printf("%s\n", s->network.cmd);
+      s->network.entire_cmd = 1;
+    }
   return (EXIT_SUCCESS);
 }

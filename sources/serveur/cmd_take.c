@@ -16,7 +16,6 @@ int			cmd_take(t_serv *serv, t_client *client, char *cmd)
   int			ok;
 
   ok = 0;
-  printf("client->x = [%d] | client->y = [%d]\n", client->x, client->y);
   if (cmd != NULL && (item = get_item_number(serv, cmd)) != -1)
     if (serv->map->blocks[client->x][client->y].items[item] > 0)
       {

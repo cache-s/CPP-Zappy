@@ -67,8 +67,8 @@ int			close_first_elem(t_client *tmp, t_serv *serv, int fd, int type)
 	}
       else
 	serv->gfx = serv->gfx->next;
-      free(tmp);
       serv->settings->clients[tmp->team_pos] -= 1;
+      free(tmp);
       close(fd);
       fprintf(stderr, YELLOW "*** Deleting player %d\n" END, fd);
       return (EXIT_FAILURE);

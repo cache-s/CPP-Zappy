@@ -2,6 +2,6 @@
 
 while true
 do
-    sleep 0.05
-    ./zappy_ai -n Team1 -p 4242
+    sleep 0.5
+    ./zappy_ai -n Team1 -p 4242 &
 done

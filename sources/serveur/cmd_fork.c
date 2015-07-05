@@ -39,6 +39,7 @@ int			fork_step1(t_serv *serv, t_client *client, int *fork)
     return (EXIT_FAILURE);
   if (my_write(client->fd, "ok") == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  printf(BOLD RED "Sending 'ok' to %d\n" END, client->fd);
   client->forking = 1;
   client->fork_time = 600 / serv->settings->delay;
   client->fork_step = 2;

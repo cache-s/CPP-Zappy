@@ -43,7 +43,7 @@ int			check_call_cmds(t_serv *serv, char *cmd, t_client *client)
   char			*save;
 
   save = strdup(cmd);
-  if (count_char(cmd, ' ') == 1)
+  if (count_char(cmd, ' ') >= 1)
     save = strtok(save, " ");
   if (call_cmds(serv, save) == 42)
     {

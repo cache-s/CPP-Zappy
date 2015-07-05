@@ -48,6 +48,22 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
     }
   if (write_tna(serv, client->fd) == EXIT_FAILURE)
     return (EXIT_FAILURE);
+  if (write_players(serv, client) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
+  return (EXIT_SUCCESS);
+}
+
+int			write_players(t_serv *serv, t_client *client)
+{
+  t_client		*tmp;
+
+  tmp = serv->client;
+  while (tmp != NULL)
+    {
+      if (write_pnw_gfx(client, tmp) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      tmp = tmp->next;
+    }
   return (EXIT_SUCCESS);
 }
 

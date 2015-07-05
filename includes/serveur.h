@@ -190,7 +190,7 @@ int		cmd_left(t_serv *serv, t_client *client, char *cmd);
 int		cmd_see(t_serv *serv, t_client *client, char *cmd);
 int		see_with_orientation(t_serv *serv, t_client *client);
 int		look_floor(int x, int y, t_serv *serv, t_client *client);
-void		check_player(int x, int y, t_serv *serv, t_client *client);
+int		check_player(int x, int y, t_serv *serv, t_client *client);
 void		y_plus(t_serv *serv);
 void		y_less(t_serv *serv);
 void		x_plus(t_serv *serv);
@@ -254,6 +254,7 @@ int		write_pex_gfx(t_client *gfx, t_client *client);
 int		write_pfk_gfx(t_client *gfx, t_client *client);
 int		write_enw_gfx(t_client *gfx, t_client *client);
 int		write_eht_gfx(t_client *gfx, int id);
+int		write_players(t_serv *serv, t_client *client);
 
 int		write_ok(int fd, int ok);
 
