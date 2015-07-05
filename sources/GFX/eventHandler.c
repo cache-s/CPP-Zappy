@@ -5,12 +5,12 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Sun Jul  5 13:18:57 2015 Jordan Chazottes
+** Last update Sun Jul  5 17:21:16 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
 
-void		getPSelected(t_gfx *s, int x, int y)
+eEvent		getPSelected(t_gfx *s, int x, int y)
 {
   t_player	*tmp;
   
@@ -21,19 +21,37 @@ void		getPSelected(t_gfx *s, int x, int y)
 	s->pSelect = tmp->id;
       tmp = tmp->next;
     }
+  return (DEFAULT);
 }
 
-void		getBSelected(t_gfx *s, int x, int y)
+eEvent		getBSelected(t_gfx *s, int x, int y)
 {
   s->bSelect.x = x/64;
   s->bSelect.y = (y - 50)/64;
+  return (DEFAULT);
 }
 
-void		resetSelected(t_gfx *s)
+eEvent		resetSelected(t_gfx *s)
 {
   s->pSelect = -1;
   s->bSelect.x = -1;
   s->bSelect.y = -1;
+  return (DEFAULT);
+}
+
+eEvent		moveScroll(t_gfx *s, int x, int y)
+{
+  s->xScroll += x;
+  s->yScroll += y;
+  if (s->xScroll < 0)
+    s->xScroll = 0;
+  if (s->xScroll > (s->width - MAX_VIEW))
+    s->xScroll = (s->width - MAX_VIEW);
+  if (s->yScroll < 0)
+    s->yScroll = 0;
+  if (s->yScroll > (s->height - MAX_VIEW))
+    s->yScroll = (s->height - MAX_VIEW);
+  return (DEFAULT);
 }
 
 eEvent		eventHandler(t_gfx *s)
@@ -47,40 +65,20 @@ eEvent		eventHandler(t_gfx *s)
       if(event.type == SDL_MOUSEBUTTONDOWN)
 	{
 	  if (event.button.button == SDL_BUTTON_RIGHT)
-	    resetSelected(s);
+	    return (resetSelected(s));
 	  if (event.button.button == SDL_BUTTON_LEFT)
-	    getPSelected(s, event.button.x, event.button.y);
+	    return (getPSelected(s, event.button.x, event.button.y));
 	  if (event.button.button == SDL_BUTTON_MIDDLE)
-	    getBSelected(s, event.button.x, event.button.y);
+	    return (getBSelected(s, event.button.x, event.button.y));
 	}
       if (event.key.keysym.sym == SDLK_UP)
-      	{
-      	  s->yScroll--;
-      	  if (s->yScroll < 0)
-      	    s->yScroll = 0;
-      	  return (UP);
-      	}
+	return (moveScroll(s, 0, -1));
       if (event.key.keysym.sym == SDLK_LEFT)
-      	{
-      	  s->xScroll--;
-      	  if (s->xScroll < 0)
-      	    s->xScroll = 0;
-      	  return (LEFT);
-      	}
+	return (moveScroll(s, -1, 0));
       if (event.key.keysym.sym == SDLK_DOWN)
-      	{
-      	  s->yScroll++;
-      	  if (s->yScroll > s->height)
-      	    s->yScroll = s->height;
-      	  return (DOWN);
-      	}
+	return (moveScroll(s, 0, 1));
       if (event.key.keysym.sym == SDLK_RIGHT)
-      	{
-      	  s->xScroll++;
-      	  if (s->xScroll > s->width)
-      	    s->xScroll = s->width;
-      	  return (RIGHT);
-      	}
+	return (moveScroll(s, 1, 0));
     }
-  return (0);
+  return (DEFAULT);
 }
