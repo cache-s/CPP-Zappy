@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Sat Jul  4 19:06:56 2015 Jordan Chazottes
+** Last update Sun Jul  5 13:51:18 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -250,12 +250,13 @@ int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
   SDL_Rect	rect;
 
+  printf("food\n");
   rect.x = 0;
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = pos.i*64 - (s->xScroll - SCR_WIDTH);
-  pos.y = pos.j*64 - (s->yScroll - SCR_HEIGHT) + 50;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64 + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -369,12 +370,21 @@ int		cmd_bct(t_gfx *s, char *token)
 
   i = -1;
   if ((tok = strtok(token, " ")) == NULL)
-    return (EXIT_FAILURE);
+    {
+      printf("Leaving 1\n");
+      return (EXIT_FAILURE);
+    }
   if ((tok = strtok(NULL, " ")) == NULL)
-    return (EXIT_FAILURE);
+    {
+      printf("Leaving 2\n");
+      return (EXIT_FAILURE);
+    }
   pos.x = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
-    return (EXIT_FAILURE);
+    {
+      printf("Leaving 3\n");
+      return (EXIT_FAILURE);
+    }
   pos.y = atoi(tok);
   s->map->blocks[pos.x][pos.y].x = pos.x;
   s->map->blocks[pos.x][pos.y].y = pos.y;
@@ -677,10 +687,7 @@ int		cmd_pdi(t_gfx *s, char *token)
   if (tmp->isFirst == 1)
     {
       if (tmp->next == NULL)
-	{
-	  free(tmp);
-	  s->players = NULL;
-	}
+	s->players = NULL;
       else
 	{
 	  s->players = tmp->next;
@@ -692,7 +699,6 @@ int		cmd_pdi(t_gfx *s, char *token)
     tmp = NULL;
   tmp2 = getPrevPlayer(s, id);
   tmp2->next = tmp->next;
-  free(tmp);
   return (EXIT_SUCCESS);
 }
 

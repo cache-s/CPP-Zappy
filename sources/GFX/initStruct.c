@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 14:23:03 2015 Jordan Chazottes
-** Last update Sat Jul  4 19:54:02 2015 Jordan Chazottes
+** Last update Sun Jul  5 11:12:47 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -16,8 +16,8 @@ void		initStruct(t_gfx *s)
   s->height = 0;
   s->screen = NULL;
   s->pSelect = -1;
-  s->xScroll = SCR_WIDTH;
-  s->yScroll = SCR_HEIGHT;
+  s->xScroll = 0;
+  s->yScroll = 0;
   s->bSelect.x = -1;
   s->bSelect.y = -1;
 

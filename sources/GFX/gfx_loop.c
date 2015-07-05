@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:36:26 2015 Jordan Chazottes
-** Last update Thu Jul  2 18:59:59 2015 Jordan Chazottes
+** Last update Sun Jul  5 13:20:50 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -19,8 +19,8 @@ int		gfx_loop(t_gfx *s)
   FD_ZERO(&s->network.fd_write);
   while (eventHandler(s) != -1)
     {
-      tv.tv_usec = 0;
-      tv.tv_sec = 1;
+      tv.tv_usec = 500;
+      tv.tv_sec = 0;
       FD_ZERO(&s->network.fd_read);
       FD_SET(s->network.socket, &s->network.fd_read);
       if (select(s->network.socket + 1, &s->network.fd_read, &s->network.fd_write, NULL, &tv) == -1)
