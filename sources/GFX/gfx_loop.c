@@ -14,14 +14,13 @@ int		gfx_loop(t_gfx *s)
 {
   struct timeval	tv;
 
-  tv.tv_usec = 0;
-  tv.tv_sec = 1;
   s->network.cmd = NULL;
   s->network.init = 0;
   FD_ZERO(&s->network.fd_write);
-
   while (eventHandler(s) != -1)
     {
+      tv.tv_usec = 0;
+      tv.tv_sec = 1;
       FD_ZERO(&s->network.fd_read);
       FD_SET(s->network.socket, &s->network.fd_read);
       if (select(s->network.socket + 1, &s->network.fd_read, &s->network.fd_write, NULL, &tv) == -1)

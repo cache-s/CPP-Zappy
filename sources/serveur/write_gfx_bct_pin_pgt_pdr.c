@@ -35,7 +35,8 @@ int		write_bct_gfx(t_client *gfx, t_block *block)
   tmp = gfx;
   while (tmp != NULL)
     {
-      write_bct(block, tmp->fd);
+      if (write_bct(block, tmp->fd) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
       tmp = tmp->next;
     }
   return (ret);

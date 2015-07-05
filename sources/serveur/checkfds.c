@@ -153,7 +153,7 @@ char			*close_connect(t_serv *serv, int fd, int type)
     return (NULL);
   while (tmp->next != NULL && tmp->next->fd != fd)
     tmp = tmp->next;
-  if (tmp->next != NULL)
+  if (tmp->next == NULL)
     return (NULL);
   if (close_connect_end(serv, fd, tmp) == NULL)
     return (NULL);
