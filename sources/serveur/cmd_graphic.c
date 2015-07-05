@@ -31,9 +31,11 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
     return (EXIT_SUCCESS);
   if (move_to_gfx_list(serv, client) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  dprintf(client->fd, "msz %d %d\n", serv->settings->width, \
-	  serv->settings->height);
-  dprintf(client->fd, "sgt %d\n", serv->settings->delay);
+  if (dprintf(client->fd, "msz %d %d\n", serv->settings->width,	\
+	      serv->settings->height) == -1)
+    return (EXIT_FAILURE);
+  if (dprintf(client->fd, "sgt %d\n", serv->settings->delay) == -1)
+    return (EXIT_FAILURE);
   while (i < serv->settings->width)
     {
       j = 0;
@@ -44,11 +46,12 @@ int			cmd_graphic(t_serv *serv, t_client *client, UNUSED char *cmd)
 	}
       i++;
     }
-  write_tna(serv, client->fd);
+  if (write_tna(serv, client->fd) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
-void		write_tna(t_serv *serv, int fd)
+int		write_tna(t_serv *serv, int fd)
 {
   char		*tmp;
 
@@ -56,9 +59,11 @@ void		write_tna(t_serv *serv, int fd)
   tmp = strtok(tmp, ";");
   while (tmp != NULL)
     {
-      dprintf(fd, "tna %s\n", tmp);
+      if (dprintf(fd, "tna %s\n", tmp) == -1)
+	return (EXIT_FAILURE);
       tmp = strtok(NULL, ";");
     }
+  return (EXIT_SUCCESS);
 }
 
 int		move_to_gfx_list(t_serv *serv, t_client *client)

@@ -38,39 +38,41 @@ SRCS_AI		=	sources/AI/AI.cpp			\
 
 SRCS_CONNECTOR	=	sources/AI/AI_c_connector.cpp		\
 
-SRCS_SERVEUR	=	sources/serveur/main.c			\
-			sources/serveur/parsing.c		\
-			sources/serveur/fill_settings.c		\
-			sources/serveur/map_generation.c	\
-			sources/serveur/init_serv.c		\
-			sources/serveur/call_cmds.c		\
-			sources/serveur/checkfds.c		\
-			sources/serveur/cmd_connect_nbr.c	\
-			sources/serveur/welcome_msg.c		\
-			sources/serveur/init_tabs.c		\
-			sources/serveur/cmd_broadcast.c		\
-			sources/serveur/cmd_broadcast_end.c	\
-			sources/serveur/cmd_graphic.c		\
-			sources/serveur/cmd_kick.c		\
-			sources/serveur/cmd_inventory.c		\
-			sources/serveur/cmd_incantation.c	\
-			sources/serveur/cmd_right.c		\
-			sources/serveur/cmd_move_forward.c	\
-			sources/serveur/cmd_drop.c		\
-			sources/serveur/cmd_fork.c		\
-			sources/serveur/cmd_left.c		\
-			sources/serveur/cmd_see.c		\
-			sources/serveur/see_with_orientation.c	\
-			sources/serveur/move_see.c		\
-			sources/serveur/cmd_take.c		\
-			sources/serveur/read_write.c		\
-			sources/serveur/check_team.c		\
-			sources/serveur/delay.c			\
-			sources/serveur/cmd_incantation_end.c	\
+SRCS_SERVEUR	=	sources/serveur/main.c				\
+			sources/serveur/parsing.c			\
+			sources/serveur/fill_settings.c			\
+			sources/serveur/map_generation.c		\
+			sources/serveur/init_serv.c			\
+			sources/serveur/call_cmds.c			\
+			sources/serveur/checkfds.c			\
+			sources/serveur/cmd_connect_nbr.c		\
+			sources/serveur/welcome_msg.c			\
+			sources/serveur/init_tabs.c			\
+			sources/serveur/cmd_broadcast.c			\
+			sources/serveur/cmd_broadcast_end.c		\
+			sources/serveur/cmd_graphic.c			\
+			sources/serveur/cmd_kick.c			\
+			sources/serveur/cmd_inventory.c			\
+			sources/serveur/cmd_incantation.c		\
+			sources/serveur/cmd_right.c			\
+			sources/serveur/cmd_move_forward.c		\
+			sources/serveur/cmd_drop.c			\
+			sources/serveur/cmd_fork.c			\
+			sources/serveur/cmd_left.c			\
+			sources/serveur/cmd_see.c			\
+			sources/serveur/see_with_orientation.c		\
+			sources/serveur/move_see.c			\
+			sources/serveur/cmd_take.c			\
+			sources/serveur/read_write.c			\
+			sources/serveur/check_team.c			\
+			sources/serveur/delay.c				\
+			sources/serveur/cmd_incantation_end.c		\
 			sources/serveur/write_gfx_bct_pin_pgt_pdr.c	\
 			sources/serveur/write_pbc_pnw_pdi_pic.c		\
 			sources/serveur/write_pie_plv_pex_pfk_enw.c	\
-			sources/serveur/write_eht_ok.c		\
+			sources/serveur/fill_cmd.c			\
+			sources/serveur/write_eht_ok.c			\
+			sources/serveur/close_connection.c		\
 			$(SRCS_COMMONS)
 
 SRCS_CLIENT	=	sources/client/main.c		\

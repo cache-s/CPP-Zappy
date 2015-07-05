@@ -235,7 +235,7 @@ void		display_game_configuration(t_serv *serv);
 int		generate_random_item(t_serv *serv, int item, int nb);
 int		generate_all_item(t_serv *serv, int nb);
 
-void		write_tna(t_serv *serv, int fd);
+int		write_tna(t_serv *serv, int fd);
 int		write_bct(t_block *block, int fd);
 int		write_bct_gfx(t_client *gfx, t_block *block);
 int		write_pin_gfx(t_client *gfx, t_client *client);
@@ -263,13 +263,16 @@ void		set_delay_tab(t_serv *serv);
 int		update_timers(t_serv *serv, struct timeval *tv, double time);
 int		update_client(t_client *client, t_serv *serv);
 
+int		fill_cmd(char *cmd, t_client *tmp, t_serv *serv);
 int		inc_lvl(t_serv *serv, t_client *client);
 int		inc_count_player(t_serv *serv, t_client *client);
 void		init_inc_tab(t_serv *serv);
 void		init_inc_tab_2(t_serv *serv);
 void		init_inc_tab_3(t_serv *serv);
 int		init_tab_settings(t_settings *settings);
+int		check_cmd_before_fill(char *cmd, t_client *tmp, t_serv *serv, int *end);
 int		check_call_cmds(t_serv *serv, char *cmd, t_client *client);
 char		*close_connect_end(t_serv *serv, int fd, t_client *tmp);
+
 
 #endif

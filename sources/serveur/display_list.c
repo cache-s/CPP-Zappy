@@ -59,7 +59,8 @@ int			display_list(char **list, t_client *client, int *users)
 	return (EXIT_FAILURE);
       if (write(client->fd, list[i], strlen(list[i])) == -1)
 	return (EXIT_FAILURE);
-      dprintf(client->fd, " %d :\n", users[i]);
+      if (dprintf(client->fd, " %d :\n", users[i]) == -1)
+	return (EXIT_FAILURE);
       i++;
     }
   if (display_listend(client) == EXIT_FAILURE)
