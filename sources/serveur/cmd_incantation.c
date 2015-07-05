@@ -65,8 +65,8 @@ int			up_players(t_serv *serv, t_client *client)
 	  tmp->lvl += 1;
 	  if (dprintf(client->fd, "niveau actuel : %d\n", tmp->lvl) == -1)
 	    return (EXIT_FAILURE);
-	  printf(BOLD RED "Sending 'niveau actuel : %d' to %d\n"
-		 END, tmp->lvl, tmp->fd);
+	  printf(BOLD RED "Sending 'niveau actuel : %d' to %d\n" END,
+		 tmp->lvl, tmp->fd);
 	  if (write_plv_gfx(serv->gfx, tmp) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	}

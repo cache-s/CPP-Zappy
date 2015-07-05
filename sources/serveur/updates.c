@@ -1,16 +1,16 @@
 /*
-** updates.c for  in /home/mathieu/rendu/PSU_2014_zappy
+** updates.c for  in /home/poupon_d/Rendu/PSU_2014_zappy
 ** 
-** Made by Mathieu
-** Login   <mathieu@epitech.net>
+** Made by poupon_d
+** Login   <poupon_d@epitech.net>
 ** 
-** Started on  Sun Jul  5 20:00:27 2015 Mathieu
-** Last update Sun Jul  5 20:00:27 2015 Mathieu
+** Started on  Sun Jul  5 23:10:14 2015 poupon_d
+** Last update Sun Jul  5 23:10:14 2015 poupon_d
 */
 
 #include		"serveur.h"
 
-int			update_fork_incant(t_serv *serv, int elapsed, t_client *tmp)
+int			update_fork_incant(t_serv *serv, double elapsed, t_client *tmp)
 {
   if (tmp->incanting)
     {
@@ -26,24 +26,8 @@ int			update_fork_incant(t_serv *serv, int elapsed, t_client *tmp)
 	if (cmd_fork(serv, tmp, NULL) == EXIT_FAILURE)
 	  return (EXIT_FAILURE);
     }
-  return (EXIT_SUCCESS);
-}
-
-int			check_death(t_serv *serv, t_client *tmp)
-{
-  if (tmp->heart_perc > (126 / (double)serv->settings->delay) * 1000000)
-    {
-      tmp->items[0] -= 1;
-      tmp->heart_perc -= ((126 / (double)serv->settings->delay) * 1000000);
-    }
-  if (tmp->items[0] <= 0)
-    {
-      printf(RED BOLD "Sending mort to %d\n" END, tmp->fd);
-      if (my_write(tmp->fd, "mort") == EXIT_FAILURE)
-	return (EXIT_FAILURE);
-      close_connect(serv, tmp->fd, 0);
-      return (EXIT_FAILURE);
-    }
+  if (check_death(serv, tmp) == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
@@ -57,11 +41,11 @@ int			update_timers(t_serv *serv, struct timeval *tv, double time)
   while (tmp != NULL)
     {
       if (elapsed < 0)
-	elapsed = 0;
+      	elapsed = 0;
       tmp->time_left -= elapsed / 1000000;
       tmp->heart_perc += elapsed;
-      update_fork_incant(serv, elapsed, tmp);
-      check_death(serv, tmp);
+      if (update_fork_incant(serv, elapsed, tmp) == EXIT_FAILURE)
+	return (EXIT_FAILURE);
       if (tmp->time_left <= 0)
 	tmp->time_left = 0;
       if ((int)tmp->time_left == 0 && tmp->shortest_cmd != NULL)

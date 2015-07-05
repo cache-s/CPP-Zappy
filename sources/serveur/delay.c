@@ -71,3 +71,21 @@ void			set_delay_tab(t_serv *serv)
   serv->cmd_time[10] = 0;
   serv->cmd_time[11] = 0;
 }
+
+int			check_death(t_serv *serv, t_client *tmp)
+{
+  if (tmp->heart_perc > (126 / (double)serv->settings->delay) * 1000000)
+    {
+	  tmp->items[0] -= 1;
+	  tmp->heart_perc -= ((126 / (double)serv->settings->delay) * 1000000);
+    }
+  if (tmp->items[0] <= 0)
+    {
+      printf(RED BOLD "Sending mort to %d\n" END, tmp->fd);
+      if (my_write(tmp->fd, "mort") == EXIT_FAILURE)
+	return (EXIT_FAILURE);
+      close_connect(serv, tmp->fd, 0);
+      return (EXIT_FAILURE);
+    }
+  return (EXIT_SUCCESS);
+}
