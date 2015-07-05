@@ -31,7 +31,7 @@ void			modify_x(eOrientation orientation, t_client *client, int width)
     {
       client->x -= 1;
       if (client->x < 0)
-	client->x = width;
+	client->x = width - 1;
     }
   else
     {
@@ -48,7 +48,7 @@ void			modify_y(eOrientation orientation, t_client *client,
     {
       client->y -= 1;
       if (client->y < 0)
-	client->y = height;
+	client->y = height - 1;
     }
   else
     {
