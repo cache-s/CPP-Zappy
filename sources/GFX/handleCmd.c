@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 12:57:34 2015 Jordan Chazottes
-** Last update Wed Jul  1 16:56:46 2015 Jordan Chazottes
+** Last update Sun Jul  5 17:24:56 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -31,8 +31,6 @@ int		handleCmd(t_gfx *s)
       free(token);
       free(s->network.cmd);
       s->network.cmd = NULL;
-      if (draw(s) == EXIT_FAILURE)
-        return (EXIT_FAILURE);
     }
   return (EXIT_SUCCESS);
 }

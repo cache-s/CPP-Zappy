@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Mon Jun 29 14:11:10 2015 Jordan Chazottes
-** Last update Sun Jul  5 12:35:22 2015 Jordan Chazottes
+** Last update Sun Jul  5 16:57:44 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -23,8 +23,10 @@ int		drawItems(t_gfx *s, SDL_Surface *img)
 	{
 	  i = -1;
 	  while (++i < NB_ITEMS)
-	    if (s->map->blocks[pos.i][pos.j].items[i] > 0)
-	      s->drawItem[i](s, img, pos);
+	    {
+	      if (s->map->blocks[pos.i][pos.j].items[i] > 0)
+		s->drawItem[i](s, img, pos);
+	    }
 	}
     }
   return (EXIT_SUCCESS);
@@ -46,8 +48,8 @@ int		drawFloor(t_gfx *s)
       pos.j = s->yScroll - 1;
       while (++pos.j < s->height && pos.j < (s->yScroll + MAX_VIEW))
 	{
-	  pos.x = pos.i*64;
-	  pos.y = pos.j*64 + 50;
+	  pos.x = (pos.i - s->xScroll)*64;
+	  pos.y = (pos.j - s->yScroll)*64 + 50;
 	  applySurface(pos, s, img, &rect);
 	}
     }
@@ -65,9 +67,8 @@ int		drawPlayers(t_gfx *s)
       tmp = s->players;
       while (tmp != NULL && tmp->x < s->width && tmp->y < s->height && tmp->x < (s->xScroll + MAX_VIEW) && tmp->y < (s->yScroll + MAX_VIEW))
 	{
-	  printf("Drawing player on %d %d\n", tmp->x, tmp->y);
-	  pos.x = tmp->x*64;
-	  pos.y = tmp->y*64 + 50;
+	  pos.x = (tmp->x - s->xScroll)*64;
+	  pos.y = ((tmp->y - s->yScroll)*64) + 50;
 	  s->drawPlayer[tmp->level - 1](s, pos, tmp);
 	  tmp = tmp->next;
 	}

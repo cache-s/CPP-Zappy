@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 10:46:14 2015 Jordan Chazottes
-** Last update Fri Jul  3 21:00:11 2015 Jordan Chazottes
+** Last update Sun Jul  5 14:16:47 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -26,5 +26,6 @@ int		allocMap(t_gfx *s)
       ++i;
     }
   initWindow(s);
+  s->network.init = 2;
   return (EXIT_SUCCESS);
 }

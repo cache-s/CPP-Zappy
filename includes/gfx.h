@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sat Jul  4 19:37:48 2015 Jordan Chazottes
+** Last update Sun Jul  5 17:19:02 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -76,10 +76,7 @@ typedef enum		eOrientation
 typedef enum		eEvent
   {
     QUIT	= -1,
-    UP		= 0,
-    RIGHT	= 1,
-    DOWN	= 2,
-    LEFT	= 3,
+    DEFAULT	= 0
   }			eEvent;
 
 typedef enum		eAction

@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Sun Jul  5 13:51:18 2015 Jordan Chazottes
+** Last update Sun Jul  5 16:58:19 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -250,13 +250,12 @@ int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
   SDL_Rect	rect;
 
-  printf("food\n");
   rect.x = 0;
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = pos.i*64;
-  pos.y = pos.j*64 + 50;
+  pos.x = (pos.i - s->xScroll)*64;
+  pos.y = ((pos.j - s->yScroll)*64) + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -269,8 +268,8 @@ int		draw_linemate(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = (pos.i*64) + 16;
-  pos.y = pos.j*64 + 50;
+  pos.x = ((pos.i - s->xScroll)*64) + 16;
+  pos.y = ((pos.j - s->yScroll)*64) + 50;
   applySurface(pos, s, img, &rect);  
   return (EXIT_SUCCESS);
 }
@@ -283,8 +282,8 @@ int		draw_deraumere(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = (pos.i*64) + 32;
-  pos.y = pos.j*64 + 50;
+  pos.x = ((pos.i - s->xScroll)*64) + 32;
+  pos.y = ((pos.j - s->yScroll)*64) + 50;
   applySurface(pos, s, img, &rect);  
   return (EXIT_SUCCESS);
 }
@@ -297,8 +296,8 @@ int		draw_sibur(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = (pos.i*64) + 48;
-  pos.y = pos.j*64 + 50;
+  pos.x = ((pos.i - s->xScroll)*64) + 48;
+  pos.y = ((pos.j - s->yScroll)*64) + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -311,8 +310,8 @@ int		draw_mendiane(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = pos.i*64;
-  pos.y = (pos.j*64) + 16 + 50;
+  pos.x = (pos.i - s->xScroll)*64;
+  pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -325,8 +324,8 @@ int		draw_phiras(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = (pos.i*64) + 16;
-  pos.y = (pos.j*64) + 16 + 50;
+  pos.x = ((pos.i - s->xScroll)*64) + 16;
+  pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -339,8 +338,8 @@ int		draw_thystame(t_gfx *s, SDL_Surface *img, t_pos pos)
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = (pos.i*64) + 32;
-  pos.y = (pos.j*64) + 16 + 50;
+  pos.x = ((pos.i - s->xScroll)*64) + 32;
+  pos.y = ((pos.j - s->yScroll)*64) + 16 + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
@@ -370,21 +369,12 @@ int		cmd_bct(t_gfx *s, char *token)
 
   i = -1;
   if ((tok = strtok(token, " ")) == NULL)
-    {
-      printf("Leaving 1\n");
-      return (EXIT_FAILURE);
-    }
+    return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
-    {
-      printf("Leaving 2\n");
-      return (EXIT_FAILURE);
-    }
+    return (EXIT_FAILURE);
   pos.x = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
-    {
-      printf("Leaving 3\n");
-      return (EXIT_FAILURE);
-    }
+    return (EXIT_FAILURE);
   pos.y = atoi(tok);
   s->map->blocks[pos.x][pos.y].x = pos.x;
   s->map->blocks[pos.x][pos.y].y = pos.y;
@@ -696,7 +686,10 @@ int		cmd_pdi(t_gfx *s, char *token)
       return (EXIT_SUCCESS);
     }
   if (tmp->next == NULL)
-    tmp = NULL;
+    {
+      tmp = NULL;
+      return (EXIT_SUCCESS);
+    }
   tmp2 = getPrevPlayer(s, id);
   tmp2->next = tmp->next;
   return (EXIT_SUCCESS);
