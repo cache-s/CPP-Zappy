@@ -101,6 +101,9 @@ char*			AI::call(const char* cmdRcv)
 {
   char*			ret;
 
+
+
+
   try
     {
       _cmdSnd = "";
@@ -127,6 +130,16 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
+
+
+  if (_inventory["nourriture"] < 3)
+    {
+      _waitSum = false;
+      _waitCome = false;
+      _startInc = false;
+      _triedInv = false;
+    }
+
   if (_startInc == true)
     {
       static bool tmp = true;
@@ -294,6 +307,8 @@ void    AI::move()
 	_cmdSnd = "gauche";
       // _todo.push_front("gauche");
    }
+  else
+    std::cout << "ON EST ARRIVEJENZFJIZEHFUOZEHFUZEIOFHZEIUFZEHFUHZEUI\n\n\n";
   _targetDir = -1;
 }
 
