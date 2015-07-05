@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jul  4 19:10:39 2015 Jordan Chazottes
-** Last update Sat Jul  4 20:26:58 2015 Jordan Chazottes
+** Last update Sun Jul  5 13:13:40 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -35,7 +35,7 @@ void		setInfosBg(t_gfx *s)
   SDL_Surface	*bg;
   SDL_Rect	pos;
 
-  bg = SDL_CreateRGBSurface(SDL_HWSURFACE, s->width*64, 49, 32, 0, 0, 0, 0);
+  bg = SDL_CreateRGBSurface(SDL_HWSURFACE, MAX_VIEW * 64, 49, 32, 0, 0, 0, 0);
   pos.x = 0;
   pos.y = 0;
   SDL_FillRect(bg, NULL, SDL_MapRGB(s->screen->format, 127, 127, 127));

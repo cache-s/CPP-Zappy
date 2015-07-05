@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 30 18:06:41 2015 Jordan Chazottes
-** Last update Sat Jul  4 19:42:09 2015 Jordan Chazottes
+** Last update Sun Jul  5 13:18:57 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -39,7 +39,7 @@ void		resetSelected(t_gfx *s)
 eEvent		eventHandler(t_gfx *s)
 {
   SDL_Event	event;
-  (void)s;
+
   if (SDL_PollEvent(&event) == 1)
     {
       if (event.type == SDL_QUIT || event.key.keysym.sym == SDLK_ESCAPE)
@@ -53,34 +53,34 @@ eEvent		eventHandler(t_gfx *s)
 	  if (event.button.button == SDL_BUTTON_MIDDLE)
 	    getBSelected(s, event.button.x, event.button.y);
 	}
-      /* if (event.key.keysym.sym == SDLK_UP) */
-      /* 	{ */
-      /* 	  s->yScroll--; */
-      /* 	  if (s->yScroll < 0) */
-      /* 	    s->yScroll = 0; */
-      /* 	  return (UP); */
-      /* 	} */
-      /* if (event.key.keysym.sym == SDLK_LEFT) */
-      /* 	{ */
-      /* 	  s->xScroll--; */
-      /* 	  if (s->xScroll < 0) */
-      /* 	    s->xScroll = 0; */
-      /* 	  return (LEFT); */
-      /* 	} */
-      /* if (event.key.keysym.sym == SDLK_DOWN) */
-      /* 	{ */
-      /* 	  s->yScroll++; */
-      /* 	  if (s->yScroll > s->height) */
-      /* 	    s->yScroll = s->height; */
-      /* 	  return (DOWN); */
-      /* 	} */
-      /* if (event.key.keysym.sym == SDLK_RIGHT) */
-      /* 	{ */
-      /* 	  s->xScroll++; */
-      /* 	  if (s->xScroll > s->width) */
-      /* 	    s->xScroll = s->width; */
-      /* 	  return (RIGHT); */
-      /* 	} */
+      if (event.key.keysym.sym == SDLK_UP)
+      	{
+      	  s->yScroll--;
+      	  if (s->yScroll < 0)
+      	    s->yScroll = 0;
+      	  return (UP);
+      	}
+      if (event.key.keysym.sym == SDLK_LEFT)
+      	{
+      	  s->xScroll--;
+      	  if (s->xScroll < 0)
+      	    s->xScroll = 0;
+      	  return (LEFT);
+      	}
+      if (event.key.keysym.sym == SDLK_DOWN)
+      	{
+      	  s->yScroll++;
+      	  if (s->yScroll > s->height)
+      	    s->yScroll = s->height;
+      	  return (DOWN);
+      	}
+      if (event.key.keysym.sym == SDLK_RIGHT)
+      	{
+      	  s->xScroll++;
+      	  if (s->xScroll > s->width)
+      	    s->xScroll = s->width;
+      	  return (RIGHT);
+      	}
     }
   return (0);
 }

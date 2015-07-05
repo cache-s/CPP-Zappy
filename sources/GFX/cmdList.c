@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jun 28 01:18:18 2015 Jordan Chazottes
-** Last update Sun Jul  5 11:43:02 2015 Jordan Chazottes
+** Last update Sun Jul  5 13:51:18 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -250,12 +250,13 @@ int		draw_food(t_gfx *s, SDL_Surface *img, t_pos pos)
 {
   SDL_Rect	rect;
 
+  printf("food\n");
   rect.x = 0;
   rect.y = 0;
   rect.w = 16;
   rect.h = 16;
-  pos.x = pos.i*64 - (s->xScroll - SCR_WIDTH);
-  pos.y = pos.j*64 - (s->yScroll - SCR_HEIGHT) + 50;
+  pos.x = pos.i*64;
+  pos.y = pos.j*64 + 50;
   applySurface(pos, s, img, &rect);
   return (EXIT_SUCCESS);
 }
