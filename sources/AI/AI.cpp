@@ -125,7 +125,6 @@ char*			AI::call(const char* cmdRcv)
 void			AI::setId(int id)
 {
   _ID = std::to_string(id);
-  std::cout << "MY ID IS " << _ID << std::endl;
 }
 
 void			AI::act()
@@ -146,16 +145,13 @@ void			AI::act()
     }
   inventory();
   vision();
-  // std::cout << "on a " << _inventory["nourriture"] << std::endl;
   if (_inventory["nourriture"] < 3 && _inventory["nourriture"] != 0)
     {
       if (_waitSum == true || _waitCome == true || _startInc == true)
       	{
-	  std::cout << "ON ARRETE l'INCANT\n";
       	  std::string msg = "broadcast STOPINV " + _ID;
       	  _todo.push_front(msg);
       	}
-      std::cout << "PLUS DE BOUFFE\n";
       _waitSum = false;
       _waitCome = false;
       _startInc = false;
@@ -174,7 +170,6 @@ void			AI::act()
 	}
       tmp = true;
       vision();
-      std::cout << "on est pret à incanter\n";
       _cmdRcv = "";
       _waitSum = false;
       _triedInv = false;
@@ -189,7 +184,6 @@ void			AI::act()
   if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
     {
       int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
-      std::cout << "DIRECTION QUI VIENT = " << direction << std::endl;
       if (direction == 0)
 	{
 	  int       peopleNbr = 0;
@@ -197,13 +191,9 @@ void			AI::act()
 	    {
 	      peopleNbr++;
 	    }
-	  // if (peopleNbr == _lvlUp[std::make_pair(_level, "joueur")])
-	  //   {
-	      std::cout << "GOGOINCANT\n";
-	      _startInc = true;
-	      tryIncant();
-	      return;
-	    // }
+	  _startInc = true;
+	  tryIncant();
+	  return;
 	}
       else
 	{
@@ -249,7 +239,6 @@ void			AI::act()
 		{
 		  _waitPong = false;
 		  int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
-		  std::cout << "direction = " << direction << std::endl;
 		  _targetDir = direction;
 		  move();
 		  _cmdRcv = "";
@@ -283,7 +272,7 @@ void			AI::act()
 		  return;
 		if (once == true)
 		  {
-		    _cmdSnd = "inventaire"; //pour eviter les INV en chaine
+		    _cmdSnd = "inventaire";
 		    vision();
 		  }
 		else
@@ -301,7 +290,6 @@ void			AI::act()
 	}
     }
   if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incantation" || _lastSnd == "connect_nbr"))
-  // if (_isWaiting)
     (this->*_handleResponse[_lastSnd])();
   if (!_isWaiting || (_lastSnd != "voir" && _lastSnd != "inventaire" && _lastSnd != "incantation" && _lastSnd != "connect_nbr"))
     {
@@ -319,8 +307,6 @@ void			AI::act()
 	      if (!_todo.empty())
 		{
 		  _cmdSnd = _todo.front();
-		  if (!_targetID.empty())
-		    std::cout << "on fait " << _cmdSnd << std::endl;
 		  _todo.pop_front();
 		}
 	    }
@@ -346,16 +332,11 @@ void    AI::move()
     {
       if (_targetDir == 8 || _targetDir == 1 || _targetDir == 2)
  	_cmdSnd = "avance";
-      // _todo.push_front("avance");
       if (_targetDir == 6 || _targetDir == 7)
 	_cmdSnd = "droite";
-      // _todo.push_front("droite");
       if (_targetDir == 4 || _targetDir == 3 || _targetDir == 5)
 	_cmdSnd = "gauche";
-      // _todo.push_front("gauche");
    }
-  else
-    std::cout << "ON EST ARRIVEJENZFJIZEHFUOZEHFUZEIOFHZEIUFZEHFUHZEUI\n\n\n";
   _targetDir = -1;
 }
 
@@ -376,7 +357,6 @@ void			AI::communicate()
       ret += ", ";
       ret += _ID;
       _cmdSnd = ret;
-      std::cout << "on renvoie " << ret << std::endl;
       return;
     }
   if (_cmdRcv.find("OKINVOC(") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
@@ -388,7 +368,6 @@ void			AI::communicate()
       std::getline(iss, line, ',');
       line.erase(0,1);
       _targetID = line;
-      std::cout << "TARGET ID = " << _targetID << std::endl;
       _cmdRcv.clear();
     }
   if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
@@ -413,7 +392,6 @@ void			AI::setObjective()
 	getMissingStones();
       else
 	{
-	  std::cout << "ON ARRETE l'INCANT apres tryincant;\n";
       	  std::string msg = "broadcast STOPINV " + _ID;
 	  _todo.push_back(msg);
 	}
@@ -431,33 +409,24 @@ void			AI::listenSummon()
     {
       if (_cmdRcv.find("RDY") != std::string::npos && _cmdRcv.find(std::to_string((_level))) != std::string::npos)
 	{
-	  std::cout << "ON A RECU UN RDY BORDEL\n";
 	  if (invID.size() < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
-	      std::cout << "SUMMON MSG == " << _cmdRcv << std::endl;
-	      //	      newID = _cmdRcv.substr(_cmdRcv.find('(') + 1, ((_cmdRcv.find('(') + 1) - _cmdRcv.find(','))); // TODO verifier qu'on ai exactement l'ID
 	      newID = _cmdRcv;
 	      newID.erase(0, 17);
-	      std::cout << "new ID = " << newID;
 	      invID.push_back(newID);
 	    }
 	}
       if (_foodBegin - _inventory["nourriture"] > 1)
 	{
-	  std::cout << "On call les gens, si assez de reponse!\n";
-	  std::cout << "ppl nbr = " << invID.size() << std::endl;
-	  std::cout << "we need " << (unsigned)_lvlUp[std::make_pair(_level, "joueur")] << std::endl;
 	  if (invID.size() >= (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1)
 	    {
 	      std::string cmd = "broadcast OKINVOC(";
 	      cmd += _ID;
-	      std::cout << "ON LES CALL TOUUUUUUUUUUSSSS\n";
 	      for (unsigned int i = 0; i < (unsigned)_lvlUp[std::make_pair(_level, "joueur")] - 1; ++i)
 		{
 		  cmd += ", ";
 		  cmd += invID[i];
 		}
-	      std::cout << "on send " << cmd << std::endl;
 	      _cmdSnd = cmd;
 	      _foodBegin = -1;
 	      return;
@@ -471,7 +440,6 @@ void			AI::listenSummon()
 	      _startInc = false;
 	      _targetID.clear();
 	      _isWaiting = false;
-	      std::cout << "PAS ASSEZ DE REPONNNNSE\n";
 	    }
 	  _foodBegin = -1;
 	}
@@ -492,17 +460,14 @@ bool			AI::tryIncant()
       if (_vision[0][j] == "joueur")
         peopleNbr++;
     }
-  std::cout << "tried inv == " << _triedInv << std::endl;
   if (peopleNbr < _lvlUp[std::make_pair(_level, "joueur")] && _triedInv == false && _waitSum != true)
     {
-      std::cout << "ON RAMENE LA MILLEFA" << std::endl;
       _triedInv = true;
       _waitSum = true;
       _foodBegin = _inventory["nourriture"];
       std::string msg = "broadcast INV(";
       msg += std::to_string(_level);
       msg += ")";
-      //TODO se mettre en position d'ecoute immobile pendant... 2? unité de bouffe. (pour pas qu'il en ramasse plus et fausse le calcul); On ne le lance qu'une fois par niveau. Si ca echoue, on deviendra non plus hote mais guest de la prochaine invoc'
       _todo.push_back(msg);
       return false;
     }
@@ -536,7 +501,6 @@ void			AI::dropToIncant()
       std::string inst = "pose " + _stones[i];
       for (int j = 0; j < _lvlUp[std::make_pair(_level, _stones[i])]; ++j)
 	{
-	  std::cout << "il faut drop " << _lvlUp[std::make_pair(_level, _stones[i])] << _stones[i] << " pour level " << _level << std::endl;
 	  _todo.push_back(inst);
 	}
     }
