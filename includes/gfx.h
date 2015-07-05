@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Tue Jun 16 13:44:33 2015 Jordan Chazottes
-** Last update Sun Jul  5 19:58:36 2015 Jordan Chazottes
+** Last update Sun Jul  5 21:25:00 2015 Jordan Chazottes
 */
 
 #ifndef		_GFX_H_
@@ -146,6 +146,7 @@ typedef struct		s_gfx
   t_map			*map;
   t_player		*players;
   char			**cmdTab;
+  char			camChange;
   tabFcts		cmds[NB_CMDS];
   tabFcts		drawItem[NB_ITEMS];
   tabFcts		drawPlayer[NB_LEVELS];
