@@ -129,170 +129,178 @@ void			AI::setId(int id)
 
 void			AI::act()
 {
-  if (_cmdRcv.find("niveau actuel") != std::string::npos || (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos))
-    {
-      if (_cmdRcv.find("niveau actuel") != std::string::npos)
-	_level = _cmdRcv[16] - '0';
-      _targetID = "";
-      _targetDir = -1;
-      _triedInv = false;
-      _waitSum = false;
-      _waitCome = false;
-      _startInc = false;
-      _foodBegin = -1;
-      _waitPong = false;
+  // if (_cmdRcv.find("niveau actuel") != std::string::npos || (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos))
+  //   {
+  //     if (_cmdRcv.find("niveau actuel") != std::string::npos)
+  // 	_level = _cmdRcv[16] - '0';
+  //     _targetID = "";
+  //     _targetDir = -1;
+  //     _triedInv = false;
+  //     _waitSum = false;
+  //     _waitCome = false;
+  //     _startInc = false;
+  //     _foodBegin = -1;
+  //     _waitPong = false;
 
-    }
-  inventory();
-  vision();
-  if (_inventory["nourriture"] < 3 && _inventory["nourriture"] != 0)
-    {
-      if (_waitSum == true || _waitCome == true || _startInc == true)
-      	{
-      	  std::string msg = "broadcast STOPINV " + _ID;
-      	  _todo.push_front(msg);
-      	}
-      _waitSum = false;
-      _waitCome = false;
-      _startInc = false;
-      _triedInv = false;
-      _targetID = "";
-    }
+  //   }
+  // inventory();
+  // vision();
+  // if (_inventory["nourriture"] < 3 && _inventory["nourriture"] != 0)
+  //   {
+  //     if (_waitSum == true || _waitCome == true || _startInc == true)
+  //     	{
+  //     	  std::string msg = "broadcast STOPINV " + _ID;
+  //     	  _todo.push_front(msg);
+  //     	}
+  //     _waitSum = false;
+  //     _waitCome = false;
+  //     _startInc = false;
+  //     _triedInv = false;
+  //     _targetID = "";
+  //   }
 
-  if (_startInc == true)
-    {
-      static bool tmp = true;
-      if (tmp == true)
-	{
-	  _cmdSnd = "voir";
-	  tmp = false;
-	  return;
-	}
-      tmp = true;
-      vision();
-      _cmdRcv = "";
-      _waitSum = false;
-      _triedInv = false;
-      tryIncant();
-      _startInc = false;
+  // if (_startInc == true)
+  //   {
+  //     static bool tmp = true;
+  //     if (tmp == true)
+  // 	{
+  // 	  _cmdSnd = "voir";
+  // 	  tmp = false;
+  // 	  return;
+  // 	}
+  //     tmp = true;
+  //     vision();
+  //     _cmdRcv = "";
+  //     _waitSum = false;
+  //     _triedInv = false;
+  //     tryIncant();
+  //     _startInc = false;
 
-    }
+  //   }
 
-  if (_triedInv == true)
-    _cmdSnd = "inventaire";
+  // if (_triedInv == true)
+  //   _cmdSnd = "inventaire";
 
-  if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
-    {
-      int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
-      if (direction == 0)
-	{
-	  int       peopleNbr = 0;
-	  for (unsigned int j = 0; j < _vision[0].size(); ++j)
-	    {
-	      peopleNbr++;
-	    }
-	  _startInc = true;
-	  tryIncant();
-	  return;
-	}
-      else
-	{
-	  std::string ret =  "broadcast PONG " + _ID;
-	  _cmdSnd = ret;
-	}
-      return;
-    }
-  if (!_targetID.empty())
-    {
-      if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
-	{
-	  return;
-	  _targetID.clear();
-	}
+  // if (_cmdRcv.find("PING") != std::string::npos && _cmdRcv.find(_ID) != std::string::npos)
+  //   {
+  //     int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+  //     if (direction == 0)
+  // 	{
+  // 	  int       peopleNbr = 0;
+  // 	  for (unsigned int j = 0; j < _vision[0].size(); ++j)
+  // 	    {
+  // 	      peopleNbr++;
+  // 	    }
+  // 	  _startInc = true;
+  // 	  tryIncant();
+  // 	  return;
+  // 	}
+  //     else
+  // 	{
+  // 	  std::string ret =  "broadcast PONG " + _ID;
+  // 	  _cmdSnd = ret;
+  // 	}
+  //     return;
+  //   }
+  // if (!_targetID.empty())
+  //   {
+  //     if (_cmdRcv.find("STOPINV") != std::string::npos && _cmdRcv.find(_targetID) != std::string::npos)
+  // 	{
+  // 	  return;
+  // 	  _targetID.clear();
+  // 	}
 
-      if (_targetDir == -1)
-	{
-	  if (_waitPong == false)
-	    {
-	      static bool once = false;
+  //     if (_targetDir == -1)
+  // 	{
+  // 	  if (_waitPong == false)
+  // 	    {
+  // 	      static bool once = false;
 
-	      if (once == true)
-		{
-		  static bool twice = false;
-		  if (twice == true)
-		    _cmdSnd = "inventaire";
-		  else
-		    _cmdSnd = "voir";
-		  twice = !twice;
-		  once = !once;
-		  return;
-		}
-	      once = !once;
-	      _waitPong = true;
-	      std::string ret = "broadcast PING " + _targetID;
-	      _cmdSnd = ret;
-	      return;
-	    }
-	  if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
-	    {
-	      if (_cmdRcv != "ok")
-		{
-		  _waitPong = false;
-		  int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
-		  _targetDir = direction;
-		  move();
-		  _cmdRcv = "";
-		  return;
-		}
-	    }
-	}
-      else
-	{
-	  move();
-	  return;
-	}
-      return;
-    }
-  else
-    {
-      if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
-	{
-	  try{
-	    communicate();
-	    if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
-	      {
-		_waitCome = true;
-		return;
-	      }
-	    if (_waitSum == true)
-	      {
-		static bool once = true;
+  // 	      if (once == true)
+  // 		{
+  // 		  static bool twice = false;
+  // 		  if (twice == true)
+  // 		    _cmdSnd = "inventaire";
+  // 		  else
+  // 		    _cmdSnd = "voir";
+  // 		  twice = !twice;
+  // 		  once = !once;
+  // 		  return;
+  // 		}
+  // 	      once = !once;
+  // 	      _waitPong = true;
+  // 	      std::string ret = "broadcast PING " + _targetID;
+  // 	      _cmdSnd = ret;
+  // 	      return;
+  // 	    }
+  // 	  if ((_cmdRcv.find("PONG") != std::string::npos) && (_cmdRcv.find(_targetID) != std::string::npos))
+  // 	    {
+  // 	      if (_cmdRcv != "ok")
+  // 		{
+  // 		  _waitPong = false;
+  // 		  int direction = _cmdRcv[_cmdRcv.find("message") + 8] - '0';
+  // 		  _targetDir = direction;
+  // 		  move();
+  // 		  _cmdRcv = "";
+  // 		  return;
+  // 		}
+  // 	    }
+  // 	}
+  //     else
+  // 	{
+  // 	  move();
+  // 	  return;
+  // 	}
+  //     return;
+  //   }
+  // else
+  //   {
+  //     if (_cmdRcv.find("message") != std::string::npos || _waitSum == true)
+  // 	{
+  // 	  try{
+  // 	    communicate();
+  // 	    if (_cmdSnd.find("OKINV") != std::string::npos && _waitCome != true)
+  // 	      {
+  // 		_waitCome = true;
+  // 		return;
+  // 	      }
+  // 	    if (_waitSum == true)
+  // 	      {
+  // 		static bool once = true;
 
-		if (_cmdSnd.find("PONG") != std::string::npos)
-		  return;
-		if (once == true)
-		  {
-		    _cmdSnd = "inventaire";
-		    vision();
-		  }
-		else
-		  {
-		    _cmdSnd = "voir";
-		    inventory();
-		  }
-		once = !once;
-	      }
-	  }catch (const std::exception &e)
-	    {
-	      std::cerr << "Exception : Error in communication" << std::endl;
-	    }
-	  return;
-	}
-    }
-  if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incantation" || _lastSnd == "connect_nbr"))
-    (this->*_handleResponse[_lastSnd])();
-  if (!_isWaiting || (_lastSnd != "voir" && _lastSnd != "inventaire" && _lastSnd != "incantation" && _lastSnd != "connect_nbr"))
-    {
+  // 		if (_cmdSnd.find("PONG") != std::string::npos)
+  // 		  return;
+  // 		if (once == true)
+  // 		  {
+  // 		    _cmdSnd = "inventaire";
+  // 		    vision();
+  // 		  }
+  // 		else
+  // 		  {
+  // 		    _cmdSnd = "voir";
+  // 		    inventory();
+  // 		  }
+  // 		once = !once;
+  // 	      }
+  // 	  }catch (const std::exception &e)
+  // 	    {
+  // 	      std::cerr << "Exception : Error in communication" << std::endl;
+  // 	    }
+  // 	  return;
+  // 	}
+  //   }
+  // if (_isWaiting && (_lastSnd == "voir" || _lastSnd == "inventaire" || _lastSnd == "incantation" || _lastSnd == "connect_nbr"))
+  //   (this->*_handleResponse[_lastSnd])();
+  // if (!_isWaiting || (_lastSnd != "voir" && _lastSnd != "inventaire" && _lastSnd != "incantation" && _lastSnd != "connect_nbr"))
+  //   {
+  _todo.push_back("avance");
+  _todo.push_back("droite");
+  _todo.push_back("gauche");
+  _todo.push_back("voir");
+  _todo.push_back("inventaire");
+  _todo.push_back("expulse");
+  _todo.push_back("broadcast LE JEU");
+  _todo.push_back("connect_nbr");
       try
 	{
 	  if (_todo.empty())
@@ -315,7 +323,7 @@ void			AI::act()
 	      std::cerr << "Exception : Error in popping list of inctruction" << std::endl;;
 	   }
 
-	}
+	// }
   if (_cmdSnd != "")
     {
       for (unsigned int i = 0; i < _needResponse.size(); ++i)
