@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:08:24 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:51:51 2015 Jordan Chazottes
+** Last update Mon Jul  6 18:35:14 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -34,7 +34,9 @@ int		cmd_pin(t_gfx *s, char *token)
   int		id;
   t_player	*tmp;
   char		*tok;
+  int		i;
 
+  i = 0;
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
@@ -50,6 +52,8 @@ int		cmd_pin(t_gfx *s, char *token)
   tmp->y = atoi(tok);
   id = 0;
   tok = strtok(NULL, " ");
+  while (i < NB_ITEMS)
+    tmp->items[i++] = 0;
   while (tok != NULL)
     {
       tmp->items[id++] = atoi(tok);

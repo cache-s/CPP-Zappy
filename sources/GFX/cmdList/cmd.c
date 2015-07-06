@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:05:02 2015 Jordan Chazottes
-** Last update Mon Jul  6 18:14:11 2015 Jordan Chazottes
+** Last update Mon Jul  6 18:33:26 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -68,7 +68,9 @@ int		cmd_pnw(t_gfx *s, char *token)
 {
   t_player	*new;
   t_player	*tmp;
+  int		i;
 
+  i = 0;
   if ((new = malloc(sizeof(t_player))) == NULL)
     return (my_error(ERR_MALLOC));
   new->type = PLAYER;
@@ -88,6 +90,8 @@ int		cmd_pnw(t_gfx *s, char *token)
     tmp = tmp->next;
   tmp->next = new;
   tmp = s->players;
+  while (i < NB_ITEMS)
+    tmp->items[i++] = 0;
   return (EXIT_SUCCESS);
 }
 
