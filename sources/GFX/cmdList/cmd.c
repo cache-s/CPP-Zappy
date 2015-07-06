@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:05:02 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:53:39 2015 Jordan Chazottes
+** Last update Mon Jul  6 18:14:11 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -32,8 +32,10 @@ int		cmd_bct(t_gfx *s, char *token)
   char		*tok;
   t_pos		pos;
   int		i;
+  int		j;
 
   i = -1;
+  j = 0;
   if ((tok = strtok(token, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
@@ -44,6 +46,8 @@ int		cmd_bct(t_gfx *s, char *token)
   pos.y = atoi(tok);
   s->map->blocks[pos.x][pos.y].x = pos.x;
   s->map->blocks[pos.x][pos.y].y = pos.y;
+  while (j < NB_ITEMS)
+    s->map->blocks[pos.x][pos.y].items[j++] = 0;
   tok = strtok(NULL, " ");
   while (tok != NULL)
     {

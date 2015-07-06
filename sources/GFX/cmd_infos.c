@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sat Jul  4 19:10:39 2015 Jordan Chazottes
-** Last update Mon Jul  6 17:56:40 2015 Jordan Chazottes
+** Last update Mon Jul  6 18:19:40 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -52,9 +52,10 @@ int		fill_infos(t_gfx *s)
   x = 110;
   while (i < NB_ITEMS)
     {
-      if (my_regex(itoa(s->map->blocks[s->bSelect.x][s->bSelect.y].items[i++]), ".0123456789")
+      if (my_regex(itoa(s->map->blocks[s->bSelect.x][s->bSelect.y].items[i]), ".0123456789")
 	  == EXIT_FAILURE)
 	return (EXIT_FAILURE);
+      printf("Items %d = %d\n", i, s->map->blocks[s->bSelect.x][s->bSelect.y].items[i]);
       if (write_text(s, itoa(s->map->blocks
 			     [s->bSelect.x][s->bSelect.y].items[i++]),
 		    x, 10) == EXIT_FAILURE)

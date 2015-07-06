@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jul  3 17:20:25 2015 Jordan Chazottes
-** Last update Mon Jul  6 16:14:10 2015 Jordan Chazottes
+** Last update Mon Jul  6 18:29:05 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -48,9 +48,10 @@ int		fill_inv(t_gfx *s, t_player *p)
   int		y;
   char		*level;
 
-  if ((level = malloc(6 * sizeof(*level))) == NULL)
+  if ((level = malloc(7 * sizeof(level))) == NULL)
     return (EXIT_FAILURE);
-  level = strcat(strdup("lvl "), itoa(p->level)),
+  if ((level = strcat(strdup("lvl "), itoa(p->level))) == NULL)
+    return (EXIT_FAILURE);
   x = MAX_VIEW * 64;
   y = MAX_VIEW * 64 - 50;
   if (write_text(s, p->team, x - 320, y + 140) == EXIT_FAILURE)
