@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:13:42 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:52:19 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:53:56 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -20,8 +20,12 @@ int		cmd_pie(t_gfx *s, char *token)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   pos.x = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   pos.y = atoi(tok);
   tmp = s->players;
@@ -45,6 +49,8 @@ int		cmd_pfk(t_gfx *s, char *token)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   id = atoi(tok);
   if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
@@ -62,10 +68,14 @@ int		cmd_pdr(t_gfx *s, char *token)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   id = atoi(tok);
   if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   id = atoi(tok);
   if (tmp->items[id] > 0)
@@ -86,10 +96,14 @@ int		cmd_pgt(t_gfx *s, char *token)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   id = atoi(tok);
   if ((tmp = get_player(s, id)) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   id = atoi(tok);
   if (s->map->blocks[tmp->x][tmp->y].items[id] > 0)
@@ -108,8 +122,12 @@ int		cmd_pdi(t_gfx *s, char *token)
   char		*tok;
   int		id;
 
-  tok = strtok(token, " ");
-  tok = strtok(NULL, " ");
+  if ((tok = strtok(token, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   id = atoi(tok);
   tmp = get_player(s, id);
   if (tmp->isFirst == 1)

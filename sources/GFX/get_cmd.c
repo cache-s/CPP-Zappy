@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 15:11:07 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:39:22 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:45:22 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -17,14 +17,15 @@ int		get_cmd(t_gfx *s, char *token)
   int		i;
 
   i = 0;
-  str = strdup(token);
-  tok = strtok(str, " ");
+  if ((str = strdup(token)) == NULL)
+    return (EXIT_FAILURE);
+  if ((tok = strtok(str, " ")) == NULL)
+    return (EXIT_FAILURE);
   while (s->cmdTab[i] != NULL && strcmp(tok, s->cmdTab[i]) != 0)
     ++i;
   if (s->cmdTab[i] == NULL)
     return (EXIT_FAILURE);
   if ((s->cmds[i](s, token)) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  free(tok);
   return (EXIT_SUCCESS);
 }

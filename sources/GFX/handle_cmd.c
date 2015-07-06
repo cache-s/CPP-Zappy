@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Fri Jun 26 12:57:34 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:49:34 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:42:18 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -21,15 +21,18 @@ int		handle_cmd(t_gfx *s)
     {
       if (s->network.init == 0)
 	return (welcome_serv(s));
-      token = strtok_r(strdup(s->network.cmd), "\n", &end_str);
+      if ((token = strtok_r(strdup(s->network.cmd), "\n", &end_str)) == NULL)
+	return (EXIT_FAILURE);
       while (token != NULL)
 	{
 	  if (get_cmd(s, token) == EXIT_FAILURE)
 	    return (EXIT_FAILURE);
 	  token = strtok_r(NULL, "\n", &end_str);
 	}
-      free(token);
-      free(s->network.cmd);
+      if (token != NULL)
+	free(token);
+      if (s->network.cmd != NULL)
+	free(s->network.cmd);
       s->network.cmd = NULL;
     }
   return (EXIT_SUCCESS);

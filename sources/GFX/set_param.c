@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:25:22 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:54:10 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:39:23 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -33,7 +33,8 @@ int		set_player_param(t_player *new, char *token)
   new->level = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
-  new->team = strdup(tok);
+  if ((new->team = strdup(tok)) == NULL)
+    return (EXIT_FAILURE);
   return (EXIT_SUCCESS);
 }
 
@@ -45,14 +46,22 @@ int		set_egg_param(t_player *new, char *token)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   new->eId = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   new->id = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
+    return (EXIT_FAILURE);
   new->x = atoi(tok);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   new->y = atoi(tok);
   return (EXIT_SUCCESS);

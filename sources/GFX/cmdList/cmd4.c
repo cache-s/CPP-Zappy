@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Sun Jul  5 19:20:14 2015 Jordan Chazottes
-** Last update Sun Jul  5 22:52:33 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:52:08 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -21,6 +21,8 @@ int		cmd_enw(t_gfx *s, char *token)
   if ((tok = strtok(NULL, " ")) == NULL)
     return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   id = atoi(tok);
   if ((tmp = get_player(s, id)) == NULL)
@@ -54,8 +56,11 @@ int		cmd_sgt(t_gfx *s, char *token)
 {
   char		*tok;
 
-  tok = strtok(token, " ");
+  if ((tok = strtok(token, " ")) == NULL)
+    return (EXIT_FAILURE);
   if ((tok = strtok(NULL, " ")) == NULL)
+    return (EXIT_FAILURE);
+  if (my_regex(tok, ".0123456789") == EXIT_FAILURE)
     return (EXIT_FAILURE);
   s->time = atoi(tok);
   return (EXIT_SUCCESS);

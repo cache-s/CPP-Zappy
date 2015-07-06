@@ -5,7 +5,7 @@
 ** Login   <chazot_a@epitech.net>
 ** 
 ** Started on  Thu Jun 25 18:38:38 2015 Jordan Chazottes
-** Last update Sun Jul  5 23:00:42 2015 Jordan Chazottes
+** Last update Mon Jul  6 17:39:54 2015 Jordan Chazottes
 */
 
 #include	"gfx.h"
@@ -22,7 +22,8 @@ int		server_read(t_gfx *s)
     return (EXIT_FAILURE);
   if (save_srv_cmd(s, buffer) == EXIT_FAILURE)
     return (EXIT_FAILURE);
-  free(buffer);
+  if (buffer != NULL)
+    free(buffer);
   if (ret == BUFF_SIZE - 1)
     s->network.entire_cmd = 0;
   else
